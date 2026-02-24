@@ -1,0 +1,25 @@
+[project]
+name = "magmek"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Joe",email = "stirgejr@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "jbutils (>=0.2.16,<0.3.0)",
+    "gunicorn (>=25.1.0,<26.0.0)",
+    "flask (>=3.1.3,<4.0.0)",
+    "flask-cors (>=6.0.2,<7.0.0)",
+    "argcomplete (>=3.6.3,<4.0.0)",
+    "gevent (>=25.9.1,<26.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+magmek-server = "magmek.server.webserver:main"
