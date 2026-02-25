@@ -56,6 +56,7 @@ def main() -> None:
         "keepalive": 10,
         "max_requests": 0,
         "preload_app": False,
+        "logger_class": "gunicorn.glogging.Logger",
     }
 
     GunicornApp(get_app(), options).run()
