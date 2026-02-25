@@ -43,7 +43,7 @@ def main() -> None:
     autocomplete(parser)
     args = parser.parse_args()
 
-    bind = "unix:/var/www/magmek/magmek.sock"
+    bind = "unix:/var/www/magmek_server/magmek_server.sock"
     if args.local:
 
         bind = "127.0.0.1:7000"
