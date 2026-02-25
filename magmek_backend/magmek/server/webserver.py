@@ -43,7 +43,7 @@ def main() -> None:
     autocomplete(parser)
     args = parser.parse_args()
 
-    bind = "unix:/var/www/magmek_backend/magmek_backend.sock"
+    bind = "unix:/run/gunicorn/magmek_backend.sock"
     if args.local:
 
         bind = "127.0.0.1:7000"
@@ -56,6 +56,7 @@ def main() -> None:
         "keepalive": 10,
         "max_requests": 0,
         "preload_app": False,
+        "umask": 0o007,
         "logger_class": "gunicorn.glogging.Logger",
     }
 
@@ -64,5 +65,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-"""
- """
