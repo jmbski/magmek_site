@@ -46,9 +46,10 @@ def parse_log(
     lines = get_loglines(text, addl_chars, addl_ignored)
     filtered = [line for line in lines if line.is_narrative]
     header = get_header(filtered, category=category, title=title)
+    unknown_names = get_unknown_speakers(lines)
     narrative = "\n\n".join(line.format_text() for line in filtered)
 
-    return header + narrative
+    return header + narrative, unknown_names
 
 
 def get_unique_speakers(lines: list[LogLine]):
