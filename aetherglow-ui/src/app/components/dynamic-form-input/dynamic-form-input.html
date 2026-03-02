@@ -1,0 +1,46 @@
+<div [formGroup]="form()" class="w-full">
+    @if(!formInput().labels) {
+    <label [attr.for]="formInput().key">{{ formInput().label }}</label>
+    }
+    <div [formGroupName]="formInput().key">
+        @switch (formInput().controlType) {
+            @case ('textbox') {
+                <input [formControlName]="formInput().key" pInputText [id]="formInput().key" [type]="formInput().type"
+                    class="w-full" />
+            }
+            @case ('dropdown') {
+                <p-select [id]="formInput().key" [formControlName]="formInput().key" [options]="formInput().options"
+                    optionLabel="key" class="w-full" ngDefaultControl>
+                </p-select>
+            }
+
+            @case ('key-value') {
+                <div class="flex justify-center mb-2">
+                    <p-float-label class="w-full" variant="on">
+                        <label [attr.for]="formInput().key + '-key'">{{ formInput().labels[0] }}</label>
+                        <input formControlName="key" pInputText [id]="formInput().key + '-key'" [type]="formInput().type"
+                            class="w-full">
+                    </p-float-label>
+                    <span class="m-2">=></span>
+                    <p-float-label class="w-full" variant="on">
+                        <label [attr.for]="formInput().key + '-value'">{{ formInput().labels[1] }}</label>
+                        <input formControlName="value" pInputText [id]="formInput().key + '-value'" [type]="formInput().type"
+                            class="w-full">
+                    </p-float-label>
+
+                @if(formInput().removable) {
+                    <p-button class="ml-1"
+                        icon="pi pi-trash"
+                        variant="outlined"
+                        (onClick)="removeElement()"
+                        severity="danger">
+                    </p-button>
+                }
+                </div>
+            }
+        }
+    </div>
+    @if (!isValid) {
+    <div class="errorMessage">{{ formInput().label }} is required</div>
+    }
+</div>

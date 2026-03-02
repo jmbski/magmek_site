@@ -1,0 +1,23 @@
+
+
+.ag {
+    &-page {
+    }
+
+    &-top-nav {
+    }
+
+    &-content {
+
+    }
+}
+
+.p-menubar-root-list{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.p-dialog-footer {
+    background-color: var(--color-gray-800) !important;
+}

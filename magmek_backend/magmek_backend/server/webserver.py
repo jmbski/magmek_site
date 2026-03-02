@@ -13,8 +13,8 @@ from argcomplete import autocomplete
 from gunicorn.app.base import BaseApplication
 
 
-from magmek import consts
-from magmek.server.app import get_app
+from magmek_backend import consts, appdata
+from magmek_backend.server.app import get_app
 
 # logconfig_dict = CONFIG.get("log-configs.rramps")
 
@@ -40,8 +40,17 @@ def main() -> None:
         "--local", "-l", action="store_true", help="Run the server in local mode"
     )
 
+    parser.add_argument(
+        "--force-embed",
+        "-f",
+        action="store_true",
+        help="If true, force embedding of default data",
+    )
+
     autocomplete(parser)
     args = parser.parse_args()
+
+    appdata.embed_base_data(args.force_embed)
 
     bind = "unix:/run/gunicorn/magmek_backend.sock"
     if args.local:

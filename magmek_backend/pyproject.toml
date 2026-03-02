@@ -1,5 +1,5 @@
 [project]
-name = "magmek"
+name = "magmek_backend"
 version = "0.1.0"
 description = ""
 authors = [
@@ -22,4 +22,4 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-magmek-server = "magmek.server.webserver:main"
+magmek-server = "magmek_backend.server.webserver:main"
