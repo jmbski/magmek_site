@@ -138,7 +138,8 @@ def get_app():
     def clean_log():
         data = request.json
         lines = data.get("lines", [])
-        cleaned_text = parser.parse_log(lines)
+        cleaned_text, new_speakers = parser.parse_log(lines)
+        unknown_names = parser.
         return Response(json.dumps({"payload": cleaned_text}), status=200)
 
     return app
