@@ -224,8 +224,8 @@ export class TxService {
         });
     }
 
-    public async cleanLog(text: string): Promise<string> {
-        const lines = text.split('\n');
+    public async cleanLog(inputText: string): Promise<string> {
+        const lines = inputText.split('\n');
         return new Promise((resolve, reject) => {
             this.http.post(this._buildAppUrl('clean-log'), {lines}).subscribe((response) => {
                 if (response == null) {
@@ -234,13 +234,26 @@ export class TxService {
                 }
 
 
-                if(isWeakObj(response)) {
-                    const {payload} = response;
-                    if (isStr(payload)) {
-                        resolve(payload);
-                        return;
-                    }
+                if(!isWeakObj(response)) {
+                    reject('Bad data received');
+                    return;
                 }
+
+
+                const {payload} = response;
+
+                if (!isWeakObj(payload)) {
+                    reject('Sub-data invalid structure');
+                    return;
+                }
+
+                const {text, names} =  payload;
+
+                if (isStr(text)) {
+                    resolve(text);
+                    return;
+                }
+
 
                 reject(`Response has invalid type of: '${typeof response}'`);
                 console.log('Response:', response);
