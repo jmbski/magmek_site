@@ -141,7 +141,7 @@ def get_app():
         cleaned_text, new_speakers = parser.parse_log(lines)
 
         return Response(
-            json.dumps({"payload": {"text": cleaned_text, "name": new_speakers}}),
+            json.dumps({"payload": {"text": cleaned_text, "names": new_speakers}}),
             status=200,
         )
 
