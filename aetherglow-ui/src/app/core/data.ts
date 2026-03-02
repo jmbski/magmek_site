@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { StrRecord } from '@app/typing';
 import { label } from '@primeuix/themes/aura/metergroup';
-import { MenuItem } from 'primeng/api';
+import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { removeFromArray } from './utils';
 
@@ -21,10 +21,29 @@ export const CoreMenuItems: MenuItem[] = [
             {
                 label: 'RP Log Cleaner',
                 routerLink: '/tools/log-cleaner',
-            }
-        ]
+            },
+        ],
     },
 ];
+
+export const CoreMenuItemsMega: MegaMenuItem[] = [
+    {
+        label: 'Lore',
+    },
+    {
+        label: 'Maps',
+    },
+    {
+        label: 'HUD',
+    },
+    {
+        label: 'Tools',
+        items: [
+            [{label: 'RP Log Cleaner'}],
+        ],
+    },
+];
+
 
 export class AppDataModel {
     /* private static _ignoredChars: string[] = [];

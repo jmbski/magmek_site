@@ -1,3 +1,4 @@
+import json
 import re
 
 from jbutils import jbutils
@@ -46,10 +47,15 @@ def parse_log(
     lines = get_loglines(text, addl_chars, addl_ignored)
     filtered = [line for line in lines if line.is_narrative]
     header = get_header(filtered, category=category, title=title)
-    unknown_names = get_unknown_speakers(lines)
+    new_names = get_unknown_speakers(lines)
     narrative = "\n\n".join(line.format_text() for line in filtered)
 
-    return header + narrative, unknown_names
+    return {
+        "header": header,
+        "narrative": narrative,
+        "new_names": new_names,
+        "lines": [line.to_dict() for line in lines],
+    }
 
 
 def get_unique_speakers(lines: list[LogLine]):

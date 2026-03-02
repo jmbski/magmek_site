@@ -1,12 +1,13 @@
-import {Injectable} from '@angular/core';
+import {Injectable, input} from '@angular/core';
 import {DropdownInput} from '../models/form-inputs/input-dropdown';
 import {InputBase} from '../models/form-inputs/input-base';
 import {TextboxInput} from '../models/form-inputs/input-textbox';
 import {Observable, of} from 'rxjs';
 import { camelCase } from 'change-case';
-import { StrRecord } from '@app/typing';
+import { isKVRecord, isKVType, isWeakObj, StrRecord } from '@app/typing';
 import { KeyValueInput } from '../models/form-inputs/input-key-value';
-import { KeyValueType } from '../typing/types';
+import { KeyValueType, WeakObj } from '../typing/types';
+import { FormControl, FormGroup } from '@angular/forms';
 
 
 @Injectable({providedIn: 'root'})
@@ -43,7 +44,7 @@ export class InputService {
         return of(inputs.sort((a, b) => a.order - b.order));
     }
 
-    public fromStrRecord(data: StrRecord): InputBase<KeyValueType>[] {
+    public kvFromStrRecord(data: StrRecord): InputBase<KeyValueType>[] {
         const inputs: KeyValueInput[] = [];
         Object.entries(data).forEach(([key,value], index) => {
             inputs.push(
@@ -53,7 +54,7 @@ export class InputService {
                     order: index,
                     required: true,
                     value: {key, value},
-                })
+                }),
             );
         });
 
@@ -70,16 +71,44 @@ export class InputService {
         return record;
     }
 
+    public fromArray(items: string[], opts?: Partial<InputBase<unknown>>): InputBase<string>[] {
+        const inputs = items.map((item,idx) => this.newTextboxQuestion(`item-${idx}`,item, idx, opts));
+        console.log('inputs', inputs);
+        return inputs;
+    }
 
+    public parseFormResult(form: FormGroup, inputs: InputBase<unknown>[]) {
+        const raw: WeakObj = form.getRawValue();
+        const result: WeakObj = {};
 
-    newTextboxQuestion(label: string, value?: string, order?: number): TextboxInput {
+        inputs.forEach(input => {
+            const entry = raw[input.key];
 
-        return new TextboxInput({
-            key: camelCase(label),
-            value,
-            label,
-            order,
+            switch(input.controlType) {
+                case 'dropdown':
+                case 'textbox':
+                    result[input.key] = entry;
+                    return;
+                case 'key-value':
+                    if (isKVType(entry)) {
+                        const {key, value} = entry;
+                        result[key] = value;
+                    }
+
+                    return;
+            }
         });
+
+        return result;
+    }
+
+
+
+    public newTextboxQuestion(label: string, value?: string, order?: number, opts?: Partial<InputBase<unknown>>): TextboxInput {
+        opts ??= {};
+        const config = Object.assign({key: camelCase(label), value, label, order}, opts);
+
+        return new TextboxInput(config);
     }
 
     public newKVInput(index: number, kvData?: KeyValueType) {

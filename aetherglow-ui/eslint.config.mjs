@@ -14,6 +14,7 @@ export default defineConfig(eslint.configs.recommended, tseslint.configs.recomme
         '@stylistic/linebreak-style': ['error', 'unix'],
         '@stylistic/quotes': ['error', 'single'],
         '@stylistic/semi': ['error', 'always'],
+        '@stylistic/comma-dangle': ['error','always-multiline'],
         '@typescript-eslint/no-inferrable-types': 'off',
         '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/no-unused-vars': 'off',

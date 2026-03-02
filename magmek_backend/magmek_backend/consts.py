@@ -2,13 +2,18 @@ import os
 import re
 import platformdirs
 
+from enum import StrEnum, auto
 from pathlib import Path
 
 from jbutils import joiner, jbutils
 
 APP_NAME = "magmek_backend"
+APP_VERSION = "0.1.0"
 
 BASE_URL = "/api/v1"
+
+PROBS_URL = f"{BASE_URL}/problems"
+WARNINGS_URL = f"{BASE_URL}/warnings"
 
 
 DATA_DIR = Path(platformdirs.user_data_dir(APP_NAME, ensure_exists=True))
@@ -22,3 +27,30 @@ OOC_RE = re.compile(r"^\(\(.+?")
 
 CHAR_MAPPING: dict[str, str] = {}
 IGNORED_CHARS: list[str] = []
+
+
+class ApiErrTitles(StrEnum):
+    # Errors
+    GENERIC_ERROR = auto()
+    REQ_TYPE_ERROR = auto()
+    RESP_PARSE_ERROR = auto()
+
+    # Warnings
+    GENERIC_WARNING = auto()
+
+
+class ApiErrTypes:
+    # Errors
+    GENERIC_ERROR = f"{PROBS_URL}/generic"
+    REQ_TYPE_ERROR = f"{PROBS_URL}/request_type_error"
+    RESP_PARSE_ERROR = f"{PROBS_URL}/response_parse_error"
+
+    # Warnings
+    GENERIC_WARNING = f"{WARNINGS_URL}/generic"
+
+
+class ApiErrCodes:
+    # Errors
+    GENERIC_ERROR = 500
+    REQ_TYPE_ERROR = 400
+    RESP_PARSE_ERROR = 500

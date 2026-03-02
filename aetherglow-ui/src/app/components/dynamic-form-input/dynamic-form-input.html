@@ -2,11 +2,26 @@
     @if(!formInput().labels) {
     <label [attr.for]="formInput().key">{{ formInput().label }}</label>
     }
-    <div [formGroupName]="formInput().key">
+
+    <div>
         @switch (formInput().controlType) {
             @case ('textbox') {
-                <input [formControlName]="formInput().key" pInputText [id]="formInput().key" [type]="formInput().type"
-                    class="w-full" />
+                <div class="w-full flex justify-center mb-">
+                    <p-float-label class="w-full" variant="on">
+                        <label [attr.for]="formInput().key">{{ formInput().label }}</label>
+                        <input [formControlName]="formInput().key" pInputText [id]="formInput().key" [type]="formInput().type"
+                            class="w-full" />
+                    </p-float-label>
+
+                    @if(formInput().removable) {
+                        <p-button class="ml-1"
+                            icon="pi pi-trash"
+                            variant="outlined"
+                            (onClick)="removeElement()"
+                            severity="danger">
+                        </p-button>
+                    }
+                </div>
             }
             @case ('dropdown') {
                 <p-select [id]="formInput().key" [formControlName]="formInput().key" [options]="formInput().options"
@@ -15,7 +30,7 @@
             }
 
             @case ('key-value') {
-                <div class="flex justify-center mb-2">
+                <div class="flex justify-center mb-2"  [formGroupName]="formInput().controlType === 'key-value' ? formInput().key : ''">
                     <p-float-label class="w-full" variant="on">
                         <label [attr.for]="formInput().key + '-key'">{{ formInput().labels[0] }}</label>
                         <input formControlName="key" pInputText [id]="formInput().key + '-key'" [type]="formInput().type"

@@ -3,33 +3,37 @@
     <p class="text-4xl font-bold">RolePlay Log Cleaner</p>
     <div [class]="dividerClassFull"></div>
 
-    <p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
-        <app-char-map></app-char-map>
-    </p-dialog>
-    <p-panel class="w-full">
+
+    <p-panel class="w-full" [toggleable]="true" toggler="header" >
 
         <ng-template pTemplate="header">
             <div class="w-full">
-                <div class="w-full flex justify-between">
-                    <span class="text-2xl font-bold">Enter RP Chat Log</span>
-                    <p-button severity="info" (onClick)="openCharMapEditor()">Character Name Mapping</p-button>
-                </div>
+                <span class="text-2xl font-bold">Enter RP Chat Log</span>
+                <p-menubar [model]="inputMenuModel" class="mt-2"></p-menubar>
             </div>
         </ng-template>
 
-        <textarea #inputTextArea id="inputTextArea" pTextarea fluid [(ngModel)]="inputText"></textarea>
-
-        <ng-template pTemplate="footer" >
-            <div class="w-full">
-                <div class="w-full flex justify-end">
-                    <p-button>Check Names</p-button>
-                    <p-button (onClick)="submitText()">Submit</p-button>
-                </div>
-            </div>
-        </ng-template>
+        <textarea #inputTextArea id="inputTextArea"
+            pTextarea
+            fluid
+            [rows]="inputRows"
+            [(ngModel)]="inputText">
+        </textarea>
     </p-panel>
 
-    <p-card class="w-full" header="Output">
-        <textarea #outputTextArea pTextarea fluid [(ngModel)]="outputText"></textarea>
-    </p-card>
+    <p-panel class="w-full" [toggleable]="true" toggler="header" >
+
+        <ng-template pTemplate="header">
+            <div class="w-full">
+                <span class="text-2xl font-bold">Output</span>
+                <p-menubar [model]="outputMenuModel" class="mt-2"></p-menubar>
+            </div>
+        </ng-template>
+
+        <textarea #outputTextArea
+            pTextarea
+            fluid
+            [rows]="outputRows"
+            [(ngModel)]="outputText"></textarea>
+    </p-panel>
 </app-page-layout>

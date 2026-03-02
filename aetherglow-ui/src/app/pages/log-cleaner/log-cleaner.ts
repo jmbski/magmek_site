@@ -1,30 +1,34 @@
-import { Component, inject, signal, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, signal, ViewChildren } from '@angular/core';
 import { PageLayout } from '@app/layout';
 import { CardModule } from 'primeng/card';
 import { Textarea, TextareaModule } from 'primeng/textarea';
-import { Button } from 'primeng/button';
 import { Panel } from 'primeng/panel';
 
-import { AGDialogSvc, InputService, TxService } from '@app/services';
+import { AGDialogSvc, InputControlService, InputService, TxService } from '@app/services';
 import { CharMap } from '@app/components';
 import { DialogModule } from 'primeng/dialog';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { isStrRecord } from '@app/typing';
-import { AppDataModel } from '@app/core';
-import { FormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
+import { isStrArray, isStrRecord, isWeakObj } from '@app/typing';
+import { AppDataModel, downloadTextAsFile } from '@app/core';
+import { FormsModule } from '@angular/forms';
+import { min } from 'lodash';
+import { InputBase } from '@app/models';
+import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
+import { Menubar } from 'primeng/menubar';
+import { FormDialog } from '../../components/form-dialog/form-dialog';
+
+
 
 @Component({
     selector: 'app-log-cleaner',
     imports: [
-        CharMap,
         PageLayout,
         TextareaModule,
         CardModule,
-        Button,
         Panel,
         DialogModule,
-        CharMap,
         FormsModule,
+        Menubar,
     ],
     templateUrl: './log-cleaner.html',
     providers: [InputService],
@@ -34,7 +38,63 @@ import { FormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
 export class LogCleaner {
 
     private readonly dialogSvc = inject(AGDialogSvc);
+    private readonly inputSvc = inject(InputService);
+    private readonly ctlSvc = inject(InputControlService);
     private readonly txSvc = inject(TxService);
+
+    public inputMenuModel: MenuItem[] = [
+        {
+            label: 'Character Names',
+            command: (event: MenuItemCommandEvent) => {
+                event.originalEvent?.stopImmediatePropagation();
+                this.openCharMapEditor();
+            },
+        },
+        {
+            label: 'Ignored Names',
+            command: (event: MenuItemCommandEvent) => {
+                event.originalEvent?.stopImmediatePropagation();
+                console.log('opening ignored');
+                this.openIgnoredCharEditor();
+            },
+        },
+        {
+            label: 'Unmapped Names',
+            command: (event: MenuItemCommandEvent) => {
+                event.originalEvent?.stopImmediatePropagation();
+            },
+        },
+        {
+            label: 'Settings',
+            icon: 'pi pi-cog',
+            command: (event: MenuItemCommandEvent) => {
+                event.originalEvent?.stopImmediatePropagation();
+            },
+        },
+        {
+            label: 'Submit',
+            icon: 'pi pi-upload',
+            command: (event: MenuItemCommandEvent) => {
+                event.originalEvent?.stopImmediatePropagation();
+                this.submitText();
+            },
+        },
+    ];
+
+    public outputMenuModel: MenuItem[] = [
+        {
+            label: 'Download',
+            icon: 'pi pi-download',
+            command: (event: MenuItemCommandEvent) => {
+                event.originalEvent?.stopImmediatePropagation();
+                downloadTextAsFile(this.outputText());
+            },
+        },
+        {
+            label: 'Settings',
+            icon: 'pi pi-cog',
+        },
+    ];
 
     public dividerClassFull: string = 'w-full m-4! bg-white h-[1px] shadow-[0px_0px_12px_1px_#ABF]';
     public visible = signal(false);
@@ -46,7 +106,17 @@ export class LogCleaner {
 
     @ViewChildren(Textarea) textAreas!: Textarea[];
 
-    constructor() {}
+    get inputRows() {
+        return min([this.inputText().split('\n').length, 15]);
+    }
+
+    get outputRows() {
+        return min([this.outputText().split('\n').length, 10]);
+    }
+
+    constructor(
+        public cd: ChangeDetectorRef,
+    ) {}
 
     ngAfterViewInit() {
         const cookieText = localStorage.getItem('input-text');
@@ -59,6 +129,8 @@ export class LogCleaner {
                 });
             }
         });
+
+        //this.openCharMapEditor();
     }
 
     public openCharMapEditor() {
@@ -67,7 +139,7 @@ export class LogCleaner {
 
             data: {
                 showButtons: false,
-            }
+            },
         }});
 
         this.ref?.onClose.subscribe(formValues => {
@@ -79,9 +151,45 @@ export class LogCleaner {
         });
     }
 
+    public async openIgnoredCharEditor() {
+        const opts = <InputBase<unknown>>{
+            colSpans: 2,
+            removable: true,
+        };
+
+        const ignored = await this.txSvc.getIgnored();
+        const inputs = this.inputSvc.fromArray(ignored, opts);
+
+        const ref = this.dialogSvc.openDialog({type: FormDialog, config: {
+            header: 'Edit Ignored Names',
+            data: {
+                showButtons: false,
+                inputs,
+            },
+        }});
+
+        ref?.onClose.subscribe(data => {
+            if (!isWeakObj(data)) return;
+
+            const values = Object.values(data);
+            if(isStrArray(values)) {
+                this.txSvc.addIgnored(values).then(resp => {
+                    console.log('ignored resp', resp);
+                });
+            }
+        });
+    }
+
     public submitText() {
         this.txSvc.cleanLog(this.inputText()).then(resp => {
-            this.outputText.set(resp);
-        });
+            console.log(resp.output);
+            this.outputText.set(resp.output);
+        })
+            .catch(err => {
+                console.log('Error content:',err);
+            })
+            .finally(() => {
+                console.log('clean end');
+            });
     }
 }

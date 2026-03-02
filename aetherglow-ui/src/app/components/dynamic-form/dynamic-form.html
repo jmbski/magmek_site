@@ -1,16 +1,18 @@
 <div class="w-full">
-  <form (ngSubmit)="onSubmit()" [formGroup]="form()"
-        class="grid grid-cols-2 gap-4 w-full">
-    @for (input of inputs(); track input) {
-      <!-- <div class="form-row"> -->
-        <app-input [formInput]="input" [form]="form()" [class]="input.colSpan()" [parentForm]="this" />
-      <!-- </div> -->
-    }
-    @if(showButtons) {
-        <div class="col-span-2 flex justify-end">
-          <p-button class="mr-2 min-w-[100px]" type="submit" [disabled]="!form().valid">Save</p-button>
-          <p-button class="min-w-[100px]">Cancel</p-button>
-        </div>
-    }
-  </form>
+  @if(canLoad) {
+    <form (ngSubmit)="handleSubmit()" [formGroup]="form()"
+          class="grid grid-cols-2 gap-4 w-full">
+      @for (input of inputs(); track input) {
+        <!-- <div class="form-row"> -->
+          <app-input [formInput]="input" [form]="form()" [class]="input.colSpan()" [parentForm]="this" />
+        <!-- </div> -->
+      }
+      @if(showButtons) {
+          <div class="col-span-2 flex justify-end">
+            <p-button class="mr-2 min-w-[100px]" type="submit" [disabled]="!form().valid">Save</p-button>
+            <p-button class="min-w-[100px]" (onClick)="handleCancel()">Cancel</p-button>
+          </div>
+      }
+    </form>
+  }
 </div>

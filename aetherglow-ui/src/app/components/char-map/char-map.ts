@@ -6,14 +6,15 @@ import { KeyValueType, StrRecord } from '@app/typing';
 import { DynamicForm } from '../dynamic-form/dynamic-form';
 import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
 import { ButtonModule } from 'primeng/button';
-import { AsyncPipe } from '@angular/common';
+import { MenuItem } from 'primeng/api';
+import { Menubar } from 'primeng/menubar';
 
 @Component({
     selector: 'app-char-map',
     imports: [
-        AsyncPipe,
         DynamicForm,
-        ButtonModule
+        ButtonModule,
+        Menubar,
     ],
     templateUrl: './char-map.html',
     styleUrl: './char-map.scss',
@@ -22,6 +23,32 @@ export class CharMap {
     //public inputs$: Observable<InputBase<KeyValueType>[]> = inject(InputService).fromStrRecord(AppDataModel.charMapping());
     private readonly inputSvc = inject(InputService);
     private readonly ctlSvc = inject(InputControlService);
+
+    public menuModel: MenuItem[] = [
+        {
+            label: 'Cancel',
+            icon: 'pi pi-times',
+            labelClass: 'text-red-500',
+            iconClass: 'text-red-500!',
+            command: () => {this.cancel();},
+        },
+        {
+            label: 'Add',
+            icon: 'pi pi-plus',
+            command: () => {this.addEntry();},
+        },
+        {
+            label: 'Reset',
+            icon: 'pi pi-refresh',
+            command: () => {this.resetData();},
+
+        },
+        {
+            label: 'Save',
+            icon: 'pi pi-save',
+            command: () => {this.submit();},
+        },
+    ];
 
     public modelData = signal<StrRecord>({});
 
@@ -42,8 +69,9 @@ export class CharMap {
         public ref: DynamicDialogRef,
 
     ) {
+        this.originalData = AppDataModel.getCharMapping();
         AppDataModel.charMapping$.subscribe(next => {
-            this.inputs.set(this.inputSvc.fromStrRecord(next));
+            this.inputs.set(this.inputSvc.kvFromStrRecord(next));
         });
     }
 
@@ -60,6 +88,7 @@ export class CharMap {
     }
 
     public cancel() {
+        this.resetData();
         this.ref.close();
     }
 
@@ -72,9 +101,13 @@ export class CharMap {
         const form = this.charMapForm.form();
 
         this.ctlSvc.addControl(form,
-            this.inputSvc.newKVInput(Object.keys(AppDataModel.getCharMapping()).length)
+            this.inputSvc.newKVInput(Object.keys(AppDataModel.getCharMapping()).length),
         );
 
         AppDataModel.setCharMapping(this.inputSvc.toStrRecord(form.getRawValue()));
+    }
+
+    public resetData() {
+        AppDataModel.setCharMapping(this.originalData);
     }
 }

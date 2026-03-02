@@ -11,6 +11,7 @@ from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from magmek_backend import consts, appdata, parser
+from magmek_backend.models import ServerResponse
 
 app = Flask(__name__)
 
@@ -25,6 +26,9 @@ def get_data(request: Request) -> dict:
             return dict(request.args)
         case _:
             return request.json
+
+
+# TODO: Implement flask-restx, DAO, errors, and other pieces in a new standardized structure
 
 
 def get_app():
@@ -51,7 +55,10 @@ def get_app():
 
     @app.get(f"{consts.BASE_URL}/char-mapping")
     def get_mapping():
-        return Response(json.dumps(consts.CHAR_MAPPING), status=200)
+        # return Response(json.dumps(consts.CHAR_MAPPING), status=200)
+        return ServerResponse.to_flask(
+            consts.CHAR_MAPPING, "Successfully retrieved character mapping"
+        )
 
     @app.post(f"{consts.BASE_URL}/char-mapping")
     def add_mapping():
@@ -66,36 +73,29 @@ def get_app():
         elif key and value:
             appdata.add_char_mapping(key, value)
         else:
-            return Response(
-                json.dumps({"error": "Invalid update data provided", "data": data}),
-                status=500,
+            return ServerResponse.req_type_error(
+                data, "dict[str,str] | {key: str, value: str}"
             )
-        return Response(
-            json.dumps(
-                {"message": "mapping successfully updated", "payload": mapping}
-            ),
-            status=200,
-        )
+
+        return ServerResponse.to_flask(mapping, "mapping successfully updated")
 
     @app.delete(f"{consts.BASE_URL}/char-mapping")
     def rem_mapping():
 
         data = get_data(request)
-        keys = data.get("keys")
+        keys = data.get("keys", [])
         if not isinstance(keys, (str, list)):
-            return Response(
-                json.dumps({"messsage": "Error: invalid data provided"}), status=500
-            )
+            return ServerResponse.req_type_error(data, "list[str]")
 
         appdata.rem_char_mapping(keys)
 
-        return Response(
-            json.dumps({"message": "Mappings successfully removed"}), status=200
+        return ServerResponse.to_flask(
+            consts.CHAR_MAPPING, "Mappings successfully removed"
         )
 
     @app.get(f"{consts.BASE_URL}/ignored")
     def get_ignored():
-        return Response(json.dumps(consts.IGNORED_CHARS), status=200)
+        return ServerResponse.to_flask(consts.IGNORED_CHARS)
 
     @app.post(f"{consts.BASE_URL}/ignored")
     def add_ignored():
@@ -103,18 +103,12 @@ def get_app():
 
         keys = data.get("keys")
         if not isinstance(keys, list):
-            return Response(
-                json.dumps(
-                    {"messsage": "Error: invalid data provided", "payload": keys}
-                ),
-                status=500,
-            )
+            return ServerResponse.req_type_error(data, "list[str]")
 
         appdata.set_ignored(keys)
 
-        return Response(
-            json.dumps({"message": "Names successfully added to the ignored list"}),
-            status=200,
+        return ServerResponse.to_flask(
+            consts.IGNORED_CHARS, "Names successfully added to the ignored list"
         )
 
     @app.delete(f"{consts.BASE_URL}/ignored")
@@ -123,27 +117,27 @@ def get_app():
 
         keys = data.get("keys")
         if not isinstance(keys, list):
-            return Response(
-                json.dumps({"messsage": "Error: invalid data provided"}), status=500
-            )
+            return ServerResponse.req_type_error(data, "list[str]")
 
         appdata.rem_ignored(keys)
 
-        return Response(
-            json.dumps({"message": "Names successfully removed from ignored list"}),
-            status=200,
+        return ServerResponse.to_flask(
+            consts.IGNORED_CHARS, "Names successfully removed from ignored list"
         )
 
     @app.post(f"{consts.BASE_URL}/clean-log")
     def clean_log():
         data = request.json
         lines = data.get("lines", [])
-        cleaned_text, new_speakers = parser.parse_log(lines)
+        if not isinstance(lines, list):
+            return ServerResponse.req_type_error(data, "list[str]")
 
-        return Response(
-            json.dumps({"payload": {"text": cleaned_text, "names": new_speakers}}),
-            status=200,
-        )
+        try:
+            payload = parser.parse_log(lines)
+
+            return ServerResponse.to_flask(payload)
+        except Exception as e:
+            return ServerResponse.error(e, endpoint=request.endpoint or clean_log)
 
     return app
 

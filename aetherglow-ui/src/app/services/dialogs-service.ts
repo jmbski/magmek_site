@@ -9,7 +9,7 @@ export const defaultConfig: DynamicDialogConfig = {
     maximizable: true,
     draggable: true,
     width: '65vw',
-    height: '70vh',
+    styleClass: 'max-h-[70vh]',
     modal: true,
     resizable: false,
     closeOnEscape: true,

@@ -1,15 +1,19 @@
 import { Component } from '@angular/core';
-import { CoreMenuItems } from '@app/core';
-import { MenuItem } from 'primeng/api';
+import { CoreMenuItems, CoreMenuItemsMega } from '@app/core';
+import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 
 
 @Component({
     selector: 'app-page-layout',
-    imports: [Menubar,],
+    imports: [Menubar],
     templateUrl: './page.html',
     styleUrl: './page.scss',
 })
 export class PageLayout {
     public menuItems: MenuItem[] = CoreMenuItems;
+    public megaItems: MegaMenuItem[] = CoreMenuItemsMega;
+
+    constructor() {
+    }
 }

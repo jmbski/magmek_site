@@ -1,0 +1,19 @@
+
+<div class="grid grid-cols-1">
+    <!-- <p-header>
+        <p-menubar [model]="menuModel"></p-menubar>
+    </p-header> -->
+    <app-dynamic-form id="char-map-form"
+        [inputs]="inputs"
+        [showButtons]="showButtons()"
+        [canLoad]="canLoad()"
+        class="w-full p-4 max-h-[50vh] overflow-auto shadow-[inset_0px_0px_8px_4px_black]">
+    </app-dynamic-form>
+
+
+    @if(menuModel.length > 0) {
+        <p-footer>
+            <p-menubar [model]="menuModel"></p-menubar>
+        </p-footer>
+    }
+</div>

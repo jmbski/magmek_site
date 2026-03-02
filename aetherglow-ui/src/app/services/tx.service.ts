@@ -1,9 +1,12 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient, HttpParamsOptions } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Endpoints } from '@app/core';
 import { environment } from '@app/environment';
+import { RpLogPayload, RpLogResponse, ServerResponse } from '@app/models';
 import { isObject, isStr, isStrArray, isStrRecord, isWeakObj, StrRecord, WeakObj } from '@app/typing';
 import { body } from '@primeuix/themes/aura/card';
+
 
 @Injectable({ providedIn: 'root' })
 export class TxService {
@@ -80,7 +83,7 @@ export class TxService {
 
     public async health(): Promise<string> {
         return new Promise((resolve, reject) => {
-            const url: string = this._buildAppUrl('health') + '?arg1=test&arg2=test2';
+            const url: string = this._buildAppUrl(Endpoints.HEALTH) + '?arg1=test&arg2=test2';
             this.http.get(url, { responseType: 'text' }).subscribe((response?: unknown) => {
                 if (response == null) {
                     reject('No response from server');
@@ -97,15 +100,74 @@ export class TxService {
 
     public async getCharMapping(): Promise<StrRecord> {
         return new Promise((resolve, reject) => {
-            this.http.get(this._buildAppUrl('char-mapping'),).subscribe((response?: unknown) => {
+            this.http.get<ServerResponse>(this._buildAppUrl(Endpoints.CHAR_MAPPING)).subscribe(response => {
                 if (response == null) {
                     reject('No response from server');
                     return;
                 }
 
-                if (isStrRecord(response)) {
-                    resolve(response);
+                if(ServerResponse.isServerResponse(response)) {
+                    const resp = new ServerResponse(response);
+                    if (isStrRecord(resp.data)) {
+                        resolve(resp.data);
+                        return;
+                    }
+                }
+
+                reject(`${this.getCharMapping.name}::Response has invalid type of: '${typeof response}'`);
+                console.log('Response:', response);
+                return;
+            });
+        });
+    }
+
+    public async addCharMapping(mapping: StrRecord): Promise<StrRecord> {
+
+        const body = {mapping};
+        console.log('Sending body:', body);
+        const options = this.configureHeaders();
+
+        return new Promise((resolve, reject) => {
+            this.http.post(this._buildAppUrl(Endpoints.CHAR_MAPPING), body, options).subscribe(response => {
+                if (response == null) {
+                    reject(this.addCharMapping.name + '::No response from server');
                     return;
+                }
+
+                if(ServerResponse.isServerResponse(response)) {
+                    const resp = new ServerResponse(response);
+                    if (isStrRecord(resp.data)) {
+                        resolve(resp.data);
+                        return;
+                    }
+                }
+
+
+                reject(`${this.addCharMapping.name}::Response has invalid type of: '${typeof response}'`);
+                console.log('Response:', response);
+                return;
+
+
+            });
+        });
+    }
+
+    public async remCharMapping(keys: string[]): Promise<StrRecord> {
+        return new Promise((resolve, reject) => {
+            this.http.delete(this._buildAppUrl(Endpoints.CHAR_MAPPING),{body: {keys}}).subscribe((response?: unknown) => {
+                if (response == null) {
+                    reject('No response from server');
+                    return;
+                }
+
+
+
+                if(ServerResponse.isServerResponse(response)) {
+                    const resp = new ServerResponse(response);
+                    if (isStrRecord(resp.data)) {
+                        resolve(resp.data);
+                        return;
+                    }
                 }
 
                 reject(`Response has invalid type of: '${typeof response}'`);
@@ -115,22 +177,41 @@ export class TxService {
         });
     }
 
-    public async addCharMapping(mapping: StrRecord): Promise<StrRecord> {
-        const body = {mapping};
-        console.log('Sending body:', body);
-        const options = this.configureHeaders();
-
+    public async getIgnored(): Promise<string[]> {
         return new Promise((resolve, reject) => {
-            this.http.post(this._buildAppUrl('char-mapping'), body, options).subscribe((response?: unknown) => {
+            this.http.get(this._buildAppUrl(Endpoints.IGNORED)).subscribe((response?: unknown) => {
                 if (response == null) {
                     reject('No response from server');
                     return;
                 }
 
-                if(isWeakObj(response)) {
-                    const {payload} = response;
-                    if (isStrRecord(payload)) {
-                        resolve(payload);
+                if(ServerResponse.isServerResponse(response)) {
+                    const resp = new ServerResponse(response);
+                    if (isStrArray(resp.data)) {
+                        resolve(resp.data);
+                        return;
+                    }
+                }
+
+                reject(`Response has invalid type of: '${typeof response}'`);
+                console.log('Response:', response);
+                return;
+            });
+        });
+    }
+
+    public async addIgnored(keys: string[]): Promise<string[]> {
+        return new Promise((resolve, reject) => {
+            this.http.post(this._buildAppUrl(Endpoints.IGNORED), {keys}).subscribe((response?: unknown) => {
+                if (response == null) {
+                    reject('No response from server');
+                    return;
+                }
+
+                if(ServerResponse.isServerResponse(response)) {
+                    const resp = new ServerResponse(response);
+                    if (isStrArray(resp.data)) {
+                        resolve(resp.data);
                         return;
                     }
                 }
@@ -144,77 +225,20 @@ export class TxService {
         });
     }
 
-    public async remCharMapping(keys: string[]): Promise<StrRecord> {
-        return new Promise((resolve, reject) => {
-            this.http.delete(this._buildAppUrl('char-mapping'),{body: {keys}}).subscribe((response?: unknown) => {
-                if (response == null) {
-                    reject('No response from server');
-                    return;
-                }
-
-
-                if(isStrRecord(response)) {
-                    resolve(response);
-                }
-
-                reject(`Response has invalid type of: '${typeof response}'`);
-                console.log('Response:', response);
-                return;
-            });
-        });
-    }
-
-    public async getIgnored(): Promise<string[]> {
-        return new Promise((resolve, reject) => {
-            this.http.get(this._buildAppUrl('char-mapping'),).subscribe((response?: unknown) => {
-                if (response == null) {
-                    reject('No response from server');
-                    return;
-                }
-
-                if (isStrArray(response)) {
-                    resolve(response);
-                    return;
-                }
-
-                reject(`Response has invalid type of: '${typeof response}'`);
-                console.log('Response:', response);
-                return;
-            });
-        });
-    }
-
-    public async addIgnored(keys: string[]): Promise<string[]> {
-        return new Promise((resolve, reject) => {
-            this.http.post(this._buildAppUrl('char-mapping'),{body: {keys}}).subscribe((response?: unknown) => {
-                if (response == null) {
-                    reject('No response from server');
-                    return;
-                }
-
-                if(isStrArray(response)) {
-                    resolve(response);
-                }
-
-                reject(`Response has invalid type of: '${typeof response}'`);
-                console.log('Response:', response);
-                return;
-
-
-            });
-        });
-    }
-
     public async remIgnored(keys: string[]): Promise<string[]> {
         return new Promise((resolve, reject) => {
-            this.http.delete(this._buildAppUrl('char-mapping'),{body: {keys}}).subscribe((response?: unknown) => {
+            this.http.delete(this._buildAppUrl(Endpoints.CHAR_MAPPING),{body: {keys}}).subscribe((response?: unknown) => {
                 if (response == null) {
                     reject('No response from server');
                     return;
                 }
 
-                if(isStrArray(response)) {
-                    resolve(response);
+                if(ServerResponse.isServerResponse(response)) {
+                    const resp = new ServerResponse(response);
+                    if (isStrArray(resp.data)) {
+                        resolve(resp.data);
+                        return;
+                    }
                 }
 
                 reject(`Response has invalid type of: '${typeof response}'`);
@@ -224,36 +248,21 @@ export class TxService {
         });
     }
 
-    public async cleanLog(inputText: string): Promise<string> {
+    public async cleanLog(inputText: string): Promise<RpLogPayload> {
         const lines = inputText.split('\n');
         return new Promise((resolve, reject) => {
-            this.http.post(this._buildAppUrl('clean-log'), {lines}).subscribe((response) => {
+            this.http.post(this._buildAppUrl(Endpoints.CLEAN_LOG), {lines}).subscribe((response) => {
                 if (response == null) {
                     reject('No response from server');
                     return;
                 }
 
+                if (RpLogResponse.isRpLogResponse(response)) {
+                    const resp = new RpLogResponse(response);
 
-                if(!isWeakObj(response)) {
-                    reject('Bad data received');
+                    resolve (new RpLogPayload(resp.data));
                     return;
                 }
-
-
-                const {payload} = response;
-
-                if (!isWeakObj(payload)) {
-                    reject('Sub-data invalid structure');
-                    return;
-                }
-
-                const {text, names} =  payload;
-
-                if (isStr(text)) {
-                    resolve(text);
-                    return;
-                }
-
 
                 reject(`Response has invalid type of: '${typeof response}'`);
                 console.log('Response:', response);

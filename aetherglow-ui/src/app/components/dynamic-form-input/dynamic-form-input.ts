@@ -14,7 +14,7 @@ import { DynamicForm } from '../dynamic-form/dynamic-form';
         InputText,
         Select,
         FloatLabel,
-        Button
+        Button,
     ],
     templateUrl: './dynamic-form-input.html',
     styleUrl: './dynamic-form-input.scss',

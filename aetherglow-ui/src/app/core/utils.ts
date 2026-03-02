@@ -1,3 +1,6 @@
+import { isWeakObj, WeakObj } from '@app/typing';
+import { camelCase, snakeCase } from 'change-case';
+
 export function removeFromArray(arr: unknown[], ...items: unknown[]) {
     items.forEach(item => {
         const idx = arr.findIndex(x => x === item);
@@ -6,3 +9,48 @@ export function removeFromArray(arr: unknown[], ...items: unknown[]) {
         }
     });
 }
+
+export function transformObjCase(val: WeakObj, caseFunc: (x: string) => string): WeakObj {
+
+    const newObj: WeakObj = {};
+    Object.keys(val).forEach(key => {
+        let origValue = val[key];
+        if (isWeakObj(origValue)) origValue = transformObjCase(origValue, caseFunc);
+        newObj[caseFunc(key)] = origValue;
+    });
+
+    return newObj;
+}
+
+export function fromPythonObj(val: WeakObj): WeakObj {
+    return transformObjCase(val, camelCase);
+}
+
+export function toPythonObj(val: WeakObj) {
+    return transformObjCase(val, snakeCase);
+}
+
+export function downloadTextAsFile(text: string, filename: string = 'chat_log.txt') {
+    // Create a Blob object with the text and specify the MIME type
+    const blob = new Blob([text], { type: 'text/plain' });
+
+    // Create a URL for the blob object
+    const url = URL.createObjectURL(blob);
+
+    // Create a temporary anchor element for the download
+    const element = document.createElement('a');
+    element.setAttribute('href', url);
+    element.setAttribute('download', filename); // Set the default filename for the download
+
+    // Hide the element, append it to the body, and click it to trigger the download
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+
+    // Clean up: remove the element and revoke the object URL to free memory
+    document.body.removeChild(element);
+    URL.revokeObjectURL(url);
+}
+
+// Example usage:
+// downloadTextAsFile("hello.txt", "This is the content of my file :)");

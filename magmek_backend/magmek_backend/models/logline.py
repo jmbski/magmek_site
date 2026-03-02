@@ -41,7 +41,7 @@ class LogLine(Base):
     speaker: str = ""
     line_text: str = ""
     char_name: str = ""
-    fmt_line: str = ""
+    formatted_line: str = ""
     timestamp: datetime = field(default_factory=default_datetimestamp)
 
     _addl_char_map: dict[str, str] = field(default_factory=dict)
@@ -53,6 +53,11 @@ class LogLine(Base):
         self.char_name = appdata.get_char_map(self._addl_char_map).get(
             self.speaker, self.speaker
         )
+
+    def to_dict(self) -> dict:
+        data = super().to_dict()
+        data["timestamp"] = str(self.timestamp)
+        return data
 
     @classmethod
     def from_line(
@@ -128,5 +133,5 @@ class LogLine(Base):
             warn_text = "** [WARNING] - Unmapped speaker username **"
             text = f"{warn_text}\n{text}\n{warn_text}"
 
-        self.fmt_line = text
+        self.formatted_line = text
         return text
