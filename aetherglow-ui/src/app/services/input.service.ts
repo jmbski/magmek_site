@@ -3,7 +3,7 @@ import {DropdownInput} from '../models/form-inputs/input-dropdown';
 import {InputBase} from '../models/form-inputs/input-base';
 import {TextboxInput} from '../models/form-inputs/input-textbox';
 import {Observable, of} from 'rxjs';
-import { camelCase } from 'change-case';
+import { camelCase,capitalCase } from 'change-case';
 import { isKVRecord, isKVType, isWeakObj, StrRecord } from '@app/typing';
 import { KeyValueInput } from '../models/form-inputs/input-key-value';
 import { KeyValueType, WeakObj } from '../typing/types';
@@ -45,20 +45,34 @@ export class InputService {
     }
 
     public kvFromStrRecord(data: StrRecord): InputBase<KeyValueType>[] {
-        const inputs: KeyValueInput[] = [];
-        Object.entries(data).forEach(([key,value], index) => {
-            inputs.push(
-                new KeyValueInput({
-                    key: `charMapping${index}`,
-                    labels: ['User Name', 'Character Name'],
-                    order: index,
-                    required: true,
-                    value: {key, value},
-                }),
-            );
+        const inputs: KeyValueInput[] = Object.entries(data).map(([key,value], index) => {
+
+            return new KeyValueInput({
+                key: `charMapping${index}`,
+                labels: ['User Name', 'Character Name'],
+                order: index,
+                required: true,
+                value: {key, value},
+            });
         });
 
         return inputs.sort((a, b) => a.order - b.order);
+    }
+
+    public fromStrRecord(data: StrRecord): InputBase<string>[] {
+        const inputs: TextboxInput[] = Object.entries(data).map(([key,value], index) => {
+
+            return new TextboxInput({
+                key,
+                label: capitalCase(key),
+                order: index,
+                required: true,
+                value,
+            });
+        });
+
+        return inputs.sort((a, b) => a.order - b.order);
+
     }
 
     public toStrRecord(data: Record<string,KeyValueType>): StrRecord {

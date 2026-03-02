@@ -129,11 +129,14 @@ def get_app():
     def clean_log():
         data = request.json
         lines = data.get("lines", [])
+        event_category = data.get("event_category", "")
+        title = data.get("title", "")
+
         if not isinstance(lines, list):
             return ServerResponse.req_type_error(data, "list[str]")
 
         try:
-            payload = parser.parse_log(lines)
+            payload = parser.parse_log(lines, event_category, title)
 
             return ServerResponse.to_flask(payload)
         except Exception as e:

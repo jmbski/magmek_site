@@ -1,9 +1,9 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient, HttpParamsOptions } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Endpoints } from '@app/core';
+import { Endpoints, toPythonObj } from '@app/core';
 import { environment } from '@app/environment';
-import { RpLogPayload, RpLogResponse, ServerResponse } from '@app/models';
+import { LogCleanInputSettings, RpLogPayload, RpLogResponse, ServerResponse } from '@app/models';
 import { isObject, isStr, isStrArray, isStrRecord, isWeakObj, StrRecord, WeakObj } from '@app/typing';
 import { body } from '@primeuix/themes/aura/card';
 
@@ -248,10 +248,14 @@ export class TxService {
         });
     }
 
-    public async cleanLog(inputText: string): Promise<RpLogPayload> {
+    public async cleanLog(inputText: string, settings?: LogCleanInputSettings): Promise<RpLogPayload> {
         const lines = inputText.split('\n');
+        settings ??= new LogCleanInputSettings();
+        const payload = {lines};
+        Object.assign(payload, settings);
+
         return new Promise((resolve, reject) => {
-            this.http.post(this._buildAppUrl(Endpoints.CLEAN_LOG), {lines}).subscribe((response) => {
+            this.http.post(this._buildAppUrl(Endpoints.CLEAN_LOG), toPythonObj(payload)).subscribe((response) => {
                 if (response == null) {
                     reject('No response from server');
                     return;

@@ -12,7 +12,7 @@ import { isStrArray, isStrRecord, isWeakObj } from '@app/typing';
 import { AppDataModel, downloadTextAsFile } from '@app/core';
 import { FormsModule } from '@angular/forms';
 import { min } from 'lodash';
-import { InputBase } from '@app/models';
+import { InputBase, LogCleanInputSettings } from '@app/models';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 import { FormDialog } from '../../components/form-dialog/form-dialog';
@@ -69,6 +69,7 @@ export class LogCleaner {
             icon: 'pi pi-cog',
             command: (event: MenuItemCommandEvent) => {
                 event.originalEvent?.stopImmediatePropagation();
+                this.openSettingsDialog();
             },
         },
         {
@@ -91,10 +92,25 @@ export class LogCleaner {
             },
         },
         {
+            label: 'Copy',
+            icon: 'pi pi-clipboard',
+            command: (event) => {
+                event.originalEvent?.stopImmediatePropagation();
+                navigator.clipboard.writeText(this.outputText());
+            },
+        },
+        {
             label: 'Settings',
             icon: 'pi pi-cog',
         },
     ];
+
+    public settings: LogCleanInputSettings = {
+        eventCategory: 'SL RP Chat Log',
+        title: 'RP Chat Event',
+    };
+
+    public unmappedNames: string[] = [];
 
     public dividerClassFull: string = 'w-full m-4! bg-white h-[1px] shadow-[0px_0px_12px_1px_#ABF]';
     public visible = signal(false);
@@ -164,6 +180,7 @@ export class LogCleaner {
             header: 'Edit Ignored Names',
             data: {
                 showButtons: false,
+                showAddButton: true,
                 inputs,
             },
         }});
@@ -173,9 +190,24 @@ export class LogCleaner {
 
             const values = Object.values(data);
             if(isStrArray(values)) {
-                this.txSvc.addIgnored(values).then(resp => {
-                    console.log('ignored resp', resp);
-                });
+                this.txSvc.addIgnored(values);
+            }
+        });
+    }
+
+    public openSettingsDialog() {
+        const settings: Partial<LogCleanInputSettings> = Object.assign({}, this.settings);
+        const inputs = this.inputSvc.fromStrRecord(settings);
+
+        const ref = this.dialogSvc.openDialog({type: FormDialog, config: {
+            data: {
+                inputs,
+            },
+        }});
+
+        ref?.onClose.subscribe(formValues => {
+            if(isWeakObj(formValues)) {
+                Object.assign(this.settings, formValues);
             }
         });
     }

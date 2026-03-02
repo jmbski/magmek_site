@@ -25,34 +25,12 @@ export class FormDialog {
         return this.dialogService.getInstance(this.ref)?.data?.showButtons;
     });
 
-    public menuModel: MenuItem[] = [
-        {
-            label: 'Cancel',
-            icon: 'pi pi-times',
-            iconClass: 'text-red-500!',
-            command: (event: MenuItemCommandEvent) => {
-                event.originalEvent?.stopImmediatePropagation();
-                this.cancel();
-            },
-        },
-        {
-            label: 'Add Entry',
-            icon: 'pi pi-plus',
-            command: (event: MenuItemCommandEvent) => {
-                event.originalEvent?.stopImmediatePropagation();
-                this.addEntry();
-            },
-        },
-        {
-            label: 'Submit',
-            icon: 'pi pi-check',
-            iconClass: 'text-green-400!',
-            command: (event: MenuItemCommandEvent) => {
-                event.originalEvent?.stopImmediatePropagation();
-                this.submit();
-            },
-        },
-    ];
+    public showAddButton = computed<boolean>(() => {
+        const {showAddButton} = this.dialogData;
+        return showAddButton === true;
+    });
+
+    public menuModel: MenuItem[] = [];
 
     public dialogData: WeakObj = {};
 
@@ -80,6 +58,39 @@ export class FormDialog {
 
     ngAfterViewInit() {
         this.canLoad.set(true);
+
+        const menuModel: MenuItem[] = [
+            {
+                label: 'Cancel',
+                icon: 'pi pi-times',
+                iconClass: 'text-red-500!',
+                command: (event: MenuItemCommandEvent) => {
+                    event.originalEvent?.stopImmediatePropagation();
+                    this.cancel();
+                },
+            },
+            {
+                label: 'Submit',
+                icon: 'pi pi-check',
+                iconClass: 'text-green-400!',
+                command: (event: MenuItemCommandEvent) => {
+                    event.originalEvent?.stopImmediatePropagation();
+                    this.submit();
+                },
+            },
+        ];
+        if (this.showAddButton()) {
+            menuModel.splice(1,0,
+                {
+                    label: 'Add Entry',
+                    icon: 'pi pi-plus',
+                    command: (event: MenuItemCommandEvent) => {
+                        event.originalEvent?.stopImmediatePropagation();
+                        this.addEntry();
+                    },
+                });
+        }
+        this.menuModel = menuModel;
     }
 
     public addEntry() {
