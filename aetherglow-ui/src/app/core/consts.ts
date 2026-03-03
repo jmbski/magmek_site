@@ -24,6 +24,7 @@ export enum Endpoints {
     IGNORED = 'ignored',
     CLEAN_LOG = 'clean-log',
     UNMAPPED_NAMES = 'unmapped-names',
+    GALLERIA_IMAGES = 'galleria-images',
 }
 
 export type ApiErrorNames = 'GENERIC_ERROR' | 'REQ_TYPE_ERROR' | 'RESP_PARSE_ERROR' | 'GENERIC_WARNING';
@@ -52,3 +53,4 @@ export const ApiErrorData: Record< ApiErrorNames, IApiErrorData> = {
 
 export const SupportedExtensions = stringLiterals('txt');
 export type SupportedExtension = UnionTypeOf<typeof SupportedExtensions>;
+

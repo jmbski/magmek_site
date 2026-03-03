@@ -34,3 +34,5 @@ export type Promised<T> = (arg: T | Promise<T>) => void;
 export type Callback<T> = (arg: T) => void;
 
 export type Predicate<T> = (arg: unknown) => arg is T;
+
+export type ImageData = Partial<HTMLImageElement>;

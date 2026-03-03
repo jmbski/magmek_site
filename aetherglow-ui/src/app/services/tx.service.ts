@@ -6,6 +6,7 @@ import { environment } from '@app/environment';
 import { LogCleanInputSettings, RpLogPayload, RpLogResponse, ServerResponse } from '@app/models';
 import { Callback, isStrArray, isStrRecord, Predicate, Promised, StrRecord, WeakObj } from '@app/typing';
 import { MessagingSvc } from './messaging.service';
+import { isArray } from 'lodash';
 
 
 @Injectable({ providedIn: 'root' })
@@ -225,6 +226,18 @@ export class TxService {
             });
         });
     }
+
+    public async getGalleriaImages(): Promise<string[]> {
+
+
+        return new Promise((resolve, reject) => {
+            this.http.get(this._buildAppUrl(Endpoints.GALLERIA_IMAGES)).subscribe((response) => {
+                return this.handleResponse(response, resolve, reject, isStrArray);
+            });
+        });
+    }
+
+
 
     // #endregion public methods
 

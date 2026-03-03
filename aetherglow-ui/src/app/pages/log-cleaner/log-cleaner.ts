@@ -5,7 +5,7 @@ import { Textarea, TextareaModule } from 'primeng/textarea';
 import { Panel } from 'primeng/panel';
 
 import { AGDialogSvc, InputControlService, InputService, TxService } from '@app/services';
-import { CharMap, LineViewer } from '@app/components';
+import { CharMap } from '@app/components';
 import { DialogModule } from 'primeng/dialog';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { isStrArray, isStrRecord, isWeakObj } from '@app/typing';
@@ -16,7 +16,6 @@ import { InputBase, LogCleanInputSettings } from '@app/models';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 import { FormDialog } from '../../components/form-dialog/form-dialog';
-import { Button } from 'primeng/button';
 import { MessagingSvc } from '../../services/messaging.service';
 
 
@@ -31,7 +30,6 @@ import { MessagingSvc } from '../../services/messaging.service';
         DialogModule,
         FormsModule,
         Menubar,
-        Button,
     ],
     templateUrl: './log-cleaner.html',
     providers: [InputService],

@@ -52,3 +52,9 @@
     flex-direction: column;
     text-align: center;
 }
+
+.ag-blue-glow {
+    filter:
+        drop-shadow(0px 0px 2px white)
+        drop-shadow(0px 0px 7px cyan) ;
+}

@@ -54,7 +54,7 @@ def main() -> None:
 
     bind = "unix:/run/gunicorn/magmek_backend.sock"
     if args.local:
-
+        consts.GLOBAL_FLAGS.local = True
         bind = "127.0.0.1:7000"
 
     options = {

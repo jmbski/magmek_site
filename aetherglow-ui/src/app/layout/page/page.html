@@ -1,14 +1,17 @@
 <div class="ag-page min-h-dvh flex flex-col bg-gray-950 text-surface-0">
     <!-- Top Navigation / Banner -->
-    <div class="ag-top-nav shrink-0 h-[15vw] min-h-[120px] max-h-[160px] flex justify-center bg-gray-900">
+    <div class="ag-top-nav shrink-0 h-[15vw] min-h-[120px] max-h-[160px] flex justify-center bg-gray-900 overflow-hidden relative">
+        <!-- Background Layer 1 -->
+        <div class="w-full absolute inset-0 bg-center transition-[background-image] duration-1000 ease-in bg-size-[100%]" [style]="currentImage()"></div>
+
         <!-- Your nav/banner content -->
         <a href="/home/" class=" max-h-[150px] max-w-[50%]">
-            <img class="drop-shadow-cyan-500 drop-shadow-md h-full w-full" src="./aetherglow-text-logo2.png">
+            <img class="ag-blue-glow h-full w-full" src="./aetherglow-text-logo2.png">
         </a>
 
     </div>
 
-    <p-menubar class="rounded-none! justify-center flex" [model]="menuItems"></p-menubar>
+    <p-menubar class="rounded-none! justify-center flex" [model]="menuItems()"></p-menubar>
     <!-- Content Area -->
     <div class="ag-content flex-1 overflow-auto justify-center w-full max-h-[80vh]">
         <div class="w-full h-full flex justify-center flex-col items-center p-2">

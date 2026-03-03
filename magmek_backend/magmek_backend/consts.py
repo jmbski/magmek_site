@@ -16,6 +16,22 @@ PROBS_URL = f"{BASE_URL}/problems"
 WARNINGS_URL = f"{BASE_URL}/warnings"
 
 
+class GLOBAL_FLAGS:
+    local: bool = False
+    local_ui_path: Path = (
+        Path(__file__).parent.parent.parent / "aetherglow-ui" / "public"
+    )
+    server_ui_path: Path = Path("/var/www/aetherglow")
+
+    @classmethod
+    def ui_path(cls) -> Path:
+        return cls.local_ui_path if cls.local else cls.server_ui_path
+
+    @classmethod
+    def galleria_path(cls) -> Path:
+        return cls.ui_path() / "galleria"
+
+
 DATA_DIR = Path(platformdirs.user_data_dir(APP_NAME, ensure_exists=True))
 CHAR_MAP_PATH = DATA_DIR / "character_mapping.yaml"
 IGNORED_CHARS_PATH = DATA_DIR / "ignored_characters.yaml"
@@ -27,6 +43,9 @@ OOC_RE = re.compile(r"^\(\(.+?")
 
 CHAR_MAPPING: dict[str, str] = {}
 IGNORED_CHARS: list[str] = []
+
+UI_PATH = Path("/var/www/aetherglow")
+GALLERIA_PATH = UI_PATH / "galleria"
 
 
 class ApiErrTitles(StrEnum):

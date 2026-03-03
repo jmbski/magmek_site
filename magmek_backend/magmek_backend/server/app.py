@@ -2,6 +2,7 @@
 
 import io
 import json
+import os
 
 import logging
 
@@ -188,6 +189,14 @@ def get_app():
             return ServerResponse.to_flask(names)
         except Exception as e:
             return ServerResponse.error(e, endpoint=request.endpoint or clean_log)
+
+    @app.get(f"{consts.BASE_URL}/galleria-images")
+    def get_galleria_imgs():
+        images = [
+            f"/galleria/{image}"
+            for image in os.listdir(consts.GLOBAL_FLAGS.galleria_path())
+        ]
+        return ServerResponse.to_flask(images)
 
     return app
 
