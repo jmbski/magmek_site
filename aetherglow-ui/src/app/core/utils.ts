@@ -10,24 +10,24 @@ export function removeFromArray(arr: unknown[], ...items: unknown[]) {
     });
 }
 
-export function transformObjCase(val: WeakObj, caseFunc: (x: string) => string): WeakObj {
+export function transformObjCase(val: WeakObj, caseFunc: (x: string) => string, ...ignoredKeys: string[]): WeakObj {
 
     const newObj: WeakObj = {};
     Object.keys(val).forEach(key => {
-        let origValue = val[key];
-        if (isWeakObj(origValue)) origValue = transformObjCase(origValue, caseFunc);
+        const origValue = val[key];
+        //if (isWeakObj(origValue) && !(key in ignoredKeys)) origValue = transformObjCase(origValue, caseFunc, ...ignoredKeys);
         newObj[caseFunc(key)] = origValue;
     });
 
     return newObj;
 }
 
-export function fromPythonObj(val: WeakObj): WeakObj {
-    return transformObjCase(val, camelCase);
+export function fromPythonObj(val: WeakObj, ...ignoredKeys: string[]): WeakObj {
+    return transformObjCase(val, camelCase, ...ignoredKeys);
 }
 
-export function toPythonObj(val: WeakObj) {
-    return transformObjCase(val, snakeCase);
+export function toPythonObj(val: WeakObj, ...ignoredKeys: string[]) {
+    return transformObjCase(val, snakeCase, ...ignoredKeys);
 }
 
 export function downloadTextAsFile(text: string, filename: string = 'chat_log.txt') {

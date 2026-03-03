@@ -87,7 +87,7 @@ export class InputService {
 
     public fromArray(items: string[], opts?: Partial<InputBase<unknown>>): InputBase<string>[] {
         const inputs = items.map((item,idx) => this.newTextboxQuestion(`item-${idx}`,item, idx, opts));
-        console.log('inputs', inputs);
+
         return inputs;
     }
 

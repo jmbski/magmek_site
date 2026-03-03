@@ -8,8 +8,13 @@
             @case ('textbox') {
                 <div class="w-full flex justify-center mb-">
                     <p-float-label class="w-full" variant="on">
-                        <label [attr.for]="formInput().key">{{ formInput().label }}</label>
-                        <input [formControlName]="formInput().key" pInputText [id]="formInput().key" [type]="formInput().type"
+                        @if(formInput().showLabel){
+                            <label [attr.for]="formInput().key">{{ formInput().label }}</label>
+                        }
+                        <input [formControlName]="formInput().key"
+                            pInputText [id]="formInput().key"
+                            [type]="formInput().type"
+                            [required]="formInput().required"
                             class="w-full" />
                     </p-float-label>
 
@@ -19,6 +24,35 @@
                             variant="outlined"
                             (onClick)="removeElement()"
                             severity="danger">
+                        </p-button>
+                    }
+
+                    @if(formInput().copyable) {
+                        <p-button class="ml-1"
+                            icon="pi pi-copy"
+                            variant="outlined"
+                            (onClick)="copyText()"
+                            title="Copy to Clipboard"
+                            severity="info">
+                        </p-button>
+                    }
+
+                    @if(formInput().ignorable) {
+                        <p-button class="ml-1"
+                            icon="pi pi-ban"
+                            variant="outlined"
+                            (onClick)="ignoreText()"
+                            title="Add to ignored list"
+                            severity="warn">
+                        </p-button>
+                    }
+
+                    @if(formInput().mappable) {
+                        <p-button class="ml-1"
+                            icon="pi pi-plus"
+                            variant="outlined"
+                            (onClick)="openMapping()"
+                            title="Add to ignored list">
                         </p-button>
                     }
                 </div>
@@ -55,7 +89,26 @@
             }
         }
     </div>
-    @if (!isValid) {
-    <div class="errorMessage">{{ formInput().label }} is required</div>
-    }
 </div>
+
+
+
+<p-dialog header="New Name Mapping"
+    appendTo="body"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '25rem' }"
+>
+    <span class="p-text-secondary block mb-8">Set character name to use instead of {{value()}}</span>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="charName" class="font-semibold w-24">Character Name</label>
+        <input pInputText id="charName"
+            class="flex-auto"
+            [(ngModel)]="mappingValue"
+            autocomplete="off" />
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="clearMapping()" />
+        <p-button label="Save" (click)="addToMapping()" />
+    </div>
+</p-dialog>

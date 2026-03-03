@@ -69,7 +69,8 @@ def get_app():
         value = data.get("value", "")
 
         if mapping:
-            appdata.set_char_mapping(mapping)
+            g.logger.info(f"adding mapping: {mapping}")
+            appdata.add_char_mapping(mapping)
         elif key and value:
             appdata.add_char_mapping(key, value)
         else:
@@ -77,7 +78,24 @@ def get_app():
                 data, "dict[str,str] | {key: str, value: str}"
             )
 
-        return ServerResponse.to_flask(mapping, "mapping successfully updated")
+        return ServerResponse.to_flask(
+            consts.CHAR_MAPPING, "mapping successfully updated"
+        )
+
+    @app.put(f"{consts.BASE_URL}/char-mapping")
+    def set_mapping():
+        data = request.json
+
+        mapping = data.get("mapping", {})
+
+        if mapping:
+            appdata.set_char_mapping(mapping)
+        else:
+            return ServerResponse.req_type_error(
+                data, "dict[str,str] | {key: str, value: str}"
+            )
+
+        return ServerResponse.to_flask(mapping, "mapping successfully set")
 
     @app.delete(f"{consts.BASE_URL}/char-mapping")
     def rem_mapping():
@@ -99,6 +117,20 @@ def get_app():
 
     @app.post(f"{consts.BASE_URL}/ignored")
     def add_ignored():
+        data = get_data(request)
+
+        keys = data.get("keys")
+        if not isinstance(keys, list):
+            return ServerResponse.req_type_error(data, "list[str]")
+
+        appdata.add_ignored(keys)
+
+        return ServerResponse.to_flask(
+            consts.IGNORED_CHARS, "Names successfully added to the ignored list"
+        )
+
+    @app.put(f"{consts.BASE_URL}/ignored")
+    def set_ignored():
         data = get_data(request)
 
         keys = data.get("keys")
@@ -139,6 +171,21 @@ def get_app():
             payload = parser.parse_log(lines, event_category, title)
 
             return ServerResponse.to_flask(payload)
+        except Exception as e:
+            return ServerResponse.error(e, endpoint=request.endpoint or clean_log)
+
+    @app.post(f"{consts.BASE_URL}/unmapped-names")
+    def get_unmapped_names():
+        data = request.json
+        lines = data.get("lines", [])
+        if not isinstance(lines, list):
+            return ServerResponse.req_type_error(data, "list[str]")
+
+        try:
+            log_lines = parser.get_loglines(lines)
+            names = parser.get_unknown_speakers(log_lines)
+
+            return ServerResponse.to_flask(names)
         except Exception as e:
             return ServerResponse.error(e, endpoint=request.endpoint or clean_log)
 

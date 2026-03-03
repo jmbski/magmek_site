@@ -14,6 +14,7 @@ def save_char_map():
 def add_char_mapping(key: str | dict[str, str], value: str = "") -> None:
     if isinstance(key, dict):
         consts.CHAR_MAPPING.update(key)
+        print("updating consts.CHAR_MAPPING", consts.CHAR_MAPPING)
     else:
         if value:
             consts.CHAR_MAPPING[key] = value

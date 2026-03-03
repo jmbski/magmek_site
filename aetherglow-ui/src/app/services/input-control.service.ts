@@ -29,7 +29,7 @@ export class InputControlService {
             });
             //control = new FormControl(input.value || {key: '', value: ''}, validators);
         }
-        else control = new FormControl(input.value || '', validators);
+        else control = new FormControl({value: input.value || '', disabled: input.disabled}, validators);
 
         form.addControl(input.key, control);
     }

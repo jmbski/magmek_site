@@ -1,3 +1,4 @@
+import { stringLiterals, UnionTypeOf } from '@app/typing';
 
 
 export class Consts {
@@ -22,6 +23,7 @@ export enum Endpoints {
     CHAR_MAPPING = 'char-mapping',
     IGNORED = 'ignored',
     CLEAN_LOG = 'clean-log',
+    UNMAPPED_NAMES = 'unmapped-names',
 }
 
 export type ApiErrorNames = 'GENERIC_ERROR' | 'REQ_TYPE_ERROR' | 'RESP_PARSE_ERROR' | 'GENERIC_WARNING';
@@ -47,3 +49,6 @@ export const ApiErrorData: Record< ApiErrorNames, IApiErrorData> = {
         title: 'generic_warning',
     },
 };
+
+export const SupportedExtensions = stringLiterals('txt');
+export type SupportedExtension = UnionTypeOf<typeof SupportedExtensions>;

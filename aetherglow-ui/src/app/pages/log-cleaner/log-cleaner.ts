@@ -16,6 +16,8 @@ import { InputBase, LogCleanInputSettings } from '@app/models';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 import { FormDialog } from '../../components/form-dialog/form-dialog';
+import { Button } from 'primeng/button';
+import { MessagingSvc } from '../../services/messaging.service';
 
 
 
@@ -29,6 +31,7 @@ import { FormDialog } from '../../components/form-dialog/form-dialog';
         DialogModule,
         FormsModule,
         Menubar,
+        Button,
     ],
     templateUrl: './log-cleaner.html',
     providers: [InputService],
@@ -41,6 +44,7 @@ export class LogCleaner {
     private readonly inputSvc = inject(InputService);
     private readonly ctlSvc = inject(InputControlService);
     private readonly txSvc = inject(TxService);
+    private readonly msgSvc = inject(MessagingSvc);
 
     public inputMenuModel: MenuItem[] = [
         {
@@ -62,6 +66,7 @@ export class LogCleaner {
             label: 'Unmapped Names',
             command: (event: MenuItemCommandEvent) => {
                 event.originalEvent?.stopImmediatePropagation();
+                this.openNewNamesDialog();
             },
         },
         {
@@ -88,7 +93,8 @@ export class LogCleaner {
             icon: 'pi pi-download',
             command: (event: MenuItemCommandEvent) => {
                 event.originalEvent?.stopImmediatePropagation();
-                downloadTextAsFile(this.outputText());
+                const filename = `${this.settings.eventCategory}-${this.settings.title}_${new Date(Date.now()).toISOString()}.txt`;
+                downloadTextAsFile(this.outputText(), filename);
             },
         },
         {
@@ -146,7 +152,9 @@ export class LogCleaner {
             }
         });
 
-        //this.openCharMapEditor();
+        if(this.inputText()) {
+            this.submitText();
+        }
     }
 
     public openCharMapEditor() {
@@ -160,7 +168,7 @@ export class LogCleaner {
 
         this.ref?.onClose.subscribe(formValues => {
             if (isStrRecord(formValues)) {
-                this.txSvc.addCharMapping(formValues).then(resp => {
+                this.txSvc.setCharMapping(formValues).then(resp => {
                     AppDataModel.charMapping$.next(resp);
                 });
             }
@@ -171,6 +179,7 @@ export class LogCleaner {
         const opts = <InputBase<unknown>>{
             colSpans: 2,
             removable: true,
+            copyable: true,
         };
 
         const ignored = await this.txSvc.getIgnored();
@@ -190,7 +199,7 @@ export class LogCleaner {
 
             const values = Object.values(data);
             if(isStrArray(values)) {
-                this.txSvc.addIgnored(values);
+                this.txSvc.setIgnored(values);
             }
         });
     }
@@ -208,14 +217,50 @@ export class LogCleaner {
         ref?.onClose.subscribe(formValues => {
             if(isWeakObj(formValues)) {
                 Object.assign(this.settings, formValues);
+                this.msgSvc.successToast('Input settings updated');
             }
         });
     }
 
+    public openNewNamesDialog() {
+        this.txSvc.getUnmappedNames(this.inputText()).then(resp => {
+
+            const inputs = this.inputSvc.fromArray(resp, {
+                colSpans: 2,
+                ignorable: true,
+                mappable: true,
+                disabled: true,
+                required: false,
+                showLabel: false,
+            });
+
+            const ref = this.dialogSvc.openDialog({type: FormDialog, config: {
+                header: 'Unmapped Names',
+                data: {
+                    inputs,
+                    hideMenu: true,
+                },
+            }});
+
+            ref?.onClose.subscribe(data => {
+                if (isWeakObj(data)) {
+                    const {action} = data;
+                    if (action === 'reload') {
+                        this.openNewNamesDialog();
+                    }
+                }
+            });
+        });
+    }
+
     public submitText() {
+        this.msgSvc.infoToast('Sending data to server');
         this.txSvc.cleanLog(this.inputText()).then(resp => {
-            console.log(resp.output);
+            this.unmappedNames = resp.newNames;
             this.outputText.set(resp.output);
+            if(resp.newNames && resp.newNames.length > 0) {
+                this.openNewNamesDialog();
+            }
         })
             .catch(err => {
                 console.log('Error content:',err);

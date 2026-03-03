@@ -14,7 +14,7 @@ export class ServerResponse {
 
     constructor(init?: Partial<ServerResponse>) {
 
-        if (isWeakObj(init)) Object.assign(this, fromPythonObj(init));
+        if (isWeakObj(init)) Object.assign(this, fromPythonObj(init, 'data'));
         this.warnings = this.warnings.map(warn => new ApiWarning(warn));
         this.meta = new ResponseMeta(this.meta);
     }

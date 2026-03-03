@@ -16,4 +16,5 @@ export class ApiError {
 export class ApiWarning extends ApiError {
     public override type: string = ApiErrorData.GENERIC_WARNING.type;
     public override title: string = ApiErrorData.GENERIC_WARNING.title;
+    public override status?: number = ApiErrorData.GENERIC_WARNING.status;
 }

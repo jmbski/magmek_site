@@ -7,11 +7,12 @@
         [inputs]="inputs"
         [showButtons]="showButtons()"
         [canLoad]="canLoad()"
+        [parentDialogRef]="ref"
         class="w-full p-4 max-h-[50vh] overflow-auto shadow-[inset_0px_0px_8px_4px_black]">
     </app-dynamic-form>
 
 
-    @if(menuModel.length > 0) {
+    @if(!hideMenu() && menuModel.length > 0) {
         <p-footer>
             <p-menubar [model]="menuModel"></p-menubar>
         </p-footer>

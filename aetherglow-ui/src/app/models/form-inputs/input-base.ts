@@ -15,6 +15,11 @@ export class InputBase<T> {
     public options: StrRecord[] = [];
     public colSpans: number = 1;
     public removable: boolean = false;
+    public copyable: boolean = false;
+    public ignorable: boolean = false;
+    public disabled: boolean = false;
+    public showLabel: boolean = true;
+    public mappable: boolean = false;
 
 
     public colSpan = computed( () => `col-span-${this.colSpans}`);

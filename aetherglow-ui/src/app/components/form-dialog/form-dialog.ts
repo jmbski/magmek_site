@@ -24,6 +24,9 @@ export class FormDialog {
     public showButtons = computed(() => {
         return this.dialogService.getInstance(this.ref)?.data?.showButtons;
     });
+    public hideMenu = computed(() => {
+        return this.dialogService.getInstance(this.ref)?.data?.hideMenu === true;
+    });
 
     public showAddButton = computed<boolean>(() => {
         const {showAddButton} = this.dialogData;
@@ -59,6 +62,7 @@ export class FormDialog {
     ngAfterViewInit() {
         this.canLoad.set(true);
 
+
         const menuModel: MenuItem[] = [
             {
                 label: 'Cancel',
@@ -90,7 +94,9 @@ export class FormDialog {
                     },
                 });
         }
-        this.menuModel = menuModel;
+        if (this.menuModel.length <= 0) {
+            this.menuModel = menuModel;
+        }
     }
 
     public addEntry() {
@@ -99,6 +105,7 @@ export class FormDialog {
             colSpans: 2,
             removable: true,
         });
+
 
         this.ctlSvc.addControl(this.dynamicForm.form(), input);
         this.inputs().push(input);

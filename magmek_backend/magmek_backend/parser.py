@@ -47,20 +47,20 @@ def parse_log(
     lines = get_loglines(text, addl_chars, addl_ignored)
     filtered = [line for line in lines if line.is_narrative]
     header = get_header(filtered, category=category, title=title)
-    new_names = get_unknown_speakers(lines)
+    new_names = get_unknown_speakers(filtered)
     narrative = "\n\n".join(line.format_text() for line in filtered)
 
     return {
         "header": header,
         "narrative": narrative,
         "new_names": new_names,
-        "lines": [line.to_dict() for line in lines],
+        "lines": [line.to_dict() for line in filtered],
     }
 
 
 def get_unique_speakers(lines: list[LogLine]):
 
-    names = list({line.speaker for line in lines})
+    names = list({line.speaker for line in lines if line.is_narrative})
     names.sort()
     return names
 
@@ -69,5 +69,5 @@ def get_unknown_speakers(lines: list[LogLine]):
     return [
         name
         for name in get_unique_speakers(lines)
-        if name not in consts.CHAR_MAPPING
+        if name not in consts.CHAR_MAPPING and name not in consts.IGNORED_CHARS
     ]

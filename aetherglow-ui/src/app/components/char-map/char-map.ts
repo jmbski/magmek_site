@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal, ViewChild } from '@angular/core';
 import { AppDataModel } from '@app/core';
 import { InputBase } from '@app/models';
-import { InputControlService, InputService } from '@app/services';
+import { InputControlService, InputService, TxService } from '@app/services';
 import { KeyValueType, StrRecord } from '@app/typing';
 import { DynamicForm } from '../dynamic-form/dynamic-form';
 import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
@@ -23,6 +23,7 @@ export class CharMap {
     //public inputs$: Observable<InputBase<KeyValueType>[]> = inject(InputService).fromStrRecord(AppDataModel.charMapping());
     private readonly inputSvc = inject(InputService);
     private readonly ctlSvc = inject(InputControlService);
+    private readonly txSvc = inject(TxService);
 
     public menuModel: MenuItem[] = [
         {
@@ -70,8 +71,12 @@ export class CharMap {
 
     ) {
         this.originalData = AppDataModel.getCharMapping();
-        AppDataModel.charMapping$.subscribe(next => {
+        /* AppDataModel.charMapping$.subscribe(next => {
             this.inputs.set(this.inputSvc.kvFromStrRecord(next));
+        }); */
+        this.txSvc.getCharMapping().then(resp => {
+            const inputs = this.inputSvc.kvFromStrRecord(resp);
+            this.inputs.set(inputs);
         });
     }
 
@@ -99,12 +104,11 @@ export class CharMap {
 
     public addEntry() {
         const form = this.charMapForm.form();
+        const input =     this.inputSvc.newKVInput(this.inputs().length);
+        console.log('input', input);
+        this.ctlSvc.addControl(form, input);
+        this.inputs().push(input);
 
-        this.ctlSvc.addControl(form,
-            this.inputSvc.newKVInput(Object.keys(AppDataModel.getCharMapping()).length),
-        );
-
-        AppDataModel.setCharMapping(this.inputSvc.toStrRecord(form.getRawValue()));
     }
 
     public resetData() {
