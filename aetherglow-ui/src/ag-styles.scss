@@ -40,3 +40,15 @@
 .p-dialog-footer {
     background-color: var(--color-gray-800) !important;
 }
+
+.ag-home > p {
+    text-align: center;
+}
+
+.ag-home > ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
