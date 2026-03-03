@@ -25,7 +25,7 @@ def get_loglines(
 
 
 def get_header(lines: list[LogLine], category: str, title: str) -> str:
-    chars = list({line.char_name for line in lines if not line.warning_unk_speaker})
+    chars = list({line.charName for line in lines if not line.warning_unk_speaker})
     chars.sort()
     event_date = lines[0].timestamp.strftime("%A, %B %d, %Y")
 

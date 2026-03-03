@@ -1,0 +1,11 @@
+<div class="h-full w-full overflow-auto">
+    @for(line of filteredLines(); track line) {
+        <p-card>
+            <label>Original Text:</label>
+            <p>{{ line.lineText}}</p>
+            <p-divider></p-divider>
+            <label>Formatted Text</label>
+            <p>{{ line.formattedLine }}</p>
+        </p-card>
+    }
+</div>

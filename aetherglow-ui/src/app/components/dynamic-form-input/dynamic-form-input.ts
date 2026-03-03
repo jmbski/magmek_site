@@ -7,10 +7,11 @@ import { Select } from 'primeng/select';
 import { Button } from 'primeng/button';
 import { DynamicForm } from '../dynamic-form/dynamic-form';
 import { isStr } from '@app/typing';
-import { InputService, TxService } from '@app/services';
+import { AGDialogSvc, InputService, TxService } from '@app/services';
 import { Dialog } from 'primeng/dialog';
 import { AppDataModel } from '@app/core';
 import { MessageService } from 'primeng/api';
+import { LineViewer } from '../line-viewer/line-viewer';
 
 @Component({
     selector: 'app-input',
@@ -31,6 +32,8 @@ export class DynamicFormInput {
     readonly txSvc = inject(TxService);
     readonly inputSvc = inject(InputService);
     readonly msgSvc = inject(MessageService);
+    readonly dialogSvc = inject(AGDialogSvc);
+
     readonly formInput = input.required<InputBase<unknown>>();
     readonly form = input.required<FormGroup>();
 
@@ -89,6 +92,16 @@ export class DynamicFormInput {
                 this.parentForm?.parentDialogRef?.close({action: 'reload'});
             });
         }
+    }
+
+
+
+    public openLineViewer() {
+        const ref = this.dialogSvc.openDialog({type: LineViewer, config: {
+            data: {
+                searchName: this.value(),
+            },
+        }});
     }
 
 }

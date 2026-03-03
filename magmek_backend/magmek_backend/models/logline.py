@@ -39,9 +39,9 @@ def default_datetimestamp(*args, **kwargs) -> datetime:
 class LogLine(Base):
     timestamp_str: str = ""
     speaker: str = ""
-    line_text: str = ""
-    char_name: str = ""
-    formatted_line: str = ""
+    lineText: str = ""
+    charName: str = ""
+    formattedLine: str = ""
     timestamp: datetime = field(default_factory=default_datetimestamp)
 
     _addl_char_map: dict[str, str] = field(default_factory=dict)
@@ -50,7 +50,7 @@ class LogLine(Base):
     def __post_init__(self) -> None:
         self.timestamp = parse_timestamp(self.timestamp_str)
 
-        self.char_name = appdata.get_char_map(self._addl_char_map).get(
+        self.charName = appdata.get_char_map(self._addl_char_map).get(
             self.speaker, self.speaker
         )
 
@@ -80,11 +80,11 @@ class LogLine(Base):
 
     @property
     def is_online_status(self) -> bool:
-        return self.line_text in ["is online.", "is offline."]
+        return self.lineText in ["is online.", "is offline."]
 
     @property
     def is_ooc(self) -> bool:
-        return bool(consts.OOC_RE.search(self.line_text))
+        return bool(consts.OOC_RE.search(self.lineText))
 
     @property
     def is_secondlife(self) -> bool:
@@ -100,7 +100,7 @@ class LogLine(Base):
 
     @property
     def is_slash_me(self) -> bool:
-        return self.line_text.startswith("/me")
+        return self.lineText.startswith("/me")
 
     @property
     def is_narrative(self) -> bool:
@@ -112,13 +112,13 @@ class LogLine(Base):
         )
 
     def to_raw_text(self) -> str:
-        return f"{self.timestamp_str}  {self.speaker}: {self.line_text}"
+        return f"{self.timestamp_str}  {self.speaker}: {self.lineText}"
 
     def format_text(self) -> str:
-        text = self.line_text
+        text = self.lineText
 
         if self.is_slash_me:
-            text = text.replace("/me", self.char_name)
+            text = text.replace("/me", self.charName)
         else:
             if text[0] != text[0].upper():
                 text = text[0].upper() + text[1:]
@@ -127,11 +127,11 @@ class LogLine(Base):
             if text[-1] not in ['"', "'"]:
                 text += '"'
 
-            text = f"{text} said {self.char_name}"
+            text = f"{text} said {self.charName}"
 
         if self.warning_unk_speaker:
             warn_text = "** [WARNING] - Unmapped speaker username **"
             text = f"{warn_text}\n{text}\n{warn_text}"
 
-        self.formatted_line = text
+        self.formattedLine = text
         return text

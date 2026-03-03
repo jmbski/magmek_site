@@ -1,7 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { inject, Inject, Injectable } from '@angular/core';
-import { Endpoints, toPythonObj } from '@app/core';
+import { AppDataModel, Endpoints, toPythonObj } from '@app/core';
 import { environment } from '@app/environment';
 import { LogCleanInputSettings, RpLogPayload, RpLogResponse, ServerResponse } from '@app/models';
 import { Callback, isStrArray, isStrRecord, Predicate, Promised, StrRecord, WeakObj } from '@app/typing';
@@ -191,6 +191,7 @@ export class TxService {
         settings ??= new LogCleanInputSettings();
         const payload = {lines};
         Object.assign(payload, settings);
+        AppDataModel.latestInput = inputText;
 
         return new Promise((resolve, reject) => {
             this.http.post(this._buildAppUrl(Endpoints.CLEAN_LOG), toPythonObj(payload)).subscribe((response) => {

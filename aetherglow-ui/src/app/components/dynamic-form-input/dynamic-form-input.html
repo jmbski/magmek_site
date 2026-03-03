@@ -18,12 +18,22 @@
                             class="w-full" />
                     </p-float-label>
 
-                    @if(formInput().removable) {
+                    @if(formInput().hasExamples) {
                         <p-button class="ml-1"
-                            icon="pi pi-trash"
+                            icon="pi pi-search"
                             variant="outlined"
-                            (onClick)="removeElement()"
-                            severity="danger">
+                            (onClick)="openLineViewer()"
+                            title="See example lines"
+                            severity="info">
+                        </p-button>
+                    }
+
+                    @if(formInput().mappable) {
+                        <p-button class="ml-1"
+                            icon="pi pi-plus"
+                            variant="outlined"
+                            (onClick)="openMapping()"
+                            title="Add to character name mappings">
                         </p-button>
                     }
 
@@ -47,12 +57,13 @@
                         </p-button>
                     }
 
-                    @if(formInput().mappable) {
+                    @if(formInput().removable) {
                         <p-button class="ml-1"
-                            icon="pi pi-plus"
+                            icon="pi pi-trash"
                             variant="outlined"
-                            (onClick)="openMapping()"
-                            title="Add to ignored list">
+                            (onClick)="removeElement()"
+                            title="Remove element"
+                            severity="danger">
                         </p-button>
                     }
                 </div>

@@ -4,6 +4,7 @@ import { label } from '@primeuix/themes/aura/metergroup';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { removeFromArray } from './utils';
+import { LogLine } from '@app/models';
 
 export const CoreMenuItems: MenuItem[] = [
     {
@@ -64,6 +65,8 @@ export class AppDataModel {
 
     public static charMapping$: BehaviorSubject<StrRecord> = new BehaviorSubject(this._charMapping);
     public static ignored$:  BehaviorSubject<string[]> = new BehaviorSubject(new Array<string>());
+
+    public static latestInput: string = '';
 
     public static subscribeToMapping(name: string, callback?: (data: StrRecord) => void) {
         const existing = this._charSubs[name];

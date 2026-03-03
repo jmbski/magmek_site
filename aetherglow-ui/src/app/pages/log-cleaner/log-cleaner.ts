@@ -5,7 +5,7 @@ import { Textarea, TextareaModule } from 'primeng/textarea';
 import { Panel } from 'primeng/panel';
 
 import { AGDialogSvc, InputControlService, InputService, TxService } from '@app/services';
-import { CharMap } from '@app/components';
+import { CharMap, LineViewer } from '@app/components';
 import { DialogModule } from 'primeng/dialog';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { isStrArray, isStrRecord, isWeakObj } from '@app/typing';
@@ -232,6 +232,7 @@ export class LogCleaner {
                 disabled: true,
                 required: false,
                 showLabel: false,
+                hasExamples: true,
             });
 
             const ref = this.dialogSvc.openDialog({type: FormDialog, config: {

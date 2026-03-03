@@ -20,6 +20,7 @@ export class InputBase<T> {
     public disabled: boolean = false;
     public showLabel: boolean = true;
     public mappable: boolean = false;
+    public hasExamples: boolean = false;
 
 
     public colSpan = computed( () => `col-span-${this.colSpans}`);

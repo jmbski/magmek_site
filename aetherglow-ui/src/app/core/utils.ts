@@ -1,5 +1,6 @@
 import { isWeakObj, WeakObj } from '@app/typing';
 import { camelCase, snakeCase } from 'change-case';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 export function removeFromArray(arr: unknown[], ...items: unknown[]) {
     items.forEach(item => {
@@ -50,6 +51,12 @@ export function downloadTextAsFile(text: string, filename: string = 'chat_log.tx
     // Clean up: remove the element and revoke the object URL to free memory
     document.body.removeChild(element);
     URL.revokeObjectURL(url);
+}
+
+
+export function getDialogData(ref: DynamicDialogRef, svc: DialogService) {
+
+    return svc.getInstance(ref)?.data;
 }
 
 // Example usage:
