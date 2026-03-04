@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
         FormsModule,
         Menubar,
         Toast,
+        CommonModule,
     ],
     templateUrl: './page.html',
     styleUrl: './page.scss',
@@ -54,8 +55,8 @@ export class PageLayout {
     });
 
     public nextImage = computed<string>(() => {
-        if (this.nextIndex() >= this.images().length) return '';
-        return this.images()[this.nextIndex()];
+        const src = this.images()[this.nextIndex()];
+        return `background-image: url(${src});`;
     });
 
     constructor(public cd: ChangeDetectorRef) {
