@@ -22,7 +22,7 @@ def clear_galleria() -> None:
         os.remove(path)
 
 
-def crop_galleria(max_height: int | None = None):
+def crop_galleria(max_height: int | None = None, scale_imgs: bool = False):
     paths = jbutils.list_paths(consts.GALLERIA_DIR, rtn_abs=True)
 
     imgs = [Image.open(path) for path in paths]
@@ -47,10 +47,15 @@ def crop_galleria(max_height: int | None = None):
         left = mid_w - w_split
         right = mid_w + w_split
 
-        crop = img.crop((left, top, right, bottom))
+        new_img = img.crop((left, top, right, bottom))
+        if scale_imgs:
+            new_img = new_img.resize(
+                (int(new_img.width / 2), int(new_img.height / 2))
+            )
+
         path = consts.GLOBAL_FLAGS.galleria_path() / os.path.basename(
             str(img.filename)
         )
 
         JbuConsole.info(f"Writing: '{path}'")
-        crop.save(path)
+        new_img.save(path)

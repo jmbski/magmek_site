@@ -38,6 +38,12 @@ parser.add_argument(
 parser.add_argument(
     "--max-height", "-m", type=int, help="Set a height limiter for cropped images"
 )
+parser.add_argument(
+    "--scale-imgs",
+    "-s",
+    action="store_true",
+    help="If true, scale images down by half",
+)
 jbutils.add_common_args(parser, __file__)
 autocomplete(parser)
 
@@ -64,7 +70,7 @@ def main() -> None:
     consts.GLOBAL_FLAGS.local = args.local
 
     if args.crop_galleria:
-        img_utils.crop_galleria(args.max_height)
+        img_utils.crop_galleria(args.max_height, args.scale_imgs)
         return
 
     if args.interactive:
