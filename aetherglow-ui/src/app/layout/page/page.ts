@@ -46,8 +46,11 @@ export class PageLayout {
 
     public currentImage = computed<string>(() => {
         const src = this.images()[this.currentIndex()];
-        //return `background-image: url(${src});`;
-        return this.images()[this.nextIndex()];
+        return `background-image: url(${src});`;
+
+        /* const img = this.images()[this.nextIndex()];
+        //console.log('current Image', img);
+        return img; */
     });
 
     public nextImage = computed<string>(() => {

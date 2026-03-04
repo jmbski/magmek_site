@@ -231,7 +231,8 @@ export class TxService {
 
 
         return new Promise((resolve, reject) => {
-            this.http.get(this._buildAppUrl(Endpoints.GALLERIA_IMAGES)).subscribe((response) => {
+            this.http.get<ServerResponse>(this._buildAppUrl(Endpoints.GALLERIA_IMAGES)).subscribe((response) => {
+
                 return this.handleResponse(response, resolve, reject, isStrArray);
             });
         });
