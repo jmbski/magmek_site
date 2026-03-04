@@ -30,9 +30,9 @@ export class PageLayout {
 
     private intervalId: number | null = null;
 
-    public interval: number = 5000;
+    public interval: number = 8000;
 
-    public activeIndex = signal(0);
+    public currentIndex = signal(0);
     public nextIndex = signal(1);
     public showFirst: boolean = true;
 
@@ -45,8 +45,9 @@ export class PageLayout {
     public images = model<string[]>([]);
 
     public currentImage = computed<string>(() => {
-        const src = this.images()[this.activeIndex()];
-        return `background-image: url(${src});`;
+        const src = this.images()[this.currentIndex()];
+        //return `background-image: url(${src});`;
+        return this.images()[this.nextIndex()];
     });
 
     public nextImage = computed<string>(() => {
@@ -74,12 +75,14 @@ export class PageLayout {
     }
 
     public transition(): void {
-        this.nextIndex.set((this.activeIndex() + 1) % this.images().length);
+        this.nextIndex.set((this.currentIndex() + 1) % this.images().length);
 
         // toggle visible layer
         this.showFirst = !this.showFirst;
 
-        this.activeIndex.set(this.nextIndex());
+        setTimeout(() => {
+            this.currentIndex.set(this.nextIndex());
+        }, 1500);
     }
 
     /* get currentImage(): string {

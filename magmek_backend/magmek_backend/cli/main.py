@@ -1,0 +1,77 @@
+"""Runs the main code for the magmek python CLI tool"""
+
+import argparse
+import re
+import sys
+
+import shutil
+
+from pathlib import Path
+
+from argcomplete import autocomplete
+from jbutils import jbutils, JbuConsole
+from PIL import Image
+from ptpython import embed
+
+from magmek_backend import consts, appdata, parser
+from magmek_backend.models import LogLine, ServerResponse
+from magmek_backend.images import img_utils
+
+
+parser = argparse.ArgumentParser(description=__doc__)
+
+parser.add_argument(
+    "--interactive",
+    "-i",
+    action="store_true",
+    help="Run the CLI in interactive mode",
+)
+parser.add_argument(
+    "--local",
+    "-l",
+    action="store_true",
+    help="Run command targeting the local repo instead of the webserver environment",
+)
+
+jbutils.add_common_args(parser, __file__)
+autocomplete(parser)
+
+args = parser.parse_args()
+
+
+def copy_supervisor_configs() -> None:
+    config = (
+        "magmek.supervisord-local.conf" if args.local else "magmek.supervisord.conf"
+    )
+
+    conf_d_path = Path("/etc/supervisor/conf.d")
+    src = consts.DEPLOY_DIR / config
+    dst = conf_d_path / config
+
+    if conf_d_path.exists():
+        JbuConsole.print(f"Copying '{src}' to '{dst}'")
+        shutil.copy2(src, dst)
+
+
+def main() -> None:
+    """Main function"""
+
+    consts.GLOBAL_FLAGS.local = args.local
+    
+    img_path = Path(
+        "/home/joseph/coding_base/magmek_site/aetherglow-ui/public/galleria/aetherglow_002.png"
+    )
+    if args.interactive:
+        sys.exit(
+            embed(
+                globals=globals(),
+                locals=locals(),
+                history_filename=str(
+                    consts.DATA_DIR / f"{consts.APP_NAME}.cli.history"
+                ),
+            )
+        )
+
+
+if __name__ == "__main__":
+    main()

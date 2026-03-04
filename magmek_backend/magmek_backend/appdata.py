@@ -83,9 +83,8 @@ def init_data() -> None:
 
 
 def embed_base_data(force: bool = False) -> None:
-    dir_path = Path(__file__).parent.parent / "deployment" / "base_data"
-    map_path = dir_path / "character_mapping.yaml"
-    ignored_path = dir_path / "ignored_characters.yaml"
+    map_path = consts.BASE_DATA_DIR / "character_mapping.yaml"
+    ignored_path = consts.BASE_DATA_DIR / "ignored_characters.yaml"
 
     if map_path.exists() and (force or not consts.CHAR_MAP_PATH.exists()):
         char_map = jbutils.read_file(map_path)

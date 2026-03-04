@@ -56,6 +56,7 @@ def main() -> None:
     if args.local:
         consts.GLOBAL_FLAGS.local = True
         bind = "127.0.0.1:7000"
+        print(f"in local mode, bind: {bind}")
 
     options = {
         "bind": bind,
