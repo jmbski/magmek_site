@@ -22,12 +22,15 @@ def clear_galleria() -> None:
         os.remove(path)
 
 
-def crop_galleria():
+def crop_galleria(max_height: int | None = None):
     paths = jbutils.list_paths(consts.GALLERIA_DIR, rtn_abs=True)
 
     imgs = [Image.open(path) for path in paths]
 
     min_height = min(img.height for img in imgs)
+    max_height = max_height or min_height
+    min_height = min(max_height, min_height)
+
     min_width = min(img.width for img in imgs)
     h_split = int(min_height / 2)
     w_split = int(min_width / 2)

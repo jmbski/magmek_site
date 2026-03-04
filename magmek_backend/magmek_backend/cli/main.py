@@ -32,7 +32,12 @@ parser.add_argument(
     action="store_true",
     help="Run command targeting the local repo instead of the webserver environment",
 )
-
+parser.add_argument(
+    "--crop-galleria", "-g", action="store_true", help="Crop galleria images"
+)
+parser.add_argument(
+    "--max-height", "-m", type=int, help="Set a height limiter for cropped images"
+)
 jbutils.add_common_args(parser, __file__)
 autocomplete(parser)
 
@@ -57,10 +62,11 @@ def main() -> None:
     """Main function"""
 
     consts.GLOBAL_FLAGS.local = args.local
-    
-    img_path = Path(
-        "/home/joseph/coding_base/magmek_site/aetherglow-ui/public/galleria/aetherglow_002.png"
-    )
+
+    if args.crop_galleria:
+        img_utils.crop_galleria(args.max_height)
+        return
+
     if args.interactive:
         sys.exit(
             embed(
