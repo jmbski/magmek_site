@@ -1,8 +1,8 @@
 set("log.file", true)
-set("log.file.path", "/home/magmek/stream/logs/liquidsoap.log")
+set("log.file.path", "/var/www/stream/logs/liquidsoap.log")
 set("log.stdout", true)
 
-music = playlist("/home/magmek/stream/music/celtic_grooves")
+music = playlist("/var/www/stream/music/celtic_grooves")
 
 radio = fallback([music])
 
