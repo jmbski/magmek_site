@@ -13,9 +13,10 @@ from jbutils import jbutils, JbuConsole
 from PIL import Image
 from ptpython import embed
 
-from magmek_backend import consts, appdata, parser
+from magmek_backend import consts
 from magmek_backend.models import LogLine, ServerResponse
 from magmek_backend.images import img_utils
+from magmek_site.magmek_backend.magmek_backend.logcleaner import appdata, parser
 
 
 parser = argparse.ArgumentParser(description=__doc__)
@@ -67,7 +68,7 @@ def copy_supervisor_configs() -> None:
 def main() -> None:
     """Main function"""
 
-    consts.GLOBAL_FLAGS.local = args.local
+    consts.GlobalConfig.local = args.local
 
     if args.crop_galleria:
         img_utils.crop_galleria(args.max_height, args.scale_imgs)

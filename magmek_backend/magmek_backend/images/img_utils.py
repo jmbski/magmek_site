@@ -12,7 +12,7 @@ from magmek_backend import consts
 
 
 def clear_galleria() -> None:
-    gal_dir = consts.GLOBAL_FLAGS.galleria_path()
+    gal_dir = consts.GlobalConfig.galleria_path()
     JbuConsole.print(f"Clearing '{gal_dir}'")
     if not gal_dir.exists():
         raise FileExistsError(f"Path: '{gal_dir}' does not exist")
@@ -53,7 +53,7 @@ def crop_galleria(max_height: int | None = None, scale_imgs: bool = False):
                 (int(new_img.width / 2), int(new_img.height / 2))
             )
 
-        path = consts.GLOBAL_FLAGS.galleria_path() / os.path.basename(
+        path = consts.GlobalConfig.galleria_path() / os.path.basename(
             str(img.filename)
         )
 

@@ -16,7 +16,8 @@ PROBS_URL = f"{BASE_URL}/problems"
 WARNINGS_URL = f"{BASE_URL}/warnings"
 
 
-class GLOBAL_FLAGS:
+
+class GlobalConfig:
     local: bool = False
     local_ui_path: Path = (
         Path(__file__).parent.parent.parent / "aetherglow-ui" / "public"

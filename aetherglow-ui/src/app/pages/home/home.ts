@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { PageLayout } from '@app/layout';
 import { DividerModule } from 'primeng/divider';
+import { MapRenderer } from '../../components/map-renderer/map-renderer';
 
 
 
 @Component({
     selector: 'app-home',
-    imports: [PageLayout, DividerModule],
+    imports: [PageLayout, DividerModule, MapRenderer],
     templateUrl: './home.html',
     styleUrl: './home.scss',
 })
@@ -14,4 +15,6 @@ export class Home {
     public dividerClass: string = 'flex-4 m-[0_6px_0_6px]! bg-white h-[1px] shadow-[0px_0px_12px_1px_#ABF]';
     public dividerClassFull: string = 'w-full m-4! bg-white h-[1px] shadow-[0px_0px_12px_1px_#ABF]';
     public sectionHeader: string = 'text-lg font-bold text-cyan-600';
+
+    public mapSrc = signal<string>('Aelrava.jpg');
 }
