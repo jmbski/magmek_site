@@ -1,6 +1,6 @@
-settings.log.file = true
-settings.log.file.path = "/var/www/stream/logs/liquidsoap.log"
-settings.log.stdout = true
+settings.log.file := true
+settings.log.file.path := "/var/www/stream/logs/liquidsoap.log"
+settings.log.stdout := true
 
 music = playlist(mode="random", "/var/www/stream/music/celtic_grooves")
 
