@@ -19,7 +19,7 @@ def make_stream(name, path) =
     %mp3(bitrate=128, samplerate=44100, stereo=true),
     host="localhost",
     port=8005,
-    password="sourcepassword",
+    password="MagMekMedia42$@",
     mount="/" ^ name,
     name="Aetherglow Radio - " ^ name,
     genre="Ambient",
