@@ -4,29 +4,16 @@ settings.log.stdout := true
 
 music_root = "/home/magmek/stream/music"
 
-# Get everything in the music directory
-entries = file.list(music_root)
-
-# Keep only directories
-dirs =
-  list.filter(
-    fun(x) -> file.is_directory(music_root ^ "/" ^ x),
-    entries
-  )
-
-def make_stream(name) =
-  path = music_root ^ "/" ^ name
-
-  log("Creating stream: " ^ name)
-
-  src =
+# Helper function that creates a stream from a directory
+def make_stream(name, path) =
+  s =
     playlist(
       mode="random",
       reload_mode="watch",
       path
     )
 
-  radio = mksafe(src)
+  radio = mksafe(s)
 
   output.icecast(
     %mp3(bitrate=128, samplerate=44100, stereo=true),
@@ -34,11 +21,15 @@ def make_stream(name) =
     port=8005,
     password="sourcepassword",
     mount="/" ^ name,
-    name="Aetherglow - " ^ name,
+    name="Aetherglow Radio - " ^ name,
     genre="Ambient",
-    description="Aetherglow ambience",
+    description="Aetherglow ambience stream",
     radio
   )
 end
 
-list.iter(fun(d) -> make_stream(d), dirs)
+make_stream("adventure", music_root ^ "/adventure")
+make_stream("ballads", music_root ^ "/ballads")
+make_stream("battle", music_root ^ "/battle")
+make_stream("celtic", music_root ^ "/celtic")
+make_stream("village", music_root ^ "/village")
