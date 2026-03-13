@@ -17,14 +17,17 @@ post = mksafe(playlist(reload_mode="watch", music_root ^ "/post"))
 current = ref("prelude")
 
 # Switch logic
-radio = switch([
-  ({!current == "prelude"}, prelude),
-  ({!current == "circle_procession"}, circle_procession),
-  ({!current == "planting"}, planting),
-  ({!current == "grounding_procession"}, grounding_procession),
-  ({!current == "rain_showers"}, rain_showers),
-  ({!current == "post"}, post)
-])
+radio = mksafe(
+  switch([
+    ({current() == "prelude"}, prelude),
+    ({current() == "circle_procession"}, circle_procession),
+    ({current() == "planting"}, planting),
+    ({current() == "grounding_procession"}, grounding_procession),
+    ({current() == "rain_showers"}, rain_showers),
+    ({current() == "post"}, post),
+    ({true}, prelude)
+  ])
+)
 
 output.icecast(
   %mp3(bitrate=128, samplerate=44100, stereo=true),
