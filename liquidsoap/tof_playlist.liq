@@ -19,13 +19,17 @@ post = mksafe(playlist(mode="normal", reload_mode="watch", music_root ^ "/post")
 queue = request.queue(id="main_queue")
 radio = mksafe(crossfade(queue))
 
+def push_song(name)
+    server.execute("request.push " ^ name)
+end
+
 def load_playlist(dir_name)
   server.execute("request.queue.clear main_queue")
   dir_path = music_root ^ "/" ^ dir_name
 
   filepaths = file.ls(dir_path)
   #list.iter(fun(f) -> queue.push(request, f), filepaths)
-  list.iter(fun(f) -> server.execute("request.push " ^ f), filepaths)
+  list.iter(fun(f) -> push_song(f), filepaths)
   "Playlist loaded: " ^ dir_name
 end
 
