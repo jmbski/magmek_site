@@ -33,27 +33,31 @@ grounding_procession = playlist(id="grounding_procession", mode="normal", music_
 rain_showers = playlist(id="rain_showers", mode="normal", music_root ^ "/rain_showers")
 post = playlist(id="post", mode="normal", music_root ^ "/post")
 
-# Custom transition function to handle the crossfade during a switch
+# Improved transition: This forces an overlap of 3 seconds
 def my_transition(a, b)
-  # 'a' is the old source, 'b' is the new source
-  # add(normalize=false, ...) allows them to overlap
-  sequence([
-    # This fades out the old track and fades in the new one simultaneously
-    add([ fade.out(duration=3.0, a), fade.in(duration=3.0, b) ])
+  # b is the new source, a is the old
+  # cross.simple is more reliable for 'switch' transitions
+  add([
+    fade.out(duration=3.0, a),
+    fade.in(duration=3.0, b)
   ])
 end
 
 # The Switch Logic
-# 'track_sensitive=false' allows the switch to happen the moment 'current' changes
-radio = switch(track_sensitive=false, transitions=[my_transition, my_transition, my_transition, my_transition, my_transition, my_transition], [
-  ({current_playlist() == "prelude"}, prelude),
-  ({current_playlist() == "circle_procession"}, circle_procession),
-  ({current_playlist() == "planting"}, planting),
-  ({current_playlist() == "grounding_procession"}, grounding_procession),
-  ({current_playlist() == "rain_showers"}, rain_showers),
-  ({current_playlist() == "post"}, post)
-])
-
+# Note: We use a single transition function in the list; 
+# Liquidsoap will apply it to any transition in the switch.
+radio = switch(
+  track_sensitive=false, 
+  transitions=[my_transition], 
+  [
+    ({current_playlist() == "prelude"}, prelude),
+    ({current_playlist() == "circle_procession"}, circle_procession),
+    ({current_playlist() == "planting"}, planting),
+    ({current_playlist() == "grounding_procession"}, grounding_procession),
+    ({current_playlist() == "rain_showers"}, rain_showers),
+    ({current_playlist() == "post"}, post)
+  ]
+)
 # The Telnet Function
 def change_playlist(name)
   # 1. Update the reference so the switch picks it up
