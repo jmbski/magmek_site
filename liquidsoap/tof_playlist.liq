@@ -18,10 +18,10 @@ current = ref("prelude")
 
 server.register(
   namespace="playlist",
-  description="Current playlist",
-  "current",
-  fun(_) -> current(),
-  fun(v) -> current := v
+  description="Switch playlist",
+  "set",
+  fun(name) ->
+    current := name
 )
 # Switch logic
 radio = mksafe(
