@@ -36,6 +36,7 @@ end >#
 
 def changeCur(name)
     current := name
+    ignore(server.execute(name ^ ".reload"));
     "Playlist changed to: " ^ name
 end
 
