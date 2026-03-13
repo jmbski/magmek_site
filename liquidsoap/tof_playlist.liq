@@ -30,7 +30,7 @@ server.register(
 )
 # Switch logic
 radio = mksafe(
-  switch([
+  switch(track_sensitive=false, [
     ({current() == "prelude"}, prelude),
     ({current() == "circle_procession"}, circle_procession),
     ({current() == "planting"}, planting),
