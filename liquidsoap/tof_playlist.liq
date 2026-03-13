@@ -15,11 +15,13 @@ post = mksafe(playlist(reload_mode="watch", music_root ^ "/post"))
 
 # Create a control variable
 current = ref("prelude")
+
 server.register(
   namespace="playlist",
   description="Current playlist",
   "current",
-  current
+  fun(_) -> current(),
+  fun(v) -> current := v
 )
 # Switch logic
 radio = mksafe(
