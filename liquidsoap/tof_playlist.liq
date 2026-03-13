@@ -1,5 +1,5 @@
 settings.log.file := true
-settings.log.file.path := "/home/magmek/stream/logs/liquidsoap.log"
+settings.log.file.path := "/var/log/liquid_tof/stdout.log"
 settings.log.stdout := true
 
 server.telnet(port=1234)
@@ -26,12 +26,12 @@ end
 # Since you want strict alphabetical order and 'reset to start' capability:
 
 # 1. Define the playlists normally (as you had before)
-prelude = playlist(id="prelude", mode="normal", music_root ^ "/prelude")
-circle_procession = playlist(id="circle_procession", mode="normal", music_root ^ "/circle_procession")
-planting = playlist(id="planting", mode="normal", music_root ^ "/planting")
-grounding_procession = playlist(id="grounding_procession", mode="normal", music_root ^ "/grounding_procession")
-rain_showers = playlist(id="rain_showers", mode="normal", music_root ^ "/rain_showers")
-post = playlist(id="post", mode="normal", music_root ^ "/post")
+prelude = playlist(id="prelude", mode="normal",reload_mode="watch", music_root ^ "/prelude")
+circle_procession = playlist(id="circle_procession", mode="normal",reload_mode="watch", music_root ^ "/circle_procession")
+planting = playlist(id="planting", mode="normal",reload_mode="watch", music_root ^ "/planting")
+grounding_procession = playlist(id="grounding_procession", mode="normal",reload_mode="watch", music_root ^ "/grounding_procession")
+rain_showers = playlist(id="rain_showers", mode="normal",reload_mode="watch", music_root ^ "/rain_showers")
+post = playlist(id="post", mode="normal",reload_mode="watch", music_root ^ "/post")
 
 # Improved transition: This forces an overlap of 3 seconds
 def my_transition(a, b)
