@@ -16,7 +16,7 @@ post = mksafe(playlist(mode="normal", reload_mode="watch", music_root ^ "/post")
 # Create a control variable
 #< current = ref("prelude") >#
 
-queue = request.queue(id="main_queue")
+queue = request.equeue(id="main_queue")
 radio = mksafe(crossfade(queue))
 
 def load_playlist(dir_name)
@@ -24,7 +24,7 @@ def load_playlist(dir_name)
   dir_path = music_root ^ "/" ^ dir_name
 
   filepaths = file.ls(dir_path)
-  list.iter(fun(f) -> queue.push(queue, f), filepaths)
+  list.iter(fun(f) -> request.push(queue, f), filepaths)
   "Playlist loaded: " ^ dir_name
 end
 
