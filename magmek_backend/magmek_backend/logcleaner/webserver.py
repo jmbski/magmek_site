@@ -2,7 +2,7 @@
 
 from gevent import monkey
 
-from magmek_site.magmek_backend.magmek_backend.logcleaner import appdata
+from magmek_backend.logcleaner import appdata
 
 # done here to prevent conflicts with other packages like redis that are
 # imported implicitly through the core package
