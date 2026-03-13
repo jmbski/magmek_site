@@ -24,7 +24,8 @@ def load_playlist(dir_name)
   dir_path = music_root ^ "/" ^ dir_name
 
   filepaths = file.ls(dir_path)
-  list.iter(fun(f) -> queue.push(request, f), filepaths)
+  #list.iter(fun(f) -> queue.push(request, f), filepaths)
+  list.iter(fun(f) -> server.execute("request.push " ^ f), filepaths)
   "Playlist loaded: " ^ dir_name
 end
 
