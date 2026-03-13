@@ -6,12 +6,12 @@ server.telnet(port=1234)
 
 music_root = "/home/magmek/stream/playlists"
 
-prelude = mksafe(playlist(mode="normal", reload_mode="watch", music_root ^ "/prelude"))
-circle_procession = mksafe(playlist(mode="normal", reload_mode="watch", music_root ^ "/circle_procession"))
-planting = mksafe(playlist(mode="normal", reload_mode="watch", music_root ^ "/planting"))
-grounding_procession = mksafe(playlist(mode="normal", reload_mode="watch", music_root ^ "/grounding_procession"))
-rain_showers = mksafe(playlist(mode="normal", reload_mode="watch", music_root ^ "/rain_showers"))
-post = mksafe(playlist(mode="normal", reload_mode="watch", music_root ^ "/post"))
+prelude = mksafe(playlist(id="prelude", mode="normal", reload_mode="watch", music_root ^ "/prelude"))
+circle_procession = mksafe(playlist(id="circle_procession", mode="normal", reload_mode="watch", music_root ^ "/circle_procession"))
+planting = mksafe(playlist(id="planting", mode="normal", reload_mode="watch", music_root ^ "/planting"))
+grounding_procession = mksafe(playlist(id="grounding_procession", mode="normal", reload_mode="watch", music_root ^ "/grounding_procession"))
+rain_showers = mksafe(playlist(id="rain_showers", mode="normal", reload_mode="watch", music_root ^ "/rain_showers"))
+post = mksafe(playlist(id="post", mode="normal", reload_mode="watch", music_root ^ "/post"))
 
 # Create a control variable
 current = ref("prelude")
