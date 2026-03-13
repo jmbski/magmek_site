@@ -35,8 +35,8 @@ def load_playlist(dir_name)
 end >#
 
 def changeCur(name)
-    current := name
     ignore(server.execute(name ^ ".reload"));
+    current := name
     "Playlist changed to: " ^ name
 end
 
