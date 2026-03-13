@@ -13,6 +13,7 @@ from jbutils import jbutils
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from magmek_backend import consts
+from magmek_backend.cli import music
 from magmek_backend.models import ServerResponse
 from magmek_backend.logcleaner import appdata, parser
 
@@ -205,10 +206,10 @@ def get_app():
         data = request.json
         playlist = data.get("playlist")
         if playlist:
-            cmd = f"liquidsoap /var/www/stream/scripts/{playlist}"
-            jbutils.cmdx(cmd)
+            music.switch_playlist(playlist)
+            return ServerResponse.to_flask(playlist)
 
-        return Response("test")
+        return ServerResponse.error("No playlist provided")
 
     return app
 
