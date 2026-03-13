@@ -72,7 +72,7 @@ end
 
 server.register(namespace="playlist", "set", change_playlist)
 
-radio = mksafe(radio)
+radio = mksafe(crossfade(radio))
 
 output.icecast(
   %mp3(bitrate=128, samplerate=44100, stereo=true),
