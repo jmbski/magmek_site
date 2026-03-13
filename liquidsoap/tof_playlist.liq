@@ -15,7 +15,12 @@ post = mksafe(playlist(reload_mode="watch", music_root ^ "/post"))
 
 # Create a control variable
 current = ref("prelude")
-
+server.register(
+  namespace="playlist",
+  description="Current playlist",
+  "current",
+  current
+)
 # Switch logic
 radio = mksafe(
   switch([
@@ -28,6 +33,7 @@ radio = mksafe(
     ({true}, prelude)
   ])
 )
+radio = crossfade(radio)
 
 output.icecast(
   %mp3(bitrate=128, samplerate=44100, stereo=true),
