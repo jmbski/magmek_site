@@ -5,17 +5,17 @@ server.telnet(port=1234)
 music_root = "/home/magmek/stream/playlists"
 
 
-prelude = mksafe(playlist(reload_mode="watch", music_root ^ "/prelude"))
-circle_procession = mksafe(playlist(reload_mode="watch", music_root ^ "/circle_procession"))
-planting = mksafe(playlist(reload_mode="watch", music_root ^ "/planting"))
-grounding_procession = mksafe(playlist(reload_mode="watch", music_root ^ "/grounding_procession"))
-rain_showers = mksafe(playlist(reload_mode="watch", music_root ^ "/rain_showers"))
-post = mksafe(playlist(reload_mode="watch", music_root ^ "/post"))
+prelude = playlist(reload_mode="watch", music_root ^ "/prelude")
+circle_procession = playlist(reload_mode="watch", music_root ^ "/circle_procession")
+planting = playlist(reload_mode="watch", music_root ^ "/planting")
+grounding_procession = playlist(reload_mode="watch", music_root ^ "/grounding_procession")
+rain_showers = playlist(reload_mode="watch", music_root ^ "/rain_showers")
+post = playlist(reload_mode="watch", music_root ^ "/post")
 
 current = ref(prelude)
 
 radio = switch([
-  ({true}, !current)
+  mksafe({true}, !current)
 ])
 
 output.icecast(
