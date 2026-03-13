@@ -12,7 +12,7 @@ current_playlist = ref("prelude")
 def get_next_song() =
   # We use 'request.create' to grab the next available file 
   # from the specific directory.
-  path = music_root ^ "/" ^ !current_playlist
+  path = music_root ^ "/" ^ current_playlist()
   
   # 'request.dynamic' expects a request object. 
   # We'll use a playlist internally to handle the alphabetical 'normal' logic.
@@ -46,12 +46,12 @@ playlists = [
 # 3. Create the active source using 'switch'
 # We use track_sensitive=false so the switch can happen mid-song if needed
 radio = switch(track_sensitive=false, [
-  ({!current_playlist == "prelude"}, prelude),
-  ({!current_playlist == "circle_procession"}, circle_procession),
-  ({!current_playlist == "planting"}, planting),
-  ({!current_playlist == "grounding_procession"}, grounding_procession),
-  ({!current_playlist == "rain_showers"}, rain_showers),
-  ({!current_playlist == "post"}, post)
+  ({current_playlist() == "prelude"}, prelude),
+  ({current_playlist() == "circle_procession"}, circle_procession),
+  ({current_playlist() == "planting"}, planting),
+  ({current_playlist() == "grounding_procession"}, grounding_procession),
+  ({current_playlist() == "rain_showers"}, rain_showers),
+  ({current_playlist() == "post"}, post)
 ])
 
 # The Fix for "Picking up where it left off":
