@@ -21,7 +21,7 @@ server.register(
   description="Switch playlist",
   "set",
   fun(name) ->
-    current := name
+    current := "" ^ name
 )
 # Switch logic
 radio = mksafe(
