@@ -17,11 +17,11 @@ current_playlist = ref("prelude")
 # A function to generate the URI for the playlist
 # This ensures we are always looking at the right folder
 def get_playlist_path()
-  music_root ^ "/" ^ !current_playlist
+  music_root ^ "/" ^ current_playlist()
 end
 
 # Create a control variable
-current = ref("prelude")
+#< current = ref("prelude") >#
 
 # Create a single playlist source that updates its content
 # mode="normal" ensures alphabetical order
