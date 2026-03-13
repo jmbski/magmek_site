@@ -54,8 +54,8 @@ def get_app():
         logger.info(data)
         # return json.dumps(CONFIG.get("test"), indent=2)
         return "Service working"
-
     return app
+
 
 
 def main():

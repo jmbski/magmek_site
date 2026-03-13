@@ -206,7 +206,7 @@ def get_app():
         playlist = data.get("playlist")
         if playlist:
             cmd = f"liquidsoap /var/www/stream/scripts/{playlist}"
-            # jbutils.cmdx(cmd)
+            jbutils.cmdx(cmd)
 
         return Response("test")
 
