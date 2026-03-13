@@ -40,7 +40,7 @@ radio = mksafe(
     ({true}, prelude)
   ])
 )
-radio = crossfade(radio)
+radio = crossfade(mksafe(radio))
 
 output.icecast(
   %mp3(bitrate=128, samplerate=44100, stereo=true),
