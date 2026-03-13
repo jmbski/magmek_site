@@ -207,7 +207,7 @@ def get_app():
         playlist = data.get("playlist")
         if playlist:
             music.switch_playlist(playlist)
-            return ServerResponse.to_flask(playlist)
+            return ServerResponse.to_flask(f"Switching to: {playlist}")
 
         return ServerResponse.error("No playlist provided")
 
