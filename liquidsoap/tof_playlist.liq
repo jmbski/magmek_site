@@ -48,7 +48,7 @@ end
 # Liquidsoap will apply it to any transition in the switch.
 radio = switch(
   track_sensitive=false, 
-  transitions=[my_transition], 
+  
   [
     ({current_playlist() == "prelude"}, prelude),
     ({current_playlist() == "circle_procession"}, circle_procession),
@@ -72,7 +72,7 @@ end
 
 server.register(namespace="playlist", "set", change_playlist)
 
-radio = mksafe(radio)
+radio = mksafe(crossfade(radio))
 
 output.icecast(
   %mp3(bitrate=128, samplerate=44100, stereo=true),
