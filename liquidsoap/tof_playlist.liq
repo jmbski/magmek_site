@@ -61,7 +61,7 @@ def change_playlist(name)
   
   # 2. Reset the target playlist to the beginning 
   # We use 'reload' to reset the internal index to the first file
-  server.execute(name ^ ".reload")
+  ignore(server.execute(name ^ ".reload"));
   
   "Transitioning to: " ^ name
 end
