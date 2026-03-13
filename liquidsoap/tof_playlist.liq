@@ -39,7 +39,7 @@ def my_transition(a, b)
   # add(normalize=false, ...) allows them to overlap
   sequence([
     # This fades out the old track and fades in the new one simultaneously
-    add([ fade.out(a), fade.in(b) ])
+    add([ fade.out(duration=3.0, a), fade.in(duration=3.0, b) ])
   ])
 end
 
