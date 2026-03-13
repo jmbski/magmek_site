@@ -1,5 +1,6 @@
 import re
 import os
+import socket
 
 from pathlib import Path
 from jbutils import jbutils, JbuConsole
@@ -7,6 +8,10 @@ from tqdm import tqdm
 
 from magmek_backend import consts
 
+
+def switch_playlist(name: str) -> None:
+    with socket.create_connection(("127.0.0.1", 1234)) as s:
+        s.sendall(f"playlist.set {name}\n".encode())
 
 def ytdlp_cmd(url: str, out_path: str | Path):
     return (
