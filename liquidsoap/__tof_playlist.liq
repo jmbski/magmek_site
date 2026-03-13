@@ -33,19 +33,19 @@ grounding_procession = playlist(id="grounding_procession", mode="normal", music_
 rain_showers = playlist(id="rain_showers", mode="normal", music_root ^ "/rain_showers")
 post = playlist(id="post", mode="normal", music_root ^ "/post")
 
-# Custom transition function to handle the crossfade during a switch
-def my_transition(a, b)
-  # 'a' is the old source, 'b' is the new source
-  # add(normalize=false, ...) allows them to overlap
-  sequence([
-    # This fades out the old track and fades in the new one simultaneously
-    add([ fade.out(a), fade.in(b) ])
-  ])
-end
+# 2. Map them for easy access
+playlists = [
+  ("prelude", prelude),
+  ("circle_procession", circle_procession),
+  ("planting", planting),
+  ("grounding_procession", grounding_procession),
+  ("rain_showers", rain_showers),
+  ("post", post)
+]
 
-# The Switch Logic
-# 'track_sensitive=false' allows the switch to happen the moment 'current' changes
-radio = switch(track_sensitive=false, transitions=[my_transition, my_transition, my_transition, my_transition, my_transition, my_transition], [
+# 3. Create the active source using 'switch'
+# We use track_sensitive=false so the switch can happen mid-song if needed
+radio = switch(track_sensitive=false, [
   ({current_playlist() == "prelude"}, prelude),
   ({current_playlist() == "circle_procession"}, circle_procession),
   ({current_playlist() == "planting"}, planting),
@@ -54,16 +54,16 @@ radio = switch(track_sensitive=false, transitions=[my_transition, my_transition,
   ({current_playlist() == "post"}, post)
 ])
 
-# The Telnet Function
+# The Fix for "Picking up where it left off":
 def change_playlist(name)
-  # 1. Update the reference so the switch picks it up
   current_playlist := name
   
-  # 2. Reset the target playlist to the beginning 
-  # We use 'reload' to reset the internal index to the first file
+  # Find the playlist source in our list and force it to reload/skip
+  # This resets the internal pointer of the specific playlist source
   server.execute(name ^ ".reload")
+  server.execute(name ^ ".skip")
   
-  "Transitioning to: " ^ name
+  "Playlist swapped to: " ^ name
 end
 
 server.register(namespace="playlist", "set", change_playlist)
