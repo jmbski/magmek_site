@@ -23,7 +23,7 @@ def load_playlist(dir_name)
   server.execute("request.queue.clear main_queue")
   dir_path = music_root ^ "/" ^ dir_name
 
-  filepaths = files.ls(dir_path)
+  filepaths = file.ls(dir_path)
   list.iter(fun(f) -> request.push(queue, f), filepaths)
   "Playlist loaded: " ^ dir_name
 end
