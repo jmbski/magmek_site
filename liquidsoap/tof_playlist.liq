@@ -21,6 +21,7 @@ radio = mksafe(crossfade(queue))
 
 def push_song(name)
     server.execute("request.push " ^ name)
+    ""
 end
 
 def load_playlist(dir_name)
