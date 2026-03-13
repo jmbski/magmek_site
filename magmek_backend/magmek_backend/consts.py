@@ -16,7 +16,6 @@ PROBS_URL = f"{BASE_URL}/problems"
 WARNINGS_URL = f"{BASE_URL}/warnings"
 
 
-
 class GlobalConfig:
     local: bool = False
     local_ui_path: Path = (
@@ -40,6 +39,10 @@ DEPLOY_DIR = Path(__file__).parent.parent / "deployment"
 BASE_DATA_DIR = DEPLOY_DIR / "base_data"
 GALLERIA_DIR = BASE_DATA_DIR / "galleria"
 
+PLAYLIST_DIR = Path(__file__).parent.parent.parent / "liquidsoap" / "playlists"
+PLAYLIST_OUTPUT_DIR = Path("/var/www/stream/playlists")
+if not PLAYLIST_OUTPUT_DIR.exists():
+    os.makedirs(PLAYLIST_OUTPUT_DIR, exist_ok=True)
 
 DATE_RE_YYYY_MM_DD = re.compile(r"\[\d{4}\/\d{2}\/\d{2}\s*\d{2}:\d{2}\]")
 TIMESTAMP_RE = re.compile(r"^\[\d.+?\]\s*")

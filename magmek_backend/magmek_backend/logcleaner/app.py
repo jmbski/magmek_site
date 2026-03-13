@@ -9,6 +9,7 @@ import logging
 
 from flask import Flask, Response, g, request, send_file, Request
 from flask_cors import CORS
+from jbutils import jbutils
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from magmek_backend import consts
@@ -198,6 +199,16 @@ def get_app():
             for image in os.listdir(consts.GlobalConfig.galleria_path())
         ]
         return ServerResponse.to_flask(images)
+
+    @app.post(f"{API_URL}/change-radio")
+    def change_radio():
+        data = request.json
+        playlist = data.get("playlist")
+        if playlist:
+            cmd = f"liquidsoap /var/www/stream/scripts/{playlist}"
+            # jbutils.cmdx(cmd)
+
+        return Response("test")
 
     return app
 

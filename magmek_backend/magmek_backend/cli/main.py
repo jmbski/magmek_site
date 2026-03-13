@@ -16,7 +16,8 @@ from ptpython import embed
 from magmek_backend import consts
 from magmek_backend.models import LogLine, ServerResponse
 from magmek_backend.images import img_utils
-from magmek_site.magmek_backend.magmek_backend.logcleaner import appdata, parser
+from magmek_backend.logcleaner import appdata, parser
+from magmek_backend.cli import music
 
 
 parser = argparse.ArgumentParser(description=__doc__)
