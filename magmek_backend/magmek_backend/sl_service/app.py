@@ -14,6 +14,9 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from magmek_backend import consts
 from magmek_backend.models import ServerResponse
 from magmek_backend.logcleaner import appdata, parser
+511674
+506413
+506477
 
 
 def get_logger(name: str = "gunicorn.error") -> logging.Logger:
