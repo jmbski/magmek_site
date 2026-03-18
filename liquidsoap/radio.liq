@@ -2,6 +2,8 @@ settings.log.file := true
 settings.log.file.path := "/home/magmek/stream/logs/liquidsoap.log"
 settings.log.stdout := true
 
+server.telnet(port=8006)
+
 music_root = "/home/magmek/stream/music"
 
 
@@ -14,7 +16,7 @@ all_mix = mksafe(playlist(id="all_mix", mode="random", reload_mode="watch", musi
 
 
 # Create a control variable
-current = ref("adventure")
+current = ref("all_mix")
 
 def changeCur(name)
     ignore(server.execute(name ^ ".reload"));
@@ -38,7 +40,7 @@ radio = mksafe(
     ({current() == "celtic"}, celtic),
     ({current() == "village"}, village),
     ({current() == "all_mix"}, all_mix),
-    ({true}, adventure)
+    ({true}, all_mix)
   ])
 )
 radio = mksafe(crossfade(radio))

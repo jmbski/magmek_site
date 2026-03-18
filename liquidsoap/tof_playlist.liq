@@ -2,7 +2,7 @@ settings.log.file := true
 settings.log.file.path := "/home/magmek/stream/logs/liquidsoap.log"
 settings.log.stdout := true
 
-server.telnet(port=1234)
+server.telnet(port=8007)
 
 music_root = "/home/magmek/stream/playlists"
 

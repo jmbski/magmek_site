@@ -9,9 +9,10 @@ from tqdm import tqdm
 from magmek_backend import consts
 
 
-def switch_playlist(name: str) -> None:
-    with socket.create_connection(("127.0.0.1", 1234)) as s:
+def switch_playlist(name: str, port: int = 8007) -> None:
+    with socket.create_connection(("127.0.0.1", port)) as s:
         s.sendall(f"playlist.set {name}\n".encode())
+
 
 def ytdlp_cmd(url: str, out_path: str | Path):
     return (

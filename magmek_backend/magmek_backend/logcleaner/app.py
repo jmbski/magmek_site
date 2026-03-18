@@ -205,6 +205,7 @@ def get_app():
     def change_radio():
         data = request.json
         playlist = data.get("playlist")
+        
         if playlist:
             music.switch_playlist(playlist)
             return ServerResponse.to_flask(f"Switching to: {playlist}")
