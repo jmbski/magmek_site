@@ -38,7 +38,7 @@ radio = mksafe(
     ({current() == "celtic"}, celtic),
     ({current() == "village"}, village),
     ({current() == "all_mix"}, all_mix),
-    ({true}, prelude)
+    ({true}, adventure)
   ])
 )
 radio = mksafe(crossfade(radio))
