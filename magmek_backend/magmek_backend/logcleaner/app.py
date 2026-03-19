@@ -205,9 +205,11 @@ def get_app():
     def change_radio():
         data = request.json
         playlist = data.get("playlist")
-        
+        source = data.get("source", "tof")
+        port = consts.PORT_MAPPINGS.get(source, 8007)
+
         if playlist:
-            music.switch_playlist(playlist)
+            music.switch_playlist(playlist, port)
             return ServerResponse.to_flask(f"Switching to: {playlist}")
 
         return ServerResponse.error("No playlist provided")

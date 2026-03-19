@@ -78,3 +78,9 @@ class ApiErrCodes:
     GENERIC_ERROR = 500
     REQ_TYPE_ERROR = 400
     RESP_PARSE_ERROR = 500
+
+
+PORT_MAPPINGS: dict[str, int] = {
+    "tof": 8007,
+    "ag": 8006,
+}
