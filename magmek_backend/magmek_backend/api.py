@@ -29,6 +29,11 @@ def build_api() -> Flask:
     app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
     CORS(app)  # This allows all origins, methods, and headers for all routes
 
+    app.config.update(
+        SESSION_COOKIE_SECURE=True,
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE="Lax",
+    )
     app = get_lc_app(app)
     app = get_sl_app(app)
 

@@ -92,7 +92,7 @@ def get_auth_api(app: Flask | None = None) -> Flask:
         }
         return Response(json.dumps(resp), 200, mimetype="application/json")
 
-    @app.get("/hud/consume")
+    @app.get(f"{api_url}/hud")
     def hud_consume() -> Response:
         """Browser (media prim) consumes a one-time code and gets a normal session."""
         code = request.args.get("code", "").strip()

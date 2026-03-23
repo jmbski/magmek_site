@@ -49,6 +49,7 @@ def verify_sig(p: SlAuthInitPayload) -> bool:
     expected = b64url(mac)
 
     # Use constant-time compare to avoid timing leaks.
+    get_logger().info(f"Expected: {expected}, sig: {p.sig}")
     return hmac.compare_digest(expected, p.sig)
 
 
