@@ -78,7 +78,7 @@ def mint_login_code(owner_key: str, object_key: str, purpose: str) -> str:
         "used": False,
     }
 
-    get_logger().info(f"Payload: {payload}")
+    get_logger().info(f"Payload: {payload}, code: {code}")
     consts.rdb.set(
         name=key, value=json.dumps(payload), ex=consts.LOGIN_CODE_TTL_SECONDS
     )
