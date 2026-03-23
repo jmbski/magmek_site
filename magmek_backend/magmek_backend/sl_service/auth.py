@@ -29,7 +29,7 @@ def get_auth_api(app: Flask | None = None) -> Flask:
 
     api_url = consts.BASE_URL + "/auth"
 
-    server_utils.get_logger().info(json.dumps(os.environ))
+    server_utils.get_logger().info(json.dumps(dict(os.environ)))
     # Flask session signing key (browser session cookie).
     # In prod: set this to a long random value via env var.
     app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-change-me")
