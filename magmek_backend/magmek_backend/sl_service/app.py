@@ -4,8 +4,6 @@ import io
 import json
 import os
 
-import logging
-
 
 from flask import Flask, Response, g, request, send_file, Request
 from flask_cors import CORS
@@ -13,21 +11,22 @@ from jbutils import jbutils
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from magmek_backend import consts, server_utils
-from magmek_backend.cli import music
 from magmek_backend.models import ServerResponse
-from magmek_backend.logcleaner import appdata, parser
 
 
 # TODO: Implement flask-restx, DAO, errors, and other pieces in a new standardized structure
 
-API_URL = consts.BASE_URL + "/sl"
 
+def get_sl_app(app: Flask | None = None):
 
-def get_app():
+    api_url = consts.BASE_URL + "/sl"
 
-    app = Flask(__name__)
-    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
-    CORS(app)  # This allows all origins, methods, and headers for all routes
+    if app is None:
+        app = Flask(__name__)
+        app.wsgi_app = ProxyFix(
+            app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+        )
+        CORS(app)  # This allows all origins, methods, and headers for all routes
 
     @app.before_request
     def before_request():
@@ -36,7 +35,7 @@ def get_app():
         logger.info(request.method)
         g.logger = logger
 
-    @app.route(f"{API_URL}/health", methods=["GET"])
+    @app.route(f"{api_url}/health", methods=["GET"])
     def health() -> str:
         logger = server_utils.get_logger()
         logger.info("Health endpoint reached")
@@ -49,7 +48,7 @@ def get_app():
 
 
 def main():
-    get_app().run(debug=True)
+    get_sl_app().run(debug=True)
 
 
 if __name__ == "__main__":

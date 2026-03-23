@@ -15,7 +15,7 @@ from argcomplete import autocomplete
 
 
 from magmek_backend import consts
-from magmek_backend.sl_service.app import get_app
+from magmek_backend.sl_service.app import get_sl_app
 from magmek_backend.models import GunicornApp
 
 # logconfig_dict = CONFIG.get("log-configs.rramps")
@@ -57,7 +57,7 @@ def main() -> None:
         "logger_class": "gunicorn.glogging.Logger",
     }
 
-    GunicornApp(get_app(), options).run()
+    GunicornApp(get_sl_app(), options).run()
 
 
 if __name__ == "__main__":

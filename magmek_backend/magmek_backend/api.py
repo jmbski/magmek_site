@@ -1,4 +1,4 @@
-""" """  # bsd_backend/services/web_server.py
+""" """
 
 from gevent import monkey
 
@@ -8,32 +8,31 @@ from magmek_backend.logcleaner import appdata
 # imported implicitly through the core package
 monkey.patch_all()
 
+
+from flask import Flask
+from flask_cors import CORS
+from werkzeug.middleware.proxy_fix import ProxyFix
+
+from magmek_backend.logcleaner import get_lc_app
+from magmek_backend.sl_service import get_sl_app
+from magmek_backend import consts
+from magmek_backend.sl_service.app import get_sl_app
+from magmek_backend.models import GunicornApp
+
 import argparse
-import gunicorn.glogging
 
 from argcomplete import autocomplete
-from gunicorn.app.base import BaseApplication
 
 
-from magmek_backend import consts
-from magmek_backend.logcleaner.app import get_lc_app
+def build_api() -> Flask:
+    app = Flask(__name__)
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+    CORS(app)  # This allows all origins, methods, and headers for all routes
 
-# logconfig_dict = CONFIG.get("log-configs.rramps")
+    app = get_lc_app(app)
+    app = get_sl_app(app)
 
-
-class GunicornApp(BaseApplication):
-    def __init__(self, application, options=None):
-        self.options = options or {}
-        self.application = application
-        super().__init__()
-
-    def load_config(self) -> None:
-        for key, value in self.options.items():
-            if key in self.cfg.settings and value is not None:
-                self.cfg.set(key.lower(), value)
-
-    def load(self):
-        return self.application
+    return app
 
 
 def main() -> None:
@@ -72,7 +71,7 @@ def main() -> None:
         "logger_class": "gunicorn.glogging.Logger",
     }
 
-    GunicornApp(get_lc_app(), options).run()
+    GunicornApp(build_api(), options).run()
 
 
 if __name__ == "__main__":

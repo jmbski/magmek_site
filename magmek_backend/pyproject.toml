@@ -27,6 +27,5 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-magmek-server = "magmek_backend.logcleaner.webserver:main"
+magmek-server = "magmek_backend.api:main"
 magmek-cli = "magmek_backend.cli.main:main"
-magmek-sl-api = "magmek_backend.sl_service.server:main"
