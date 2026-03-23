@@ -19,20 +19,6 @@ from magmek_backend import consts, server_utils
 from magmek_backend.models import SlAuthInitPayload
 
 
-# Redis connection (used for one-time codes + nonce replay prevention).
-REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
-rdb = redis.Redis.from_url(REDIS_URL, decode_responses=True)
-
-# Shared secret used to verify that the request came from your HUD script.
-# In prod: must be set.
-SL_SHARED_SECRET = os.environ.get("SL_SHARED_SECRET", "")
-logging.getLogger("gunicorn.error").info(f"Shared Secret: {SL_SHARED_SECRET}")
-# Hardening knobs
-AUTH_TS_SKEW_SECONDS = int(os.environ.get("SL_AUTH_TS_SKEW_SECONDS", "90"))
-NONCE_TTL_SECONDS = int(os.environ.get("SL_AUTH_NONCE_TTL_SECONDS", "300"))
-LOGIN_CODE_TTL_SECONDS = int(os.environ.get("SL_LOGIN_CODE_TTL_SECONDS", "60"))
-
-
 def get_auth_api(app: Flask | None = None) -> Flask:
     if app is None:
         app = Flask(__name__)
@@ -43,6 +29,7 @@ def get_auth_api(app: Flask | None = None) -> Flask:
 
     api_url = consts.BASE_URL + "/auth"
 
+    server_utils.get_logger().info(json.dumps(os.environ))
     # Flask session signing key (browser session cookie).
     # In prod: set this to a long random value via env var.
     app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-change-me")
@@ -76,7 +63,7 @@ def get_auth_api(app: Flask | None = None) -> Flask:
             return Response("bad request", 400)
 
         now = int(time.time())
-        if abs(now - p.ts) > AUTH_TS_SKEW_SECONDS:
+        if abs(now - p.ts) > consts.AUTH_TS_SKEW_SECONDS:
             return Response("timestamp out of range", 401)
 
         if server_utils.reject_if_replay(p.owner_key, p.nonce):
@@ -91,7 +78,7 @@ def get_auth_api(app: Flask | None = None) -> Flask:
         )
         resp = {
             "login_code": login_code,
-            "expires_in": LOGIN_CODE_TTL_SECONDS,
+            "expires_in": consts.LOGIN_CODE_TTL_SECONDS,
         }
         return Response(json.dumps(resp), 200, mimetype="application/json")
 
@@ -103,7 +90,7 @@ def get_auth_api(app: Flask | None = None) -> Flask:
             return Response("missing code", 400)
 
         key = f"sl:login_code:{code}"
-        raw = rdb.get(key)
+        raw = consts.rdb.get(key)
         if not raw:
             return Response("invalid or expired code", 401)
 
@@ -115,7 +102,9 @@ def get_auth_api(app: Flask | None = None) -> Flask:
             return Response("code already used", 401)
 
         payload["used"] = True
-        rdb.set(name=key, value=json.dumps(payload), ex=LOGIN_CODE_TTL_SECONDS)
+        consts.rdb.set(
+            name=key, value=json.dumps(payload), ex=consts.LOGIN_CODE_TTL_SECONDS
+        )
 
         # Create a normal web session for Angular/API calls.
         session["sl_owner_key"] = payload["owner_key"]
