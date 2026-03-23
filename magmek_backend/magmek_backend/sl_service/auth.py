@@ -74,6 +74,7 @@ def get_auth_api(app: Flask | None = None) -> Flask:
         login_code = server_utils.mint_login_code(
             p.owner_key, p.object_key, p.purpose
         )
+        server_utils.get_logger().info(f"Code: {login_code}")
         resp = {
             "login_code": login_code,
             "expires_in": consts.LOGIN_CODE_TTL_SECONDS,

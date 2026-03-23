@@ -35,8 +35,6 @@ def get_sl_app(app: Flask | None = None):
         logger.info(f"ENDPOINT: {request.full_path}")
         logger.info(request.method)
 
-        env = json.dumps(dict(os.environ))
-        server_utils.get_logger().info(f"Env: {env}")
         g.logger = logger
 
     @app.route(f"{api_url}/health", methods=["GET"])
