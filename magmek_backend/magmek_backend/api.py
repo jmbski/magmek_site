@@ -9,13 +9,13 @@ from magmek_backend.logcleaner import appdata
 monkey.patch_all()
 
 
-from flask import Flask
+from flask import Flask, request, g
 from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+from magmek_backend import consts, server_utils
 from magmek_backend.logcleaner import get_lc_app
 from magmek_backend.sl_service import get_sl_app
-from magmek_backend import consts
 from magmek_backend.sl_service.app import get_sl_app
 from magmek_backend.models import GunicornApp
 
@@ -28,6 +28,14 @@ def build_api() -> Flask:
     app = Flask(__name__)
     app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
     CORS(app)  # This allows all origins, methods, and headers for all routes
+
+    @app.before_request
+    def before_request():
+        logger = server_utils.get_logger()
+        logger.info(f"ENDPOINT: {request.full_path}")
+        logger.info(request.method)
+
+        g.logger = logger
 
     app.config.update(
         SESSION_COOKIE_SECURE=True,

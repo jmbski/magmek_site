@@ -31,13 +31,6 @@ def get_lc_app(app: Flask | None = None) -> Flask:
         )
         CORS(app)  # This allows all origins, methods, and headers for all routes
 
-    @app.before_request
-    def before_request():
-        logger = server_utils.get_logger()
-        logger.info(f"ENDPOINT: {request.full_path}")
-        logger.info(request.method)
-        g.logger = logger
-
     @app.route(f"{api_url}/health", methods=["GET"])
     def lc_health() -> str:
         logger = server_utils.get_logger()
