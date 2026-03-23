@@ -2,6 +2,7 @@ import base64
 import hashlib
 import hmac
 import json
+import logging
 import os
 import secrets
 import time
@@ -17,6 +18,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from magmek_backend import consts, server_utils
 from magmek_backend.models import SlAuthInitPayload
 
+
 # Redis connection (used for one-time codes + nonce replay prevention).
 REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
 rdb = redis.Redis.from_url(REDIS_URL, decode_responses=True)
@@ -24,7 +26,7 @@ rdb = redis.Redis.from_url(REDIS_URL, decode_responses=True)
 # Shared secret used to verify that the request came from your HUD script.
 # In prod: must be set.
 SL_SHARED_SECRET = os.environ.get("SL_SHARED_SECRET", "")
-
+logging.getLogger("gunicorn.error").info(f"Shared Secret: {SL_SHARED_SECRET}")
 # Hardening knobs
 AUTH_TS_SKEW_SECONDS = int(os.environ.get("SL_AUTH_TS_SKEW_SECONDS", "90"))
 NONCE_TTL_SECONDS = int(os.environ.get("SL_AUTH_NONCE_TTL_SECONDS", "300"))
