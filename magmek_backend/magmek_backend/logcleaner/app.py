@@ -39,7 +39,7 @@ def get_lc_app(app: Flask | None = None) -> Flask:
         g.logger = logger
 
     @app.route(f"{api_url}/health", methods=["GET"])
-    def health() -> str:
+    def lc_health() -> str:
         logger = server_utils.get_logger()
         logger.info("Health endpoint reached")
         data = server_utils.get_data(request)
