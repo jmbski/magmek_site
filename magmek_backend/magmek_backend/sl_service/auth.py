@@ -28,9 +28,6 @@ def get_auth_api(app: Flask | None = None) -> Flask:
         CORS(app)  # This allows all origins, methods, and headers for all routes
 
     api_url = consts.BASE_URL + "/auth"
-
-    env = json.dumps(dict(os.environ))
-    server_utils.get_logger().info(f"Env: {env}")
     # Flask session signing key (browser session cookie).
     # In prod: set this to a long random value via env var.
     app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-change-me")
