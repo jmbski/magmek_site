@@ -95,6 +95,7 @@ def get_auth_api(app: Flask | None = None) -> Flask:
 
         payload = json.loads(raw)  # type: ignore
 
+        server_utils.get_logger().info(f"HUD payload: {payload}")
         # Single-use enforcement: atomic enough for most cases, but if you want strict,
         # use a Lua script. This is usually fine given short TTL + low contention.
         if payload.get("used") is True:
