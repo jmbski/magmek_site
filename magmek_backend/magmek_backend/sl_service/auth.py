@@ -80,6 +80,7 @@ def get_auth_api(app: Flask | None = None) -> Flask:
         if server_utils.reject_if_replay(p.owner_key, p.nonce):
             return Response("replay detected", 401)
 
+        server_utils.get_logger().info("Checking signature")
         if not server_utils.verify_sig(p):
             return Response("invalid signature", 401)
 
