@@ -111,7 +111,7 @@ def get_auth_api(app: Flask | None = None) -> Flask:
         session["authenticated_at"] = int(time.time())
 
         # Redirect to your actual app route (Angular entry point).
-        return redirect("/hud/")  # type: ignore
+        return redirect("https://www.aetherglow-rpg.com/hud/")  # type: ignore
 
     @app.get(f"{api_url}/me")
     def me() -> Response:
