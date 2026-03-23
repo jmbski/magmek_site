@@ -1,3 +1,4 @@
+from magmek_backend.models.auth_payload import SlAuthInitPayload
 from magmek_backend.models.logline import LogLine
 from magmek_backend.models.response import ServerResponse
 from magmek_backend.models.resp_error import (
@@ -18,4 +19,5 @@ __all__ = [
     "GunicornApp",
     "LogLine",
     "ServerResponse",
+    "SlAuthInitPayload",
 ]

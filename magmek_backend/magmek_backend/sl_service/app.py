@@ -12,6 +12,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 from magmek_backend import consts, server_utils
 from magmek_backend.models import ServerResponse
+from magmek_backend.sl_service.auth import get_auth_api
 
 
 # TODO: Implement flask-restx, DAO, errors, and other pieces in a new standardized structure
@@ -44,6 +45,7 @@ def get_sl_app(app: Flask | None = None):
         # return json.dumps(CONFIG.get("test"), indent=2)
         return "Service working"
 
+    app = get_auth_api(app)
     return app
 
 

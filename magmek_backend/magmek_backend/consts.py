@@ -5,6 +5,8 @@ import platformdirs
 from enum import StrEnum, auto
 from pathlib import Path
 
+import redis
+
 from jbutils import joiner, jbutils
 
 APP_NAME = "magmek_backend"
@@ -14,6 +16,20 @@ BASE_URL = "/api/v1"
 
 PROBS_URL = f"{BASE_URL}/problems"
 WARNINGS_URL = f"{BASE_URL}/warnings"
+
+
+# Redis connection (used for one-time codes + nonce replay prevention).
+REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+rdb = redis.Redis.from_url(REDIS_URL, decode_responses=True)
+
+# Shared secret used to verify that the request came from your HUD script.
+# In prod: must be set.
+SL_SHARED_SECRET = os.environ.get("SL_SHARED_SECRET", "")
+
+# Hardening knobs
+AUTH_TS_SKEW_SECONDS = int(os.environ.get("SL_AUTH_TS_SKEW_SECONDS", "90"))
+NONCE_TTL_SECONDS = int(os.environ.get("SL_AUTH_NONCE_TTL_SECONDS", "300"))
+LOGIN_CODE_TTL_SECONDS = int(os.environ.get("SL_LOGIN_CODE_TTL_SECONDS", "60"))
 
 
 class GlobalConfig:
