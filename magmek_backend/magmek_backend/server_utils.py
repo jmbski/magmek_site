@@ -39,6 +39,7 @@ def canonical_string(p: SlAuthInitPayload) -> str:
 
 def verify_sig(p: SlAuthInitPayload) -> bool:
     """Verify the provided signature using HMAC-SHA256."""
+    get_logger().info(f"Has shared secret: {consts.SL_SHARED_SECRET}")
     if not consts.SL_SHARED_SECRET:
         return False
 
