@@ -34,7 +34,7 @@ def build_api() -> Flask:
         logger = server_utils.get_logger()
         logger.info(f"ENDPOINT: {request.full_path}")
         logger.info(request.method)
-
+        logger.info(f"Headers: {dict(request.headers)}")
         g.logger = logger
 
     app.config.update(
