@@ -16,7 +16,7 @@ class ApiError(Base):
     instance: str = ""
 
     def __post_init__(self) -> None:
-        
+        pass
 
 
 @dataclass
