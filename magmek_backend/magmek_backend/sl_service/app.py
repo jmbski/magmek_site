@@ -2,6 +2,7 @@
 
 import io
 import json
+import logging
 import os
 
 
@@ -29,7 +30,6 @@ def get_sl_app(app: Flask | None = None):
         )
         CORS(app)  # This allows all origins, methods, and headers for all routes
 
-
     @app.route(f"{api_url}/health", methods=["GET"])
     def sl_health() -> str:
         logger = server_utils.get_logger()
@@ -38,6 +38,14 @@ def get_sl_app(app: Flask | None = None):
         logger.info(data)
         # return json.dumps(CONFIG.get("test"), indent=2)
         return "Service working"
+
+    @app.post(f"{api_url}/agent-data")
+    def agent_data():
+        data = server_utils.get_data(request)
+        logger: logging.Logger = g.logger
+        logger.info(data)
+
+        return ServerResponse.to_flask(data)
 
     app = get_auth_api(app)
     return app

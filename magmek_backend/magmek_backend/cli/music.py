@@ -15,13 +15,14 @@ def switch_playlist(name: str, port: int = 8007) -> None:
 
 
 def ytdlp_cmd(url: str, out_path: str | Path):
+    ytdlp_bin = "/home/joseph/.cache/pypoetry/virtualenvs/magmek-backend-Fw4aPGVB-py3.12/bin/yt-dlp"
     return (
-        f"poetry run yt-dlp -x "
+        "poetry run yt-dlp -x "
         "--audio-format wav "
         "--remote-components ejs:github "
         "--js-runtimes node "
         "--cookies-from-browser chrome "
-        f'-o "{out_path}.%(ext)s" '
+        f'-o "/var/www/stream/youtube/{out_path}.%(ext)s" '
         f'"{url}"'
     )
 

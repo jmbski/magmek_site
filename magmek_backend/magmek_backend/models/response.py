@@ -10,7 +10,7 @@ from flask import Response
 from jbutils.models import Base
 
 from magmek_backend import consts
-from magmek_backend.consts import ApiErrTitles, ApiErrTypes, ApiErrCodes
+from magmek_backend.errors import ApiErrTitles, ApiErrTypes, ApiErrCodes
 from magmek_backend.models.resp_error import (
     ApiError,
     ApiWarning,

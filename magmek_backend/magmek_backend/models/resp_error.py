@@ -4,7 +4,7 @@ from typing import Any
 from jbutils.models import Base
 
 from magmek_backend import consts
-from magmek_backend.consts import ApiErrTitles, ApiErrCodes, ApiErrTypes
+from magmek_backend.errors import ApiErrTitles, ApiErrCodes, ApiErrTypes
 
 
 @dataclass
@@ -14,6 +14,9 @@ class ApiError(Base):
     status: int | None = ApiErrCodes.GENERIC_ERROR
     detail: str = ""
     instance: str = ""
+
+    def __post_init__(self) -> None:
+        
 
 
 @dataclass

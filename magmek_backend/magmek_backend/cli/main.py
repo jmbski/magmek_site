@@ -1,7 +1,6 @@
 """Runs the main code for the magmek python CLI tool"""
 
 import argparse
-import re
 import sys
 
 import shutil
@@ -10,42 +9,53 @@ from pathlib import Path
 
 from argcomplete import autocomplete
 from jbutils import jbutils, JbuConsole
-from PIL import Image
 from ptpython import embed
 
 from magmek_backend import consts
-from magmek_backend.models import LogLine, ServerResponse
 from magmek_backend.images import img_utils
-from magmek_backend.logcleaner import appdata, parser
+from magmek_backend.logcleaner import parser
 from magmek_backend.cli import music
+from magmek_backend.errors import ApiErrTitles, ApiErrCodes, ApiErrTypes
 
+GALLERIA_CMD = "galleria"
+MUSIC_CMD = "music"
 
 parser = argparse.ArgumentParser(description=__doc__)
-
+subparsers = parser.add_subparsers(dest="action")
 parser.add_argument(
     "--interactive",
     "-i",
     action="store_true",
     help="Run the CLI in interactive mode",
 )
-parser.add_argument(
+
+gal_parser = subparsers.add_parser(GALLERIA_CMD)
+
+gal_parser.add_argument(
     "--local",
     "-l",
     action="store_true",
     help="Run command targeting the local repo instead of the webserver environment",
 )
-parser.add_argument(
+gal_parser.add_argument(
     "--crop-galleria", "-g", action="store_true", help="Crop galleria images"
 )
-parser.add_argument(
+gal_parser.add_argument(
     "--max-height", "-m", type=int, help="Set a height limiter for cropped images"
 )
-parser.add_argument(
+gal_parser.add_argument(
     "--scale-imgs",
     "-s",
     action="store_true",
     help="If true, scale images down by half",
 )
+
+music_parser = subparsers.add_parser(MUSIC_CMD)
+music_parser.add_argument("--url", "-u", help="YouTube URL to grab audio from")
+music_parser.add_argument(
+    "--fname", "-f", help="Name of the output file, no extension included."
+)
+
 jbutils.add_common_args(parser, __file__)
 autocomplete(parser)
 
@@ -66,14 +76,14 @@ def copy_supervisor_configs() -> None:
         shutil.copy2(src, dst)
 
 
+def dl_music():
+    cmd = music.ytdlp_cmd(args.url, args.fname)
+    JbuConsole.print(cmd)
+    jbutils.cmdx(cmd)
+
+
 def main() -> None:
     """Main function"""
-
-    consts.GlobalConfig.local = args.local
-
-    if args.crop_galleria:
-        img_utils.crop_galleria(args.max_height, args.scale_imgs)
-        return
 
     if args.interactive:
         sys.exit(
@@ -85,6 +95,11 @@ def main() -> None:
                 ),
             )
         )
+
+    if args.action == GALLERIA_CMD:
+        img_utils.crop_galleria(args.max_height, args.scale_imgs)
+    elif args.action == MUSIC_CMD:
+        dl_music()
 
 
 if __name__ == "__main__":

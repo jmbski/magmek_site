@@ -9,14 +9,14 @@ import time
 from dataclasses import dataclass
 
 import redis
-from flask import Flask, Response, redirect, request, session
+from flask import Flask, Response, redirect, request, session, g
 from flask_cors import CORS
 from jbutils import jbutils
 from redis import Redis
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from magmek_backend import consts, server_utils
-from magmek_backend.models import SlAuthInitPayload
+from magmek_backend.models import SlAuthInitPayload, ServerResponse, ApiErrTypes
 
 
 def get_auth_api(app: Flask | None = None) -> Flask:
@@ -47,6 +47,7 @@ def get_auth_api(app: Flask | None = None) -> Flask:
         }
         """
         data = request.get_json(silent=True) or {}
+        logger: logging.Logger = g.logger
 
         try:
             p = SlAuthInitPayload(
@@ -58,14 +59,16 @@ def get_auth_api(app: Flask | None = None) -> Flask:
                 purpose=str(data.get("purpose", "hud")),
             )
         except (KeyError, ValueError, TypeError):
-            return Response("bad request", 400)
+            return ServerResponse.error("bad request", ApiErrTypes.REQ_TYPE_ERROR)
 
         now = int(time.time())
         if abs(now - p.ts) > consts.AUTH_TS_SKEW_SECONDS:
-            return Response("timestamp out of range", 401)
+            return ServerResponse.error(
+                "timestamp out of range", ApiErrTypes.TS_RANGE_ERROR
+            )
 
         if server_utils.reject_if_replay(p.owner_key, p.nonce):
-            return Response("replay detected", 401)
+            return ServerResponse.error("replay detected")
 
         server_utils.get_logger().info("Checking signature")
         if not server_utils.verify_sig(p):
@@ -74,7 +77,8 @@ def get_auth_api(app: Flask | None = None) -> Flask:
         login_code = server_utils.mint_login_code(
             p.owner_key, p.object_key, p.purpose
         )
-        server_utils.get_logger().info(f"Code: {login_code}")
+
+        logger.info(f"Code: {login_code}")
         resp = {
             "login_code": login_code,
             "expires_in": consts.LOGIN_CODE_TTL_SECONDS,
@@ -84,12 +88,17 @@ def get_auth_api(app: Flask | None = None) -> Flask:
     @app.get(f"{api_url}/hud")
     def hud_consume() -> Response:
         """Browser (media prim) consumes a one-time code and gets a normal session."""
+
+        logger: logging.Logger = g.logger
+
         code = request.args.get("code", "").strip()
+        logger.info(f"Code generated: {code}")
         if not code:
             return Response("missing code", 400)
 
         key = f"sl:login_code:{code}"
         raw = consts.rdb.get(key)
+
         if not raw:
             return Response("invalid or expired code", 401)
 
