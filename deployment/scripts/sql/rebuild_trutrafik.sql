@@ -40,7 +40,7 @@ CREATE TABLE sim_snapshot (
     agent_reserved INTEGER,
     agent_unreserved INTEGER,
     dynamic_pathfinding VARCHAR(256),
-    estate_id VARCHAR(256),
+    estate_id INTEGER,
     estate_name VARCHAR(256),
     frame_number INTEGER,
     region_cpu_ratio INTEGER,

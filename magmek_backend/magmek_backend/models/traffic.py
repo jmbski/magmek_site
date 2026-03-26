@@ -43,7 +43,7 @@ class SimSnapshot(BaseModel):
     agent_reserved: int = 0
     agent_unreserved: int = 0
     dynamic_pathfinding: str = ""
-    estate_id: str = ""
+    estate_id: int = 0
     estate_name: str = ""
     frame_number: int = 0
     region_cpu_ratio: int = 0

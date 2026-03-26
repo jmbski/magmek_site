@@ -61,7 +61,7 @@ class DbSimSnapshot(Base):
     agent_reserved = Column(Integer)
     agent_unreserved = Column(Integer)
     dynamic_pathfinding = Column(String(256))
-    estate_id = Column(String(256))
+    estate_id = Column(Integer)
     estate_name = Column(String(256))
     frame_number = Column(Integer)
     region_cpu_ratio = Column(Integer)
