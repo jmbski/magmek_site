@@ -3,6 +3,17 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto; -- for UUIDs
 -- Optional but recommended for future:
 CREATE EXTENSION IF NOT EXISTS postgis;
 
+DROP TABLE IF EXISTS sims;
+DROP INDEX IF EXISTS idx_sims_region_coords;
+DROP TABLE IF EXISTS snapshots;
+DROP TABLE IF EXISTS avatars;
+DROP TABLE IF EXISTS avatar_snapshots;
+DROP INDEX IF EXISTS idx_snapshots_sim_time;
+DROP INDEX IF EXISTS idx_avatar_snapshots_sim_time;
+DROP INDEX IF EXISTS idx_avatar_snapshots_language;
+DROP INDEX IF EXISTS idx_avatar_snapshots_avatar_key;
+DROP INDEX IF EXISTS idx_avatar_geom;
+
 CREATE TABLE sims (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
