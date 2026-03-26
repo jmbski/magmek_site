@@ -22,12 +22,9 @@ _install-postgis() {
 	sudo apt install -y postgresql-16-postgis-3
 }
 
-_create-db() {
+_create-user() {
 	sudo -u postgres dropuser "$USER"
 	sudo -u postgres createuser -s "$USER"
-
-	createdb trutrafik
 }
 
 _check_install
-_create-db
