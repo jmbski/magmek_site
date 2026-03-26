@@ -7,6 +7,9 @@ _check_install() {
 }
 
 _create-db() {
+	sudo -u postgres dropuser "$USER"
+	sudo -u postgres createuser -s "$USER"
+
 	createdb trutrafik
 }
 
