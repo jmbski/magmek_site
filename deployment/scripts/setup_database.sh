@@ -11,4 +11,4 @@ _create-db() {
 }
 
 _check_install
-_create_db
+_create-db
