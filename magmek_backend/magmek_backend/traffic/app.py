@@ -145,10 +145,11 @@ def get_app() -> FastAPI:
         if db_result:
             server_utils.get_logger().info(f"Sim Name: {db_result.sim_name}")
         snapshot = SimSnapshot.model_validate(db_result)
-        result = "Simulator Data:"
+        result = "<html><body><h1>Simulator Data:</h1><ul>"
         for key, value in vars(snapshot).items():
-            result += f"\n\t{key}: {value}"
+            result += f"<li><b>{key}:</b> {value}</li>"
 
+        result += "</ul></body></html>"
         return result
 
     return app
