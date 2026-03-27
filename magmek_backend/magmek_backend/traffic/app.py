@@ -148,6 +148,8 @@ def get_app() -> FastAPI:
         snapshot = SimSnapshot.model_validate(db_result)
         result = "<html><body><h1>Simulator Data:</h1><ul>"
         for key, value in vars(snapshot).items():
+            if key == "ts" and isinstance(value, int):
+                value = datetime.fromtimestamp(value).isoformat()
             result += f"<li><b>{key}:</b> {value}</li>"
 
         result += "</ul></body></html>"
