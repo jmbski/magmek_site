@@ -36,11 +36,12 @@ class SlVector(BaseModel):
         # If the data is already a dict or SlVector, return it as-is
         if isinstance(data, (dict, cls)):
             return data
-
+        logger.info("Passes type check")
         # If it's a GeoAlchemy2 element, convert it using Shapely
         try:
             # to_shape converts WKBElement to a Shapely Point
             shape = to_shape(data)
+            logger.info(f"in try, shape type: {type(shape)}, shape: {shape}")
             if isinstance(shape, Point):
                 return {
                     "x": shape.x,
