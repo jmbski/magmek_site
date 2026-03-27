@@ -7,7 +7,7 @@ from sqlalchemy.dialects.postgresql import insert
 from datetime import datetime, timezone
 
 from magmek_backend import consts, server_utils
-from magmek_backend.models import SimSnapshot, Sim, Avatar
+from magmek_backend.traffic.tr_models import SimSnapshot, Sim, Avatar
 from magmek_backend.traffic import sql_conn, traffic_utils, entities
 
 
@@ -141,6 +141,6 @@ def get_app() -> FastAPI:
 
         # Execute and get the first result
         result = db.execute(stmt).scalar_one_or_none()
-        return result
+        return vars(result)
 
     return app

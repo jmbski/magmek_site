@@ -1,6 +1,6 @@
 from geoalchemy2.elements import WKTElement
 
-from magmek_backend.models import SlVector
+from magmek_backend.traffic.tr_models import SlVector
 
 
 def to_wkt(vector: SlVector, has_z=False):
