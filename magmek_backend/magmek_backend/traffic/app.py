@@ -113,6 +113,7 @@ def get_app() -> FastAPI:
                     user_id=av_data.user_id,
                     sim_id=sim_id,
                     language=av_data.language,
+                    name=av_data.name,
                     position=(
                         traffic_utils.to_wkt(av_data.position, has_z=True)
                         if av_data.position
