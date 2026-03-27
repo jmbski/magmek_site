@@ -8,6 +8,7 @@ from pydantic import BaseModel, field_validator, model_validator
 from geoalchemy2.shape import to_shape
 from shapely.geometry import Point
 
+from magmek_backend import server_utils
 from magmek_backend.traffic import entities
 
 
@@ -30,6 +31,8 @@ class SlVector(BaseModel):
     @model_validator(mode="before")
     @classmethod
     def parse_geometry(cls, data: Any) -> Any:
+        logger = server_utils.get_logger()
+        logger.info(f"geo parser: {data}")
         # If the data is already a dict or SlVector, return it as-is
         if isinstance(data, (dict, cls)):
             return data
