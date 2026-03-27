@@ -30,7 +30,7 @@ def get_app() -> FastAPI:
             # 2. Upsert Sim (Static Metadata)
             # We use PostgreSQL's 'ON CONFLICT' to handle the unique constraint
             sim_stmt = (
-                insert(Sim)
+                insert(entities.DbSim)
                 .values(
                     sim_name=data.sim_name,
                     grid_name=data.grid,
@@ -63,7 +63,7 @@ def get_app() -> FastAPI:
             for av_data in data.avatars:
                 # Upsert the Avatar (Static)
                 av_stmt = (
-                    insert(Avatar)
+                    insert(entities.DbAvatar)
                     .values(
                         id=av_data.user_id,
                         name=av_data.name,
