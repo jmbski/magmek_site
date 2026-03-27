@@ -53,7 +53,7 @@ class DbSimSnapshot(Base):
 
     sim_name = Column(String(256), nullable=False)
     agent_count = Column(Integer, nullable=False)
-    sim_pos = Column(Geometry("POINT"), nullable=False)
+    sim_pos = Column(Geometry("POINTZ"), nullable=False)
     sim_status = Column(String(256))
     sim_rating = Column(String(256))
     agent_limit = Column(Integer)
