@@ -8,13 +8,6 @@ from magmek_backend.models.resp_error import (
     ApiErrTypes,
     ApiWarning,
 )
-from magmek_backend.models.traffic import (
-    Avatar,
-    AvatarSnapshot,
-    Sim,
-    SlVector,
-    SimSnapshot,
-)
 from magmek_backend.models.wsgi import GunicornApp
 
 __all__ = [
@@ -24,11 +17,6 @@ __all__ = [
     "ApiErrTypes",
     "ApiWarning",
     "GunicornApp",
-    "Avatar",
-    "AvatarSnapshot",
-    "Sim",
-    "SlVector",
-    "SimSnapshot",
     "LogLine",
     "ServerResponse",
     "SlAuthInitPayload",
