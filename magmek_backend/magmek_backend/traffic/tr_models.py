@@ -2,14 +2,33 @@
 
 import datetime
 
-from typing import Any, Self
+from typing import Any, Annotated, Self
 
-from pydantic import BaseModel, field_validator, model_validator
+from pydantic import (
+    BaseModel,
+    field_validator,
+    model_validator,
+    BeforeValidator,
+)
 from geoalchemy2.shape import to_shape
 from shapely.geometry import Point
 
 from magmek_backend import server_utils
 from magmek_backend.traffic import entities
+
+
+def datetime_to_unix(v: Any) -> int:
+    # If it's already an int (incoming from SL), leave it alone
+    if isinstance(v, int):
+        return v
+    # If it's a datetime (from SQLAlchemy), convert to Unix int
+    if isinstance(v, datetime):
+        return int(v.timestamp())
+    return v
+
+
+# Create a reusable type alias for your timestamps
+UnixTimestamp = Annotated[int, BeforeValidator(datetime_to_unix)]
 
 
 class TrModelBase(BaseModel):
@@ -61,7 +80,7 @@ class AvatarSnapshot(BaseModel):
     language: str = ""
     position: SlVector | None = None
     name: str = ""
-    ts: int = 0
+    ts: UnixTimestamp = 0
     birth_date: datetime.date = datetime.date.today()
     user_id: str = ""
 
@@ -89,7 +108,7 @@ class SimSnapshot(BaseModel):
     sim_status: str = ""
     sim_rating: str = ""
     sim_name: str = ""
-    ts: int = 0
+    ts: UnixTimestamp = 0
     agent_count: int = 0
     agent_limit: int = 0
     agent_limit_max: int = 0
@@ -125,18 +144,3 @@ class SimSnapshot(BaseModel):
     avatars: list[AvatarSnapshot] = []
 
     model_config = {"from_attributes": True}  # For Pydantic v2
-
-    @model_validator(mode="before")
-    @classmethod
-    def parse_ts(cls, data: Any) -> Any:
-        logger = server_utils.get_logger()
-
-        try:
-            if isinstance(data, entities.DbSimSnapshot):
-                logger.info(
-                    f"DbSimSnapshot.ts: \n\ttype: {type(data.ts)}\n\tvalue: {data.ts}"
-                )
-
-        except Exception as e:
-            logger.error(f"Error encountered parsing DbSimSnapshot.\n\n{e}")
-        return data
