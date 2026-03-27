@@ -32,7 +32,7 @@ class DbSim(Base):
     # PostGIS Point (0 is the SRID for 'No SRID' as in your SQL)
     sim_pos = Column(Geometry("POINT", srid=0), nullable=False)
 
-    snapshots = relationship("SimSnapshot", back_populates="sim")
+    snapshots = relationship("DbSimSnapshot", back_populates="sim")
 
 
 class DbAvatar(Base):
@@ -87,7 +87,7 @@ class DbSimSnapshot(Base):
     death_action = Column(Integer)
     damage_limit = Column(Numeric)
 
-    sim = relationship("Sim", back_populates="snapshots")
+    sim = relationship("DbSim", back_populates="snapshots")
 
     __table_args__ = (
         {
