@@ -1,6 +1,7 @@
 import logging
 
 from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy import select, desc
 from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql import insert
 from datetime import datetime, timezone
@@ -127,5 +128,20 @@ def get_app() -> FastAPI:
         except Exception as e:
             db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
+
+    @app.get(f"{consts.BASE_URL}/sim-data")
+    def get_sim_data(db: Session = Depends(sql_conn.get_db)):
+        target_sim_name = "Lunar Haven"
+        stmt = (
+            select(entities.DbSimSnapshot)
+            .join(Sim)  # Join to filter by name if sim_name isn't in the snapshot
+            .where(entities.DbSim.sim_name == target_sim_name)
+            .order_by(desc(entities.DbSimSnapshot.ts))
+            .limit(1)
+        )
+
+        # Execute and get the first result
+        result = db.execute(stmt).scalar_one_or_none()
+        return result
 
     return app
