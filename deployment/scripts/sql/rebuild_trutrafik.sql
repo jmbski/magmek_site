@@ -84,7 +84,6 @@ CREATE TABLE avatar_snapshot (
 	position GEOMETRY(PointZ),
 	name VARCHAR(256),
 	ts TIMESTAMPTZ NOT NULL,
-	birth_date DATE NOT NULL,
 	
 	user_id UUID NOT NULL REFERENCES avatar(id),
 	sim_id UUID NOT NULL REFERENCES sim(id)

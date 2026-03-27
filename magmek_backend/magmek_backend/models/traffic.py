@@ -38,6 +38,7 @@ class SimSnapshot(BaseModel):
     sim_rating: str = ""
     sim_name: str = ""
     ts: int = 0
+    agent_count: int = 0
     agent_limit: int = 0
     agent_limit_max: int = 0
     agent_reserved: int = 0
