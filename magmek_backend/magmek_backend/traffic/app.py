@@ -141,7 +141,6 @@ def get_app() -> FastAPI:
 
         # Execute and get the first result
         result = db.execute(stmt).scalar_one_or_none()
-        server_utils.get_logger().info(result.sim_pos)
-        return {"test": "test"}
+        return result
 
     return app

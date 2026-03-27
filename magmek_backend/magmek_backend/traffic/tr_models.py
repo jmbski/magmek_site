@@ -2,7 +2,10 @@
 
 import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator, model_validator
+from typing import Any
+from geoalchemy2.shape import to_shape
+from shapely.geometry import Point
 
 
 class SlVector(BaseModel):
@@ -10,7 +13,33 @@ class SlVector(BaseModel):
     y: float | int = 0
     z: float | int = 0
 
-    model_config = {"from_attributes": True}  # For Pydantic v2
+    model_config = {
+        "from_attributes": True
+    }  # For Pydantic v2class SlVector(BaseModel):
+
+    @model_validator(mode="before")
+    @classmethod
+    def parse_geometry(cls, data: Any) -> Any:
+        # If the data is already a dict or SlVector, return it as-is
+        if isinstance(data, (dict, cls)):
+            return data
+
+        # If it's a GeoAlchemy2 element, convert it using Shapely
+        try:
+            # to_shape converts WKBElement to a Shapely Point
+            shape = to_shape(data)
+            if isinstance(shape, Point):
+                return {
+                    "x": shape.x,
+                    "y": shape.y,
+                    "z": getattr(shape, "z", 0.0),  # Handle 2D vs 3D points
+                }
+        except Exception:
+            pass
+
+        return data
+
+    model_config = {"from_attributes": True}
 
 
 class AvatarSnapshot(BaseModel):
