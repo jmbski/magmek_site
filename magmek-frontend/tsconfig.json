@@ -9,7 +9,6 @@
         "skipLibCheck": true,
         "isolatedModules": true,
         "experimentalDecorators": true,
-        "baseUrl": "./",
         "paths": {
             "shared-utils": [
                 "projects/shared-utils/src/public-api.ts"
