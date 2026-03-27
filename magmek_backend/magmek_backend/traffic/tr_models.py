@@ -131,7 +131,6 @@ class SimSnapshot(BaseModel):
     whisper_range: float = 10
     chat_range: float = 20
     shout_range: float = 100
-    region_rating: str = ""
     grid: str = ""
     allow_damage_adjust: bool = False
     restrict_combat_log: bool = False
