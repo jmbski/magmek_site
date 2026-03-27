@@ -24,7 +24,6 @@ def get_app() -> FastAPI:
         data: SimSnapshot, db: Session = Depends(sql_conn.get_db)
     ):
         logger = server_utils.get_logger()
-        logger.info(data)
         try:
             # 1. Convert Unix TS to Python Datetime
             snapshot_time = datetime.fromtimestamp(data.ts, tz=timezone.utc)
@@ -94,7 +93,6 @@ def get_app() -> FastAPI:
             # 4. Process Avatars
             for av_data in data.avatars:
                 # Upsert the Avatar (Static)
-                logger.info(f"AV bdate: {av_data.birth_date}")
                 av_stmt = (
                     insert(entities.DbAvatar)
                     .values(
