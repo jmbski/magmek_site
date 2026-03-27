@@ -141,6 +141,8 @@ def get_app() -> FastAPI:
 
         # Execute and get the first result
         result = db.execute(stmt).scalar_one_or_none()
+        if result:
+            server_utils.get_logger().info(f"Sim Name: {result.sim_name}")
         return result
 
     return app
