@@ -130,5 +130,13 @@ class SimSnapshot(BaseModel):
     @classmethod
     def parse_ts(cls, data: Any) -> Any:
         logger = server_utils.get_logger()
-        logger.info(f"Parsing sim snapshot: ({type(data)})\n\n{data}")
+
+        try:
+            if isinstance(data, entities.DbSimSnapshot):
+                logger.info(
+                    f"DbSimSnapshot.ts: \n\ttype: {type(data.ts)}\n\tvalue: {data.ts}"
+                )
+
+        except Exception as e:
+            logger.error(f"Error encountered parsing DbSimSnapshot.\n\n{e}")
         return data
