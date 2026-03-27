@@ -48,9 +48,9 @@ class SlVector(BaseModel):
                     "y": shape.y,
                     "z": getattr(shape, "z", 0.0),  # Handle 2D vs 3D points
                 }
-        except Exception:
+        except Exception as e:
             logger.warning("Hit exception trying to parse geometry")
-
+            logger.error(f"{e}")
         logger.info(f"After parse, data = {data}")
         return data
 
