@@ -134,7 +134,7 @@ def get_app() -> FastAPI:
         target_sim_name = "Lunar Haven"
         stmt = (
             select(entities.DbSimSnapshot)
-            .where(entities.DbSim.sim_name == target_sim_name)
+            .where(entities.DbSimSnapshot.sim_name == target_sim_name)
             .order_by(desc(entities.DbSimSnapshot.ts))
             .limit(1)
         )
