@@ -2,10 +2,20 @@
 
 import datetime
 
+from typing import Any, Self
+
 from pydantic import BaseModel, field_validator, model_validator
-from typing import Any
 from geoalchemy2.shape import to_shape
 from shapely.geometry import Point
+
+from magmek_backend.traffic import entities
+
+
+class TrModelBase(BaseModel):
+
+    @classmethod
+    def from_entity(cls, entity: entities.Base) -> Self:
+        pass
 
 
 class SlVector(BaseModel):
