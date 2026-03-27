@@ -23,6 +23,8 @@ def get_app() -> FastAPI:
     async def record_snapshot(
         data: SimSnapshot, db: Session = Depends(sql_conn.get_db)
     ):
+        logger = server_utils.get_logger()
+        logger.info(data)
         try:
             # 1. Convert Unix TS to Python Datetime
             snapshot_time = datetime.fromtimestamp(data.ts, tz=timezone.utc)
