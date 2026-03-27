@@ -130,7 +130,7 @@ def get_app() -> FastAPI:
             db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
 
-    @app.get(f"{consts.BASE_URL}/sim-data", response_model=SimSnapshot)
+    @app.get(f"{consts.BASE_URL}/sim-data")
     def get_sim_data(db: DB, logger: Logger):
         target_sim_name = "Lunar Haven"
         stmt = (
@@ -146,7 +146,8 @@ def get_app() -> FastAPI:
             server_utils.get_logger().info(f"Sim Name: {db_result.sim_name}")
         snapshot = SimSnapshot.model_validate(db_result)
         result = "Simulator Data:"
-        logger.info(snapshot.__dict__)
+        for key, value in vars(snapshot).items():
+            result += f"\n\t{key}: {value}"
 
         return result
 
