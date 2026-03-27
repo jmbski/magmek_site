@@ -3,6 +3,7 @@ import logging
 from typing import Annotated
 
 from fastapi import FastAPI, Depends, HTTPException, APIRouter
+from fastapi.responses import HTMLResponse
 from sqlalchemy import select, desc
 from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql import insert
@@ -130,7 +131,7 @@ def get_app() -> FastAPI:
             db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
 
-    @app.get(f"{consts.BASE_URL}/sim-data")
+    @app.get(f"{consts.BASE_URL}/sim-data", response_class=HTMLResponse)
     def get_sim_data(db: DB, logger: Logger):
         target_sim_name = "Lunar Haven"
         stmt = (
