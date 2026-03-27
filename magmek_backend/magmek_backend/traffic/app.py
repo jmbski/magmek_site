@@ -146,8 +146,7 @@ def get_app() -> FastAPI:
             server_utils.get_logger().info(f"Sim Name: {db_result.sim_name}")
         snapshot = SimSnapshot.model_validate(db_result)
         result = "Simulator Data:"
-        for key, value in vars(snapshot).items():
-            result += f"\n\t{key}: {value}"
+        logger.info(snapshot.__dict__)
 
         return result
 
