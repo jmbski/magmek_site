@@ -30,7 +30,7 @@ class DbSim(Base):
     sim_name = Column(String(256), nullable=False)
     grid_name = Column(String(256), nullable=False)
     # PostGIS Point (0 is the SRID for 'No SRID' as in your SQL)
-    sim_pos = Column(Geometry("POINT", srid=0), nullable=False)
+    sim_pos = Column(Geometry("POINTZ", srid=0), nullable=False)
 
     snapshots = relationship("DbSimSnapshot", back_populates="sim")
 

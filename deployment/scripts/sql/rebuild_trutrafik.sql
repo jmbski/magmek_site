@@ -29,7 +29,7 @@ CREATE TABLE sim (
 );
 
 CREATE TABLE sim_snapshot (
-    sim_pos GEOMETRY(Point, 0) NOT NULL,
+    sim_pos GEOMETRY(PointZ, 0) NOT NULL,
     sim_status VARCHAR(256),
     sim_rating VARCHAR(256),
     sim_name VARCHAR(256) NOT NULL,
