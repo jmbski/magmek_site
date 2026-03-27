@@ -10,6 +10,8 @@ class SlVector(BaseModel):
     y: float | int = 0
     z: float | int = 0
 
+    model_config = {"from_attributes": True}  # For Pydantic v2
+
 
 class AvatarSnapshot(BaseModel):
     language: str = ""
@@ -19,17 +21,23 @@ class AvatarSnapshot(BaseModel):
     birth_date: datetime.date = datetime.date.today()
     user_id: str = ""
 
+    model_config = {"from_attributes": True}  # For Pydantic v2
+
 
 class Avatar(BaseModel):
     name: str = ""
     birth_date: datetime.date = datetime.date.today()
     key: str = ""
 
+    model_config = {"from_attributes": True}  # For Pydantic v2
+
 
 class Sim(BaseModel):
     sim_pos: SlVector = SlVector()
     sim_name: str = ""
     grid_name: str = ""
+
+    model_config = {"from_attributes": True}  # For Pydantic v2
 
 
 class SimSnapshot(BaseModel):
@@ -71,3 +79,5 @@ class SimSnapshot(BaseModel):
     death_action: int = 0
     damage_limit: float = 0
     avatars: list[AvatarSnapshot] = []
+
+    model_config = {"from_attributes": True}  # For Pydantic v2
