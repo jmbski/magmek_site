@@ -1,0 +1,52 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "strict": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "skipLibCheck": true,
+        "isolatedModules": true,
+        "experimentalDecorators": true,
+        "baseUrl": "./",
+        "paths": {
+            "shared-utils": [
+                "projects/shared-utils/src/public-api.ts"
+            ],
+            "@shared/*": [
+                "projects/shared-utils/src/lib/*"
+            ]
+        },
+        "importHelpers": true,
+        "target": "ES2022",
+        "module": "preserve"
+    },
+    "angularCompilerOptions": {
+        "enableI18nLegacyMessageIdFormat": false,
+        "strictInjectionParameters": true,
+        "strictInputAccessModifiers": true,
+        "strictTemplates": true
+    },
+    "files": [],
+    "references": [
+        {
+            "path": "./projects/aetherglow/tsconfig.app.json"
+        },
+        {
+            "path": "./projects/aetherglow/tsconfig.spec.json"
+        },
+        {
+            "path": "./projects/true-traffic/tsconfig.app.json"
+        },
+        {
+            "path": "./projects/true-traffic/tsconfig.spec.json"
+        },
+        {
+            "path": "./projects/shared-utils/tsconfig.lib.json"
+        },
+        {
+            "path": "./projects/shared-utils/tsconfig.spec.json"
+        }
+    ]
+}
