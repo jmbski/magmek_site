@@ -55,7 +55,7 @@ def get_app() -> FastAPI:
                 sim_id=sim_id,
                 sim_name=data.sim_name,
                 agent_count=data.agent_count,
-                sim_pos=data.sim_pos,
+                sim_pos=traffic_utils.to_wkt(data.sim_pos),
                 sim_status=data.sim_status,
                 sim_rating=data.sim_rating,
                 agent_limit=data.agent_limit,
