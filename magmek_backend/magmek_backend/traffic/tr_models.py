@@ -22,7 +22,7 @@ def datetime_to_unix(v: Any) -> int:
     if isinstance(v, int):
         return v
     # If it's a datetime (from SQLAlchemy), convert to Unix int
-    if isinstance(v, datetime):
+    if isinstance(v, datetime.datetime):
         return int(v.timestamp())
     return v
 
