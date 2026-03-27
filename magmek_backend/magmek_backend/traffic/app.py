@@ -1,6 +1,8 @@
 import logging
 
-from fastapi import FastAPI, Depends, HTTPException
+from typing import Annotated
+
+from fastapi import FastAPI, Depends, HTTPException, APIRouter
 from sqlalchemy import select, desc
 from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql import insert
@@ -9,6 +11,9 @@ from datetime import datetime, timezone
 from magmek_backend import consts, server_utils
 from magmek_backend.traffic.tr_models import SimSnapshot, Sim, Avatar
 from magmek_backend.traffic import sql_conn, traffic_utils, entities
+
+Logger = Annotated[logging.Logger, Depends(server_utils.get_logger)]
+DB = Annotated[Session, Depends(sql_conn.get_db)]
 
 
 def get_app() -> FastAPI:
@@ -21,10 +26,7 @@ def get_app() -> FastAPI:
         return {"data": "Health worked"}
 
     @app.post(f"{consts.BASE_URL}/sim-snapshot")
-    async def record_snapshot(
-        data: SimSnapshot, db: Session = Depends(sql_conn.get_db)
-    ):
-        logger = server_utils.get_logger()
+    async def record_snapshot(data: SimSnapshot, db: DB, logger: Logger):
         try:
             # 1. Convert Unix TS to Python Datetime
             snapshot_time = datetime.fromtimestamp(data.ts, tz=timezone.utc)
@@ -129,7 +131,7 @@ def get_app() -> FastAPI:
             raise HTTPException(status_code=500, detail=str(e))
 
     @app.get(f"{consts.BASE_URL}/sim-data", response_model=SimSnapshot)
-    def get_sim_data(db: Session = Depends(sql_conn.get_db)):
+    def get_sim_data(db: DB, logger: Logger):
         target_sim_name = "Lunar Haven"
         stmt = (
             select(entities.DbSimSnapshot)
@@ -139,9 +141,14 @@ def get_app() -> FastAPI:
         )
 
         # Execute and get the first result
-        result = db.execute(stmt).scalar_one_or_none()
-        if result:
-            server_utils.get_logger().info(f"Sim Name: {result.sim_name}")
+        db_result = db.execute(stmt).scalar_one_or_none()
+        if db_result:
+            server_utils.get_logger().info(f"Sim Name: {db_result.sim_name}")
+        snapshot = SimSnapshot.model_validate(db_result)
+        result = "Simulator Data:"
+        for key, value in vars(snapshot):
+            result += f"\n\t{key}: {value}"
+
         return result
 
     return app
