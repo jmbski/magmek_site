@@ -129,7 +129,7 @@ def get_app() -> FastAPI:
             db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
 
-    @app.get(f"{consts.BASE_URL}/sim-data")
+    @app.get(f"{consts.BASE_URL}/sim-data", response_model=SimSnapshot)
     def get_sim_data(db: Session = Depends(sql_conn.get_db)):
         target_sim_name = "Lunar Haven"
         stmt = (
