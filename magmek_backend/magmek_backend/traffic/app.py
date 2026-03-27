@@ -64,6 +64,7 @@ def get_app() -> FastAPI:
             # 4. Process Avatars
             for av_data in data.avatars:
                 # Upsert the Avatar (Static)
+                logger.info(f"AV bdate: {av_data.birth_date}")
                 av_stmt = (
                     insert(entities.DbAvatar)
                     .values(
