@@ -134,7 +134,6 @@ def get_app() -> FastAPI:
         target_sim_name = "Lunar Haven"
         stmt = (
             select(entities.DbSimSnapshot)
-            .join(Sim)  # Join to filter by name if sim_name isn't in the snapshot
             .where(entities.DbSim.sim_name == target_sim_name)
             .order_by(desc(entities.DbSimSnapshot.ts))
             .limit(1)
