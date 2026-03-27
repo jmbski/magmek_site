@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS sim;
 -- Create tables
 CREATE TABLE sim (
 	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-	sim_pos GEOMETRY(Point, 0) NOT NULL,
+	sim_pos GEOMETRY(PointZ, 0) NOT NULL,
 	sim_name VARCHAR(256) NOT NULL,
 	grid_name VARCHAR(256) NOT NULL,
 	UNIQUE(sim_pos, sim_name, grid_name)

@@ -125,3 +125,10 @@ class SimSnapshot(BaseModel):
     avatars: list[AvatarSnapshot] = []
 
     model_config = {"from_attributes": True}  # For Pydantic v2
+
+    @model_validator(mode="before")
+    @classmethod
+    def parse_ts(cls, data: Any) -> Any:
+        logger = server_utils.get_logger()
+        logger.info(f"Parsing sim snapshot: ({type(data)})\n\n{data}")
+        return data
