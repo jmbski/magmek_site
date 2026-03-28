@@ -170,7 +170,7 @@ def get_app() -> FastAPI:
         )
 
         result = db.execute(stmt).fetchall()
-        logger.info(result)
+        # logger.info(result)
         logger.info(f"Type: {type(result)}")
         return result
 
