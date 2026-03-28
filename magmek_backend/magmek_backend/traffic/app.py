@@ -155,7 +155,7 @@ def get_app() -> FastAPI:
         result += "</ul></body></html>"
         return result
 
-    @app.get(f"{consts.BASE_URL}/sim-snapshots", response_model=list[SimSnapshot])
+    @app.post(f"{consts.BASE_URL}/sim-snapshots", response_model=list[SimSnapshot])
     def get_sim_snapshots(sim_name: str, db: DB, logger: Logger):
 
         stmt = (
