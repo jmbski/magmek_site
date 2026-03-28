@@ -169,7 +169,7 @@ def get_app() -> FastAPI:
             .order_by(desc(entities.DbSimSnapshot.ts))
         )
 
-        result = db.execute(stmt).scalar()
+        result = db.execute(stmt).fetchall()
         logger.info(result)
         logger.info(f"Type: {type(result)}")
         return result
