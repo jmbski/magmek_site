@@ -170,7 +170,11 @@ def get_app() -> FastAPI:
         )
 
         result = db.execute(stmt).fetchall()
-        # logger.info(result)
+        logger.info(f"Result len: {len(result)}")
+        if len(result) > 0:
+            obj = result[0]
+            logger.info(f"Res Item Type: {type(obj)}")
+
         logger.info(f"Type: {type(result)}")
         return result
 
