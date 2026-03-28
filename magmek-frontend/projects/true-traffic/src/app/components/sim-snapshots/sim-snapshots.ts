@@ -1,10 +1,13 @@
 import { Component, Input, SimpleChanges, WritableSignal } from '@angular/core';
 import { SimSnapshot } from '@tt-app/models';
 import { EChartsOption } from 'echarts';
+import { NgxEchartsDirective } from 'ngx-echarts';
 
 @Component({
     selector: 'tt-sim-snapshots',
-    imports: [],
+    imports: [
+        NgxEchartsDirective,
+    ],
     templateUrl: './sim-snapshots.html',
     styleUrl: './sim-snapshots.scss',
 })
