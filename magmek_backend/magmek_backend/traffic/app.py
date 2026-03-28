@@ -169,14 +169,8 @@ def get_app() -> FastAPI:
             .order_by(desc(entities.DbSimSnapshot.ts))
         )
 
-        result = db.execute(stmt).all()
-        logger.info(f"Result len: {len(result)}")
-        if len(result) > 0:
-            obj = result[0]
-            record = SimSnapshot.model_validate(obj.tuple()[0])
-            logger.info(f"Res Item Type: {record}")
-
-        logger.info(f"Type: {type(result)}")
+        rows = db.execute(stmt).all()
+        result = [SimSnapshot.model_validate(row.tuple()[0]) for row in rows]
         return result
 
     return app
