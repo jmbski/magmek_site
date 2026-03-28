@@ -22,6 +22,8 @@ export class SimSnapshots {
             s.agent_count,
         ]);
 
+        console.log('chartData', chartData[0]);
+
         return {
             title: {
                 text: 'Agent Traffic Over Time',
