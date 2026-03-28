@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, WritableSignal } from '@angular/core';
+import { Component, computed, Input, SimpleChanges, WritableSignal } from '@angular/core';
 import { SimSnapshot } from '@tt-app/models';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsDirective } from 'ngx-echarts';
@@ -14,22 +14,15 @@ import { NgxEchartsDirective } from 'ngx-echarts';
 export class SimSnapshots {
     @Input() snapshots!: WritableSignal<SimSnapshot[]>;
 
-    chartOptions: EChartsOption = {};
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['snapshots'] && this.snapshots.length > 0) {
-            this.updateChart();
-        }
-    }
-
-    private updateChart() {
-    // Map your snapshots to the [Date, Value] format ECharts loves
+    //chartOptions: EChartsOption = {};
+    chartOptions = computed(() => {
         const chartData = this.snapshots().map(s => [
             new Date(s.ts * 1000), // Convert Unix seconds to Date object
             s.agent_count,
         ]);
 
-        this.chartOptions = {
+        return {
             title: {
                 text: 'Agent Traffic Over Time',
                 left: 'center',
@@ -68,6 +61,7 @@ export class SimSnapshots {
                 },
             ],
         };
-    }
+    });
+
 
 }
