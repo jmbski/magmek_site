@@ -125,6 +125,12 @@
                                     "maximumError": "8kB"
                                 }
                             ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "projects/true-traffic/src/environment/environment.ts",
+                                    "with": "projects/true-traffic/src/environment/environment.prod.ts"
+                                }
+                            ],
                             "outputHashing": "all",
                             "baseHref": "/"
                         },
