@@ -173,8 +173,8 @@ def get_app() -> FastAPI:
         logger.info(f"Result len: {len(result)}")
         if len(result) > 0:
             obj = result[0]
-
-            logger.info(f"Res Item Type: {obj.tuple()}")
+            record = SimSnapshot.model_validate(obj.tuple()[0])
+            logger.info(f"Res Item Type: {record}")
 
         logger.info(f"Type: {type(result)}")
         return result
