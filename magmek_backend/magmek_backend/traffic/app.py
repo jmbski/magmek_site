@@ -10,7 +10,12 @@ from sqlalchemy.dialects.postgresql import insert
 from datetime import datetime, timezone
 
 from magmek_backend import consts, server_utils
-from magmek_backend.traffic.tr_models import SimSnapshot, Sim, Avatar
+from magmek_backend.traffic.tr_models import (
+    SimSnapshot,
+    Sim,
+    Avatar,
+    SnapshotRequest,
+)
 from magmek_backend.traffic import sql_conn, traffic_utils, entities
 
 Logger = Annotated[logging.Logger, Depends(server_utils.get_logger)]
@@ -156,11 +161,11 @@ def get_app() -> FastAPI:
         return result
 
     @app.post(f"{consts.BASE_URL}/sim-snapshots", response_model=list[SimSnapshot])
-    def get_sim_snapshots(sim_name: str, db: DB, logger: Logger):
+    def get_sim_snapshots(body: SnapshotRequest, db: DB, logger: Logger):
 
         stmt = (
             select(entities.DbSimSnapshot)
-            .where(entities.DbSimSnapshot.sim_name == sim_name)
+            .where(entities.DbSimSnapshot.sim_name == body.sim_name)
             .order_by(desc(entities.DbSimSnapshot.ts))
         )
 

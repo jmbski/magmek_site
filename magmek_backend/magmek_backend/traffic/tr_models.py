@@ -137,3 +137,7 @@ class SimSnapshot(BaseModel):
     avatars: list[AvatarSnapshot] = []
 
     model_config = {"from_attributes": True}  # For Pydantic v2
+
+
+class SnapshotRequest(BaseModel):
+    sim_name: str = ""
