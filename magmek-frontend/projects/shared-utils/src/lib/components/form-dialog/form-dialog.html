@@ -1,0 +1,20 @@
+
+<div class="grid grid-cols-1">
+    <!-- <p-header>
+        <p-menubar [model]="menuModel"></p-menubar>
+    </p-header> -->
+    <mm-dynamic-form id="char-map-form"
+        [inputs]="inputs"
+        [showButtons]="showButtons()"
+        [canLoad]="canLoad()"
+        [parentDialogRef]="ref"
+        class="w-full p-4 max-h-[50vh] overflow-auto shadow-[inset_0px_0px_8px_4px_black]">
+    </mm-dynamic-form>
+
+
+    @if(!hideMenu() && menuModel.length > 0) {
+        <p-footer>
+            <p-menubar [model]="menuModel"></p-menubar>
+        </p-footer>
+    }
+</div>

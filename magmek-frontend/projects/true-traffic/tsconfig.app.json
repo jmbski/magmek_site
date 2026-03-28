@@ -1,17 +1,8 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "rootDir": "./",
         "outDir": "../../out-tsc/app",
-        "types": [],
-        "paths": {
-            "@app/*": [
-                "./src/app/*/index.ts"
-            ],
-            "@app/environment": [
-                "./src/environment/environment.ts"
-            ],
-        }
+        "types": []
     },
     "include": [
         "src/**/*.ts"

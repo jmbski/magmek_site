@@ -1,5 +1,5 @@
 
-import { KeyValueType } from '@app/typing';
+import { KeyValueType } from '@shared/typing';
 import { InputBase, InputControlType } from './input-base';
 
 export class KeyValueInput extends InputBase<KeyValueType> {

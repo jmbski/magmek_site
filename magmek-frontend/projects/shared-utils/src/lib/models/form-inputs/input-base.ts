@@ -1,5 +1,5 @@
 import { computed } from '@angular/core';
-import { StrRecord } from '@app/typing';
+import { StrRecord } from '@shared/typing';
 
 export type InputControlType = 'textbox' | 'dropdown' | 'key-value';
 

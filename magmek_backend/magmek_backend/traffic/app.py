@@ -100,7 +100,7 @@ def get_app() -> FastAPI:
                 av_stmt = (
                     insert(entities.DbAvatar)
                     .values(
-                        id=av_data.user_id,
+                        id=av_data.id,
                         name=av_data.name,
                         birth_date=av_data.birth_date,
                     )
@@ -112,7 +112,7 @@ def get_app() -> FastAPI:
                 # Insert Avatar Snapshot (Time-series)
                 new_av_snap = entities.DbAvatarSnapshot(
                     ts=snapshot_time,
-                    user_id=av_data.user_id,
+                    user_id=av_data.id,
                     sim_id=sim_id,
                     language=av_data.language,
                     position=(
@@ -154,5 +154,16 @@ def get_app() -> FastAPI:
 
         result += "</ul></body></html>"
         return result
+
+    @app.get(f"{consts.BASE_URL}/sim-snapshots", response_model=list[SimSnapshot])
+    def get_sim_snapshots(sim_name: str, db: DB, logger: Logger):
+
+        stmt = (
+            select(entities.DbSimSnapshot)
+            .where(entities.DbSimSnapshot.sim_name == sim_name)
+            .order_by(desc(entities.DbSimSnapshot.ts))
+        )
+
+        return db.execute(stmt).scalar_one_or_none()
 
     return app

@@ -9,12 +9,25 @@
         "skipLibCheck": true,
         "isolatedModules": true,
         "experimentalDecorators": true,
+        "rootDir": "./",
         "paths": {
             "shared-utils": [
-                "projects/shared-utils/src/public-api.ts"
+                "./projects/shared-utils/src/public-api.ts"
             ],
             "@shared/*": [
-                "projects/shared-utils/src/lib/*"
+                "./projects/shared-utils/src/lib/*"
+            ],
+            "@ag-app/*": [
+                "./projects/aetherglow/src/app/*"
+            ],
+            "@ag-env": [
+                "./projects/aetherglow/src/environment/environment.ts"
+            ],
+            "@tt-app/*": [
+                "./projects/true-traffic/src/app/*/index.ts"
+            ],
+            "@tt-env": [
+                "./projects/true-traffic/src/environment/environment.ts"
             ]
         },
         "importHelpers": true,

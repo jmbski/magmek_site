@@ -1,59 +1,65 @@
 {
-  "name": "magmek-frontend",
-  "version": "0.0.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
-  },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
-  },
-  "private": true,
-  "packageManager": "npm@11.6.2",
-  "dependencies": {
-    "@angular/common": "^21.1.0",
-    "@angular/compiler": "^21.1.0",
-    "@angular/core": "^21.1.0",
-    "@angular/forms": "^21.1.0",
-    "@angular/platform-browser": "^21.1.0",
-    "@angular/router": "^21.1.0",
-    "@primeuix/themes": "^2.0.3",
-    "@tailwindcss/postcss": "^4.2.2",
-    "@types/lodash": "^4.17.24",
-    "change-case": "^5.4.4",
-    "lodash": "^4.17.23",
-    "panzoom": "^9.4.4",
-    "postcss": "^8.5.8",
-    "primeicons": "^7.0.0",
-    "primeng": "^21.1.4",
-    "rxjs": "~7.8.0",
-    "tailwindcss": "^4.2.2",
-    "tailwindcss-primeui": "^0.6.1",
-    "tslib": "^2.3.0"
-  },
-  "devDependencies": {
-    "@angular/build": "^21.2.5",
-    "@angular/cli": "^21.1.5",
-    "@angular/compiler-cli": "^21.1.0",
-    "@eslint/js": "^10.0.1",
-    "@stylistic/eslint-plugin": "^5.10.0",
-    "eslint": "^10.1.0",
-    "jsdom": "^28.0.0",
-    "ng-packagr": "^21.2.0",
-    "typescript": "~5.9.2",
-    "typescript-eslint": "^8.57.2",
-    "vitest": "^4.0.8"
-  }
+    "name": "magmek-frontend",
+    "version": "0.0.0",
+    "scripts": {
+        "ng": "ng",
+        "start": "ng serve",
+        "build": "ng build",
+        "watch": "ng build --watch --configuration development",
+        "test": "ng test",
+        "build-ag": "ng build aetherglow",
+        "serve-ag": "ng serve aetherglow",
+        "build-tr": "ng build true-traffic",
+        "serve-tr": "ng serve true-traffic"
+    },
+    "prettier": {
+        "printWidth": 100,
+        "singleQuote": true,
+        "overrides": [
+            {
+                "files": "*.html",
+                "options": {
+                    "parser": "angular"
+                }
+            }
+        ]
+    },
+    "private": true,
+    "packageManager": "npm@11.6.2",
+    "dependencies": {
+        "@angular/common": "^21.1.0",
+        "@angular/compiler": "^21.1.0",
+        "@angular/core": "^21.1.0",
+        "@angular/forms": "^21.1.0",
+        "@angular/platform-browser": "^21.1.0",
+        "@angular/router": "^21.1.0",
+        "@primeuix/themes": "^2.0.3",
+        "@tailwindcss/postcss": "^4.2.2",
+        "@types/lodash": "^4.17.24",
+        "change-case": "^5.4.4",
+        "echarts": "^6.0.0",
+        "lodash": "^4.17.23",
+        "ngx-echarts": "^21.0.0",
+        "panzoom": "^9.4.4",
+        "postcss": "^8.5.8",
+        "primeicons": "^7.0.0",
+        "primeng": "^21.1.4",
+        "rxjs": "~7.8.0",
+        "tailwindcss": "^4.2.2",
+        "tailwindcss-primeui": "^0.6.1",
+        "tslib": "^2.3.0"
+    },
+    "devDependencies": {
+        "@angular/build": "^21.2.5",
+        "@angular/cli": "^21.1.5",
+        "@angular/compiler-cli": "^21.1.0",
+        "@eslint/js": "^10.0.1",
+        "@stylistic/eslint-plugin": "^5.10.0",
+        "eslint": "^10.1.0",
+        "jsdom": "^28.0.0",
+        "ng-packagr": "^21.2.0",
+        "typescript": "~5.9.2",
+        "typescript-eslint": "^8.57.2",
+        "vitest": "^4.0.8"
+    }
 }

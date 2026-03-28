@@ -31,13 +31,6 @@ def datetime_to_unix(v: Any) -> int:
 UnixTimestamp = Annotated[int, BeforeValidator(datetime_to_unix)]
 
 
-class TrModelBase(BaseModel):
-
-    @classmethod
-    def from_entity(cls, entity: entities.Base) -> Self:
-        pass
-
-
 class SlVector(BaseModel):
     x: float | int = 0
     y: float | int = 0
@@ -82,7 +75,8 @@ class AvatarSnapshot(BaseModel):
     name: str = ""
     ts: UnixTimestamp = 0
     birth_date: datetime.date = datetime.date.today()
-    user_id: str = ""
+    id: str = ""
+    sim_id: str = ""
 
     model_config = {"from_attributes": True}  # For Pydantic v2
 
@@ -90,7 +84,7 @@ class AvatarSnapshot(BaseModel):
 class Avatar(BaseModel):
     name: str = ""
     birth_date: datetime.date = datetime.date.today()
-    key: str = ""
+    user_id: str = ""
 
     model_config = {"from_attributes": True}  # For Pydantic v2
 
