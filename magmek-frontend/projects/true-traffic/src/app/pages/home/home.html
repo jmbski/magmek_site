@@ -1,5 +1,7 @@
 <div class="flex h-full w-full">
     <tt-page-layout class="tt-page">
+        <p-select [options]="dropdownOptions" [(ngModel)]="simName" [checkmark]="true" optionLabel="name" [showClear]="true" placeholder="Select a City" class="w-full md:w-56" />
+
         <tt-sim-snapshots [snapshots]="simSnapshots" [simName]="simName"></tt-sim-snapshots>
     </tt-page-layout>
 
