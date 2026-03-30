@@ -18,7 +18,7 @@ export class TtHome {
     public simSnapshots = model<SimSnapshot[]>([]);
 
     constructor() {
-        this.txSvc.getSimSnapshots('WelcomeHubSandbox').then(response => {
+        this.txSvc.getSimSnapshots('Hill Valley').then(response => {
             this.simSnapshots.set(response);
         });
     }
