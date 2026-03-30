@@ -22,7 +22,15 @@ export class TtHome {
 
     public simSnapshots = model<SimSnapshot[]>([]);
 
-    public simName: string = 'WelcomeHubSandbox';
+    private _simName: string = 'WelcomeHubSandbox';
+    public get simName() {
+        return this._simName;
+    }
+
+    public set simName(value: string) {
+        this._simName = value;
+        this.fetchUpdates();
+    }
 
     public dropdownOptions: WeakObj[] = [
         {
@@ -36,12 +44,12 @@ export class TtHome {
     ];
 
     constructor() {
+        this.fetchUpdates();
+    }
+
+    public fetchUpdates() {
         this.txSvc.getSimSnapshots(this.simName).then(response => {
             this.simSnapshots.set(response);
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        console.log(changes);
     }
 }
