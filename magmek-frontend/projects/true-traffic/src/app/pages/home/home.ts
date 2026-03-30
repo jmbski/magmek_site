@@ -1,4 +1,4 @@
-import { Component, inject, model } from '@angular/core';
+import { Component, inject, model, SimpleChanges } from '@angular/core';
 import { TtPageLayout } from '@tt-app/layout';
 import { SimSnapshot } from '@tt-app/models';
 import { TrafficTxService } from '@tt-app/services';
@@ -39,5 +39,9 @@ export class TtHome {
         this.txSvc.getSimSnapshots(this.simName).then(response => {
             this.simSnapshots.set(response);
         });
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        console.log(changes);
     }
 }
