@@ -88,10 +88,10 @@ export class TxServiceBase {
      * Build an app-relative URL that respects the configured <base href>.
      * Ensures there's exactly one slash between segments.
      */
-    public buildAppUrl(path: string, env: WeakObj): string {
+    public buildAppUrl(path: string, env: WeakObj, baseUrl?: string): string {
         const {production, serviceEndpoint} = env;
-
-        const base = production ? this.baseHref : 'http://localhost:7000';
+        const base = baseUrl ?? (production ? this.baseHref : 'http://localhost:7000');
+        console.log('base', base);
 
         const prefix = base.endsWith('/') ? base : `${base}/`;
 

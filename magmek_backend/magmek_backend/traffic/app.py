@@ -3,6 +3,7 @@ import logging
 from typing import Annotated
 
 from fastapi import FastAPI, Depends, HTTPException, APIRouter
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from sqlalchemy import select, desc
 from sqlalchemy.orm import Session
@@ -24,6 +25,14 @@ DB = Annotated[Session, Depends(sql_conn.get_db)]
 
 def get_app() -> FastAPI:
     app = FastAPI()
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     @app.get(f"{consts.BASE_URL}/health")
     def health():

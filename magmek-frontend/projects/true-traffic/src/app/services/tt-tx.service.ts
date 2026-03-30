@@ -11,7 +11,7 @@ export class TrafficTxService extends TxServiceBase {
 
     public async getSimSnapshots(sim_name: string): Promise<SimSnapshot[]> {
         return new Promise((resolve, reject) => {
-            this.http.post(this.buildAppUrl('sim-snapshots', Environment),{sim_name}).subscribe((response) => {
+            this.http.post(this.buildAppUrl('sim-snapshots', Environment, Environment.apiUrl),{sim_name}).subscribe((response) => {
                 return this.handleResponse(response, resolve, reject, isArray);
             });
         });
