@@ -15,6 +15,8 @@ import type { EChartsCoreOption } from 'echarts/core';
 export class SimSnapshots {
     @Input() snapshots!: WritableSignal<SimSnapshot[]>;
 
+    @Input() simName: string = '';
+
     //readonly themeService = inject(ThemeService);
     options!: EChartsCoreOption;
     constructor() {}
@@ -30,7 +32,7 @@ export class SimSnapshots {
 
         return {
             title: {
-                text: 'Agent Traffic Over Time',
+                text: `Agent Traffic Over Time (${this.simName})`,
                 left: 'center',
             },
             tooltip: {
