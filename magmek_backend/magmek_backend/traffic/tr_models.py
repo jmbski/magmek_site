@@ -84,7 +84,7 @@ class AvatarSnapshot(BaseModel):
 class Avatar(BaseModel):
     name: str = ""
     birth_date: datetime.date = datetime.date.today()
-    user_id: str = ""
+    id: str = ""
 
     model_config = {"from_attributes": True}  # For Pydantic v2
 
