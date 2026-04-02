@@ -72,3 +72,8 @@ PORT_MAPPINGS: dict[str, int] = {
     "tof": 8007,
     "ag": 8006,
 }
+
+
+class DB_CONN_STRS:
+    traffic: str = "postgresql://magmek@localhost/sl_traffic"
+    common: str = "postgresql://magmek@localhost/common"

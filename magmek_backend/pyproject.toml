@@ -25,7 +25,8 @@ dependencies = [
     "sqlalchemy-timescaledb (>=0.4.1,<0.5.0)",
     "psycopg2-binary (>=2.9.11,<3.0.0)",
     "uvicorn (>=0.42.0,<0.43.0)",
-    "shapely (>=2.1.2,<3.0.0)"
+    "shapely (>=2.1.2,<3.0.0)",
+    "ptpython (>=3.0.32,<4.0.0)"
 ]
 
 
@@ -37,3 +38,4 @@ build-backend = "poetry.core.masonry.api"
 magmek-server = "magmek_backend.api:main"
 magmek-cli = "magmek_backend.cli.main:main"
 sl-traffic = "magmek_backend.traffic.server:main"
+mm-api = "magmek_backend.mm_io.mm_server:main"

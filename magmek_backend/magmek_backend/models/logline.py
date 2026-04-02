@@ -6,7 +6,7 @@ from jbutils.models import Base
 from jbutils.types import Predicate
 
 from magmek_backend import consts
-from magmek_backend.logcleaner import appdata
+from magmek_backend import appdata
 
 
 def parse_timestamp(value: str) -> datetime:
