@@ -12,10 +12,10 @@ from flask_cors import CORS
 from jbutils import jbutils
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from magmek_backend import consts, server_utils
+from magmek_backend import appdata, consts, server_utils
 from magmek_backend.cli import music
 from magmek_backend.models import ServerResponse
-from magmek_backend.logcleaner import appdata, parser
+from magmek_backend.logcleaner import parser
 
 
 # TODO: Implement flask-restx, DAO, errors, and other pieces in a new standardized structure

@@ -1,4 +1,4 @@
-from magmek_backend.logcleaner import appdata
+from magmek_backend import appdata
 
 
 import argparse
