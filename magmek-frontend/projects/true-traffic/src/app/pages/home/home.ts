@@ -22,7 +22,7 @@ export class TtHome {
 
     public simSnapshots = model<SimSnapshot[]>([]);
 
-    private _simName: string = 'WelcomeHubSandbox';
+    private _simName: string = 'Pacific Palisades';
     public get simName() {
         return this._simName;
     }
