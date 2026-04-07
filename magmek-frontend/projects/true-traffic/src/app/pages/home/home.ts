@@ -34,6 +34,10 @@ export class TtHome {
 
     public dropdownOptions: WeakObj[] = [
         {
+            name: 'Pacific Palisades',
+            value: 'Pacific Palisades',
+        },
+        {
             name: 'WelcomeHubSandbox',
             value: 'WelcomeHubSandbox',
         },
