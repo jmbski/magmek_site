@@ -49,6 +49,7 @@ export class TtHome {
 
     constructor() {
         this.fetchUpdates();
+        setInterval(this.fetchUpdates, 60000);
     }
 
     public fetchUpdates() {
