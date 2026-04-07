@@ -51,7 +51,7 @@ export class TtHome {
         this.fetchUpdates();
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
         setInterval(() => {
             this.fetchUpdates();
         }, 20000);
