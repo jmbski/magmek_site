@@ -49,7 +49,12 @@ export class TtHome {
 
     constructor() {
         this.fetchUpdates();
-        setInterval(this.fetchUpdates, 60000);
+    }
+
+    ngOnInit() {
+        setInterval(() => {
+            this.fetchUpdates();
+        }, 20000);
     }
 
     public fetchUpdates() {
