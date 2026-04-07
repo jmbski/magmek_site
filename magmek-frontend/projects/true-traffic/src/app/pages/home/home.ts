@@ -51,12 +51,12 @@ export class TtHome {
         this.fetchUpdates();
     }
 
-    ngAfterViewInit() {
+    /* ngAfterViewInit() {
         const fetchUpdates = this.fetchUpdates;
         setInterval(() => {
             fetchUpdates();
         }, 20000);
-    }
+    } */
 
     public fetchUpdates() {
         this.txSvc.getSimSnapshots(this.simName).then(response => {
