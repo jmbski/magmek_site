@@ -59,29 +59,21 @@ args = parser.parse_args()
 def db_test():
     db = next(get_db())
 
-    test_data = Sim(
-        sim_name="Test Sim 42",
-        grid_name="Test Grid",
-        sim_pos=SlVector(x=5, y=20, z=0),
+    test = DbAvatar(
+        id=uuid.uuid4(), name="Test Avatar Name", birth_date=date.today()
     )
 
-    test_ntt = DbSim(
-        sim_name=test_data.sim_name,
-        grid_name=test_data.grid_name,
-        sim_pos=test_data.sim_pos,
-    )
-
-    db.add(test_ntt)
+    db.add(test)
 
     try:
-        JbuConsole.print(test_ntt)
-        JbuConsole.print(test_ntt.id)
+        JbuConsole.print(test)
+        JbuConsole.print(test.id)
     except Exception as e:
         print(e)
         print("oops!")
 
     db.close()
-    return test_ntt
+    return test
 
 
 def main() -> None:
