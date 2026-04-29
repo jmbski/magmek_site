@@ -1,7 +1,8 @@
 import argparse
 import sys
+import uuid
 
-from datetime import datetime
+from datetime import datetime, date
 
 import argcomplete
 
@@ -10,6 +11,13 @@ from ptpython import embed
 from sqlalchemy import select, desc
 
 from magmek_backend.traffic.sql_conn import get_db, SessionLocal
+from magmek_backend.traffic.tr_models import (
+    Avatar,
+    AvatarSnapshot,
+    Sim,
+    SimSnapshot,
+    SlVector,
+)
 from magmek_backend.traffic.entities import (
     DbAvatar,
     DbAvatarSnapshot,
@@ -50,17 +58,29 @@ args = parser.parse_args()
 
 def db_test():
     db = next(get_db())
-    query = (
-        select(DbSimSnapshot)
-        .where(DbSimSnapshot.sim_name == "Lunar Haven")
-        .order_by(desc(DbSimSnapshot.ts))
-        .limit(1)
+
+    test_data = Sim(
+        sim_name="Test Sim 42",
+        grid_name="Test Grid",
+        sim_pos=SlVector(x=5, y=20, z=0),
     )
 
-    result = db.execute(query).scalar_one_or_none()
+    test_ntt = DbSim(
+        sim_name=test_data.sim_name,
+        grid_name=test_data.grid_name,
+        sim_pos=test_data.sim_pos,
+    )
+
+    db.add(test_ntt)
+
+    try:
+        JbuConsole.print(test_ntt)
+    except Exception as e:
+        print(e)
+        print("oops!")
 
     db.close()
-    return result
+    return test_ntt
 
 
 def main() -> None:
