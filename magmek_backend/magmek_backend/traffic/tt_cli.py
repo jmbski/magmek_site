@@ -75,6 +75,7 @@ def db_test():
 
     try:
         JbuConsole.print(test_ntt)
+        JbuConsole.print(test_ntt.id)
     except Exception as e:
         print(e)
         print("oops!")
