@@ -1,208 +1,146 @@
-"""Backend service provider for FDIS Bridge Status web app"""
+from typing import Dict, Any
 
-import io
-import json
-import os
-
-import logging
-
-
-from flask import Flask, Response, g, request, send_file, Request
-from flask_cors import CORS
-from jbutils import jbutils
-from werkzeug.middleware.proxy_fix import ProxyFix
+from fastapi import APIRouter, FastAPI, Request
+from jbutils.api import api_utils, ApiLogger
 
 from magmek_backend import appdata, consts, server_utils
 from magmek_backend.cli import music
 from magmek_backend.models import ServerResponse
-from magmek_backend.logcleaner import parser
+from magmek_backend.logcleaner import parser, lc_models
 
 
-# TODO: Implement flask-restx, DAO, errors, and other pieces in a new standardized structure
+def lc_api_routes() -> APIRouter:
+    router = APIRouter()
 
-
-def get_lc_app(app: Flask | None = None) -> Flask:
     api_url = consts.BASE_URL + "/log-cleaner"
 
-    if app is None:
-        app = Flask(__name__)
-        app.wsgi_app = ProxyFix(
-            app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
-        )
-        CORS(app)  # This allows all origins, methods, and headers for all routes
+    @router.get(f"{api_url}/health")
+    def lc_health(data: Dict[Any, Any], logger: ApiLogger) -> str:
 
-    @app.route(f"{api_url}/health", methods=["GET"])
-    def lc_health() -> str:
-        logger = server_utils.get_logger()
         logger.info("Health endpoint reached")
-        data = server_utils.get_data(request)
         logger.info(data)
         # return json.dumps(CONFIG.get("test"), indent=2)
         return "Service working"
 
-    @app.get(f"{api_url}/char-mapping")
+    @router.get(f"{api_url}/char-mapping")
     def get_mapping():
-        # return Response(json.dumps(consts.CHAR_MAPPING), status=200)
-        return ServerResponse.to_flask(
+        return ServerResponse.to_fast(
             consts.CHAR_MAPPING, "Successfully retrieved character mapping"
         )
 
-    @app.post(f"{api_url}/char-mapping")
-    def add_mapping():
-        data = request.json
+    @router.post(f"{api_url}/char-mapping")
+    def add_mapping(data: lc_models.AddMappingRequest, logger: ApiLogger):
 
-        mapping = data.get("mapping", {})
-        key = data.get("key", "")
-        value = data.get("value", "")
-
-        if mapping:
-            g.logger.info(f"adding mapping: {mapping}")
-            appdata.add_char_mapping(mapping)
-        elif key and value:
-            appdata.add_char_mapping(key, value)
+        if data.mapping:
+            logger.info(f"adding mapping: {data.mapping}")
+            appdata.add_char_mapping(data.mapping)
+        elif data.key and data.value:
+            appdata.add_char_mapping(data.key, data.value)
         else:
             return ServerResponse.req_type_error(
                 data, "dict[str,str] | {key: str, value: str}"
             )
 
-        return ServerResponse.to_flask(
+        return ServerResponse.to_fast(
             consts.CHAR_MAPPING, "mapping successfully updated"
         )
 
-    @app.put(f"{api_url}/char-mapping")
-    def set_mapping():
-        data = request.json
-
-        mapping = data.get("mapping", {})
-
-        if mapping:
-            appdata.set_char_mapping(mapping)
+    @router.put(f"{api_url}/char-mapping")
+    def set_mapping(data: lc_models.SetMappingRequest, logger: ApiLogger):
+        if data.mapping:
+            appdata.set_char_mapping(data.mapping)
         else:
             return ServerResponse.req_type_error(
                 data, "dict[str,str] | {key: str, value: str}"
             )
 
-        return ServerResponse.to_flask(mapping, "mapping successfully set")
+        return ServerResponse.to_fast(data.mapping, "mapping successfully set")
 
-    @app.delete(f"{api_url}/char-mapping")
-    def rem_mapping():
+    @router.delete(f"{api_url}/char-mapping")
+    def rem_mapping(data: lc_models.RemMappingRequest, logger: ApiLogger):
 
-        data = server_utils.get_data(request)
-        keys = data.get("keys", [])
-        if not isinstance(keys, (str, list)):
+        if not isinstance(data.keys, (str, list)):
             return ServerResponse.req_type_error(data, "list[str]")
 
-        appdata.rem_char_mapping(keys)
+        appdata.rem_char_mapping(data.keys)
 
-        return ServerResponse.to_flask(
+        return ServerResponse.to_fast(
             consts.CHAR_MAPPING, "Mappings successfully removed"
         )
 
-    @app.get(f"{api_url}/ignored")
+    @router.get(f"{api_url}/ignored")
     def get_ignored():
-        return ServerResponse.to_flask(consts.IGNORED_CHARS)
+        return ServerResponse.to_fast(consts.IGNORED_CHARS)
 
-    @app.post(f"{api_url}/ignored")
-    def add_ignored():
-        data = server_utils.get_data(request)
+    @router.post(f"{api_url}/ignored")
+    def add_ignored(data: lc_models.UpdateIgnoredRequest, logger: ApiLogger):
 
-        keys = data.get("keys")
-        if not isinstance(keys, list):
+        if not isinstance(data.keys, list):
             return ServerResponse.req_type_error(data, "list[str]")
 
-        appdata.add_ignored(keys)
+        appdata.add_ignored(data.keys)
 
-        return ServerResponse.to_flask(
+        return ServerResponse.to_fast(
             consts.IGNORED_CHARS, "Names successfully added to the ignored list"
         )
 
-    @app.put(f"{api_url}/ignored")
-    def set_ignored():
-        data = server_utils.get_data(request)
+    @router.put(f"{api_url}/ignored")
+    def set_ignored(data: lc_models.UpdateIgnoredRequest, logger: ApiLogger):
 
-        keys = data.get("keys")
-        if not isinstance(keys, list):
+        if not isinstance(data.keys, list):
             return ServerResponse.req_type_error(data, "list[str]")
 
-        appdata.set_ignored(keys)
+        appdata.set_ignored(data.keys)
 
-        return ServerResponse.to_flask(
+        return ServerResponse.to_fast(
             consts.IGNORED_CHARS, "Names successfully added to the ignored list"
         )
 
-    @app.delete(f"{api_url}/ignored")
-    def rem_ignored():
-        data = server_utils.get_data(request)
+    @router.delete(f"{api_url}/ignored")
+    def rem_ignored(data: lc_models.UpdateIgnoredRequest, logger: ApiLogger):
 
-        keys = data.get("keys")
-        if not isinstance(keys, list):
+        if not isinstance(data.keys, list):
             return ServerResponse.req_type_error(data, "list[str]")
 
-        appdata.rem_ignored(keys)
+        appdata.rem_ignored(data.keys)
 
-        return ServerResponse.to_flask(
+        return ServerResponse.to_fast(
             consts.IGNORED_CHARS, "Names successfully removed from ignored list"
         )
 
-    @app.post(f"{api_url}/clean-log")
-    def clean_log():
-        data = request.json
-        lines = data.get("lines", [])
-        event_category = data.get("event_category", "")
-        title = data.get("title", "")
+    @router.post(f"{api_url}/clean-log")
+    def clean_log(
+        data: lc_models.CleanLogRequest, logger: ApiLogger, request: Request
+    ):
 
-        if not isinstance(lines, list):
+        if not isinstance(data.lines, list):
             return ServerResponse.req_type_error(data, "list[str]")
 
         try:
-            payload = parser.parse_log(lines, event_category, title)
+            payload = parser.parse_log(data.lines, data.event_category, data.title)
 
-            return ServerResponse.to_flask(payload)
+            return ServerResponse.to_fast(payload)
         except Exception as e:
-            return ServerResponse.error(e, endpoint=request.endpoint or clean_log)
+            return ServerResponse.error(
+                e, endpoint=request.scope.get("route") or clean_log
+            )
 
-    @app.post(f"{api_url}/unmapped-names")
-    def get_unmapped_names():
-        data = request.json
-        lines = data.get("lines", [])
-        if not isinstance(lines, list):
+    @router.post(f"{api_url}/unmapped-names")
+    def get_unmapped_names(
+        data: lc_models.UnmappedLinesRequest, logger: ApiLogger, request: Request
+    ):
+
+        if not isinstance(data.lines, list):
             return ServerResponse.req_type_error(data, "list[str]")
 
         try:
-            log_lines = parser.get_loglines(lines)
+            log_lines = parser.get_loglines(data.lines)
             names = parser.get_unknown_speakers(log_lines)
 
-            return ServerResponse.to_flask(names)
+            return ServerResponse.to_fast(names)
         except Exception as e:
-            return ServerResponse.error(e, endpoint=request.endpoint or clean_log)
+            return ServerResponse.error(
+                e, endpoint=request.scope.get("route") or clean_log
+            )
 
-    @app.get(f"{api_url}/galleria-images")
-    def get_galleria_imgs():
-        images = [
-            f"/galleria/{image}"
-            for image in os.listdir(consts.GlobalConfig.galleria_path())
-        ]
-        return ServerResponse.to_flask(images)
-
-    @app.post(f"{api_url}/change-radio")
-    def change_radio():
-        data = request.json
-        playlist = data.get("playlist")
-        source = data.get("source", "tof")
-        port = consts.PORT_MAPPINGS.get(source, 8007)
-
-        if playlist:
-            music.switch_playlist(playlist, port)
-            return ServerResponse.to_flask(f"Switching to: {playlist}")
-
-        return ServerResponse.error("No playlist provided")
-
-    return app
-
-
-def main():
-    get_lc_app().run(debug=True)
-
-
-if __name__ == "__main__":
-    main()
+    return router

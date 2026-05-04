@@ -16,7 +16,7 @@ from gunicorn.app.base import BaseApplication
 
 
 from magmek_backend import consts
-from magmek_backend.logcleaner.app import get_lc_app
+from magmek_backend.logcleaner._app import lc_api_routes
 
 # logconfig_dict = CONFIG.get("log-configs.rramps")
 
@@ -72,7 +72,7 @@ def main() -> None:
         "logger_class": "gunicorn.glogging.Logger",
     }
 
-    GunicornApp(get_lc_app(), options).run()
+    GunicornApp(lc_api_routes(), options).run()
 
 
 if __name__ == "__main__":

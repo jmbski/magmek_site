@@ -1,6 +1,6 @@
 from magmek_backend.models.auth_payload import SlAuthInitPayload
 from magmek_backend.models.logline import LogLine
-from magmek_backend.models.response import ServerResponse
+from magmek_backend.models.response import ServerResponse, MMBaseModel
 from magmek_backend.models.resp_error import (
     ApiErrCodes,
     ApiError,
@@ -18,6 +18,7 @@ __all__ = [
     "ApiWarning",
     "GunicornApp",
     "LogLine",
+    "MMBaseModel",
     "ServerResponse",
     "SlAuthInitPayload",
 ]

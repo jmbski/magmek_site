@@ -1,5 +1,5 @@
-from magmek_backend.logcleaner.app import get_lc_app
+from magmek_backend.logcleaner.app import lc_api_routes
 
 __all__ = [
-    "get_lc_app",
+    "lc_api_routes",
 ]

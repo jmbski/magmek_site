@@ -80,7 +80,7 @@ export class TxService {
 
     public async health(): Promise<string> {
         return new Promise((resolve, reject) => {
-            const url: string = this._buildAppUrl(Endpoints.HEALTH) + '?arg1=test&arg2=test2';
+            const url: string = this._getLogCleanerUrl(Endpoints.HEALTH) + '?arg1=test&arg2=test2';
             this.http.get(url, { responseType: 'text' }).subscribe((response?: unknown) => {
 
                 if (response == null) {
@@ -98,7 +98,7 @@ export class TxService {
 
     public async getCharMapping(): Promise<StrRecord> {
         return new Promise((resolve, reject) => {
-            this.http.get<ServerResponse>(this._buildAppUrl(Endpoints.CHAR_MAPPING)).subscribe(response => {
+            this.http.get<ServerResponse>(this._getLogCleanerUrl(Endpoints.CHAR_MAPPING)).subscribe(response => {
 
                 this.handleResponse(response, resolve, reject, isStrRecord);
             });
@@ -111,7 +111,7 @@ export class TxService {
         const options = this.configureHeaders();
 
         return new Promise((resolve, reject) => {
-            this.http.put(this._buildAppUrl(Endpoints.CHAR_MAPPING), body, options).subscribe(response => {
+            this.http.put(this._getLogCleanerUrl(Endpoints.CHAR_MAPPING), body, options).subscribe(response => {
                 if (response == null) {
                     reject(this.addCharMapping.name + '::No response from server');
                     return;
@@ -141,7 +141,7 @@ export class TxService {
         const options = this.configureHeaders();
 
         return new Promise((resolve, reject) => {
-            this.http.post(this._buildAppUrl(Endpoints.CHAR_MAPPING), body, options).subscribe(response => {
+            this.http.post(this._getLogCleanerUrl(Endpoints.CHAR_MAPPING), body, options).subscribe(response => {
                 return this.handleResponse(response, resolve, reject, isStrRecord);
             });
         });
@@ -149,7 +149,7 @@ export class TxService {
 
     public async remCharMapping(keys: string[]): Promise<StrRecord> {
         return new Promise((resolve, reject) => {
-            this.http.delete(this._buildAppUrl(Endpoints.CHAR_MAPPING),{body: {keys}}).subscribe((response?: unknown) => {
+            this.http.delete(this._getLogCleanerUrl(Endpoints.CHAR_MAPPING),{body: {keys}}).subscribe((response?: unknown) => {
                 return this.handleResponse(response, resolve, reject, isStrRecord);
             });
         });
@@ -157,7 +157,7 @@ export class TxService {
 
     public async getIgnored(): Promise<string[]> {
         return new Promise((resolve, reject) => {
-            this.http.get(this._buildAppUrl(Endpoints.IGNORED)).subscribe((response?: unknown) => {
+            this.http.get(this._getLogCleanerUrl(Endpoints.IGNORED)).subscribe((response?: unknown) => {
                 return this.handleResponse(response, resolve, reject, isStrArray);
             });
         });
@@ -165,7 +165,7 @@ export class TxService {
 
     public async addIgnored(keys: string[]): Promise<string[]> {
         return new Promise((resolve, reject) => {
-            this.http.post(this._buildAppUrl(Endpoints.IGNORED), {keys}).subscribe((response?: unknown) => {
+            this.http.post(this._getLogCleanerUrl(Endpoints.IGNORED), {keys}).subscribe((response?: unknown) => {
                 return this.handleResponse(response, resolve, reject, isStrArray);
             });
         });
@@ -173,7 +173,7 @@ export class TxService {
 
     public async setIgnored(keys: string[]): Promise<string[]> {
         return new Promise((resolve, reject) => {
-            this.http.put(this._buildAppUrl(Endpoints.IGNORED), {keys}).subscribe((response?: unknown) => {
+            this.http.put(this._getLogCleanerUrl(Endpoints.IGNORED), {keys}).subscribe((response?: unknown) => {
                 return this.handleResponse(response, resolve, reject, isStrArray);
             });
         });
@@ -181,7 +181,7 @@ export class TxService {
 
     public async remIgnored(keys: string[]): Promise<string[]> {
         return new Promise((resolve, reject) => {
-            this.http.delete(this._buildAppUrl(Endpoints.IGNORED),{body: {keys}}).subscribe((response?: unknown) => {
+            this.http.delete(this._getLogCleanerUrl(Endpoints.IGNORED),{body: {keys}}).subscribe((response?: unknown) => {
                 return this.handleResponse(response, resolve, reject, isStrArray);
             });
         });
@@ -195,7 +195,7 @@ export class TxService {
         AppDataModel.latestInput = inputText;
 
         return new Promise((resolve, reject) => {
-            this.http.post(this._buildAppUrl(Endpoints.CLEAN_LOG), toPythonObj(payload)).subscribe((response) => {
+            this.http.post(this._getLogCleanerUrl(Endpoints.CLEAN_LOG), toPythonObj(payload)).subscribe((response) => {
                 if (response == null) {
                     reject('No response from server');
                     return;
@@ -221,7 +221,7 @@ export class TxService {
         const payload = {lines};
 
         return new Promise((resolve, reject) => {
-            this.http.post(this._buildAppUrl(Endpoints.UNMAPPED_NAMES), toPythonObj(payload)).subscribe((response) => {
+            this.http.post(this._getLogCleanerUrl(Endpoints.UNMAPPED_NAMES), toPythonObj(payload)).subscribe((response) => {
                 return this.handleResponse(response, resolve, reject, isStrArray);
             });
         });
@@ -231,7 +231,7 @@ export class TxService {
 
 
         return new Promise((resolve, reject) => {
-            this.http.get<ServerResponse>(this._buildAppUrl(Endpoints.GALLERIA_IMAGES)).subscribe((response) => {
+            this.http.get<ServerResponse>(this._getServiceUrl(Endpoints.GALLERIA_IMAGES)).subscribe((response) => {
 
                 return this.handleResponse(response, resolve, reject, isStrArray);
             });
@@ -250,18 +250,30 @@ export class TxService {
 
     // #region private methods
 
+    private _getLogCleanerUrl(path: string): string {
+        return this._buildAppUrl(path, 'log-cleaner');
+    }
 
+    private _getServiceUrl(path: string): string {
+        return this._buildAppUrl(path, 'service');
+    }
     /**
      * Build an app-relative URL that respects the configured <base href>.
      * Ensures there's exactly one slash between segments.
      */
-    private _buildAppUrl(path: string): string {
+    private _buildAppUrl(path: string, apiEndpoint: string = ''): string {
 
         const base = environment.production ? this.baseHref : 'http://localhost:7000';
 
         const prefix = base.endsWith('/') ? base : `${base}/`;
 
-        const suffix = path.startsWith('/') ? path.slice(1) : path;
+        let suffix = path.startsWith('/') ? path.slice(1) : path;
+        apiEndpoint = apiEndpoint.startsWith('/') ? apiEndpoint.slice(1) : apiEndpoint;
+
+        if (apiEndpoint != '') {
+            suffix = `${apiEndpoint}/${suffix}`;
+        }
+
         return `${prefix}${environment.serviceEndpoint}${suffix}`;
     }
 
