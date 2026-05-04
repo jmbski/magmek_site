@@ -79,6 +79,7 @@ def main() -> None:
             ag_api_routes(),
         ],
         port=7000,
+        socket="magmek_backend",
     )
 
     server.run()
