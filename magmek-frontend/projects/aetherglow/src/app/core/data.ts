@@ -5,6 +5,35 @@ import { removeFromArray } from '@shared/core';
 
 export const CoreMenuItems: MenuItem[] = [
     {
+        label: 'Start Here',
+        items: [
+            {
+                label: 'Dress Code',
+                routerLink: '/dress-code',
+            },
+            {
+                label: 'Character Details',
+                routerLink: '/character-details',
+            },
+            {
+                label: 'Factions',
+                routerLink: '/factions',
+            },
+            {
+                label: 'Locations',
+                routerLink: '/locations',
+            },
+            {
+                label: 'World Overview',
+                routerLink: '/world-overview',
+            },
+            {
+                label: 'RP Etiquette',
+                routerLink: '/rp-etiquette',
+            },
+        ],
+    },
+    {
         label: 'Lore',
     },
     {

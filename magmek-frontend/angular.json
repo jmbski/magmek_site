@@ -11,7 +11,8 @@
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
-                    "style": "scss"
+                    "style": "scss",
+                    "skipTests": true
                 }
             },
             "root": "projects/aetherglow",
@@ -164,6 +165,12 @@
             "root": "projects/shared-utils",
             "sourceRoot": "projects/shared-utils/src",
             "prefix": "mm",
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss",
+                    "skipTests": true
+                }
+            },
             "architect": {
                 "build": {
                     "builder": "@angular/build:ng-packagr",

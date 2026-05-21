@@ -7,3 +7,22 @@
 html, body {
   height: 100%;
 }
+
+@layer components {
+  .dividerClass {
+    @apply flex-4 m-[0_6px_0_6px]! bg-white h-[1px] shadow-[0px_0px_12px_1px_#ABF];
+  }
+
+  .dividerClassFull {
+    @apply w-full m-4! bg-white h-[1px] shadow-[0px_0px_12px_1px_#ABF];
+  }
+
+  .sectionHeader {
+    @apply text-lg font-bold text-cyan-600;
+  }
+
+}
+
+.p-accordioncontent-content {
+    background-color: var(--color-surface-800) !important;
+}

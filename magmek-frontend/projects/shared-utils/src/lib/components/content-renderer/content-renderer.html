@@ -1,0 +1,112 @@
+@switch (type()) {
+    @case ('container') {
+        <div [class]="styleClass()">
+            @for(item of items(); track item) {
+                <mm-content-renderer [content]="item"></mm-content-renderer>
+            }
+        </div>
+    }
+    @case ('break') {
+        <br/>
+    }
+    @case ('bullet-list') {
+        <ul [class]="styleClass()">
+            @for(item of items(); track item) {
+                <mm-content-renderer [content]="item"></mm-content-renderer>
+            }
+        </ul>
+    }
+    @case ('item') {
+        <li [class]="styleClass()">
+            {{body()}}
+            @for(item of items(); track item) {
+                <mm-content-renderer [content]="item"></mm-content-renderer>
+            }
+        </li>
+    }
+    @case ('split-header') {
+        <mm-split-header [class]="styleClass()" [header]="header()">
+            @if (body() !== '') {
+                {{body()}}
+            }
+            @else {
+                @for (item of items(); track item) {
+                    <mm-content-renderer [content]="item"></mm-content-renderer>
+                }
+            }
+        </mm-split-header>
+    }
+    @case ('divider') {
+        <div class="dividerClassFull"></div>
+    }
+    @case ('paragraph') {
+        <p [class]="styleClass()">{{body()}}</p>
+    }
+    @case ('section-header') {
+        <mm-section-header [class]="styleClass()">{{header() || body()}}</mm-section-header>
+    }
+    @case ('section') {
+        <mm-section-header [class]="styleClass()">{{header()}}</mm-section-header>
+        @if(body()) {
+            {{body()}}
+        }
+        <div class="w-full flex flex-col justify-center items-center">
+            @for(item of items(); track item) {
+                <mm-content-renderer [content]="item"></mm-content-renderer>
+            }
+        </div>
+    }
+    @case ('span') {
+        <span [class]="styleClass()">{{body()}}</span>
+    }
+    @case ('subheader') {
+        <p class="text-lg" [class]="styleClass()">{{header() || body()}}</p>
+    }
+    @case ('panel') {
+        <p-panel
+            [class]="styleClass()"
+            [toggleable]="true"
+            toggler="header"
+            [header]="header()">
+            {{body()}}
+        </p-panel>
+    }
+    @case ('accordion') {
+        <p-accordion [value]="itemRange()" [multiple]="true" [class]="styleClass()">
+            @for (item of items(); track item; let index = $index) {
+
+                <p-accordion-panel [value]="$index" [class]="item.styleClass">
+                    @if(item.header) {
+                        <p-accordion-header>{{item.header}}</p-accordion-header>
+                    }
+
+                    <p-accordion-content>
+                        @if(item.body) {
+                            {{item.body}}
+                        }
+                        @if((item.items?.length ?? 0) > 0) {
+                            @for(subitem of item.items; track subitem) {
+                                <mm-content-renderer [content]="subitem"></mm-content-renderer>
+                            }
+                        }
+                    </p-accordion-content>
+
+                </p-accordion-panel>
+
+            }
+        </p-accordion>
+    }
+    @case ('field-set') {
+        <p-fieldset [class]="styleClass()" class="mb-2" [legend]="header()" [toggleable]="true">
+
+            @if(body()) {
+                {{body()}}
+            }
+
+            @for(item of items(); track item) {
+                <mm-content-renderer [content]="item"></mm-content-renderer>
+            }
+
+        </p-fieldset>
+    }
+}
