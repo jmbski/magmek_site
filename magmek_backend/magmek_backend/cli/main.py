@@ -104,3 +104,11 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+lc_cols = [
+    "name",
+    "phonetic_inventory",
+    "orthography_categories",
+    "orth_syllables",
+    "grapheme_lookup",
+] 
