@@ -54,7 +54,7 @@ class RespMetaData(MMBaseModel):
     timestamp: str = ""
     version: str = consts.APP_VERSION
 
-    @model_validator(mode="before"),kl.rde
+    @model_validator(mode="before")
     def init(cls, data: dict):
         slt = ZoneInfo(
             "America/Los_Angeles"
