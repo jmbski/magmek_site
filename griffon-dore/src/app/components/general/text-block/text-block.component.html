@@ -1,0 +1,10 @@
+<div class="text-block w-full">
+    <ng-container *ngIf="illuminated">
+        <div [class]="illuminatedBorder">
+            <span [class]="illuminatedColor">
+                {{illuminatedChar}}
+            </span>
+        </div>
+    </ng-container>
+    <span class="old-london-alt text-2xl">{{body}}</span>
+</div>

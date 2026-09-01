@@ -1,0 +1,28 @@
+<!-- app-top-nav is a vertical flex box -->
+<div class="app-top-nav">
+    <ng-container *ngIf="template == null; else templated">
+
+        <!-- nav-wrapper is a horizontal flex box -->
+        <div class="app-top-nav-wrapper parchment-1">
+            <gdo-nav-logo></gdo-nav-logo>
+
+            <!-- nav-header contains the header text in a separate flex box that orients off of screen size -->
+            <div class="app-top-nav-header">
+                <span class="app-top-nav-header-text">
+                    La Compagnie du Griffon Doré
+                </span>
+            </div>
+        </div>
+        <div class="app-top-nav-menu-wrapper">
+            <!-- <gdo-menu-bar></gdo-menu-bar> -->
+            <!-- <gdo-mat-menu [model]="model"></gdo-mat-menu> -->
+            <gdo-menu-bar [model]="model"></gdo-menu-bar>
+        </div>
+    </ng-container>
+    <ng-template #templated>
+        <ng-container *ngTemplateOutlet="template">
+            
+        </ng-container>
+    </ng-template>
+</div>
+<div class="app-top-nav-shadow"></div>

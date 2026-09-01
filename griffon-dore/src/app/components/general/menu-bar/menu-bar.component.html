@@ -1,0 +1,75 @@
+<ng-container *ngIf="!this.useMobile; else mobileMenu">
+    <div class="gdo-menubar justify-content-evenly">
+        <div *ngIf="!showMenu" class="gdo-menubar-cover"></div>
+        <ng-container *ngFor="let item of model$ | async">
+            <div class="gdo-menubar-item">
+                <button 
+                    type="button" 
+                    class="gdo-button-scroll"
+                    [attr.aria-expanded]="item.isExpanded"
+                    aria-controls="collapseBasic"
+                >
+                    {{item.label}}
+                </button>
+    
+                <div id="collapseBasic" [collapse]="!item.isExpanded" [isAnimated]="true">
+                    <div class="gdo-menubar-submenu">
+                        
+                        <ng-container *ngFor="let subItem of item.items">
+                            <span class="gdo-menubar-submenu-item">{{subItem.label}}</span>
+                        </ng-container>
+                        <gdo-svg></gdo-svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</ng-container>
+<ng-template #mobileMenu>
+    <div class="gdo-menubar ">
+        <ng-container *ngFor="let item of model$ | async">
+            <div #topMenuItem class="gdo-menubar-item w-full">
+                <button 
+                    type="button" 
+                    class="gdo-button-scroll"
+                    [attr.aria-expanded]="item.isExpanded"
+                    aria-controls="collapseBasic"
+                    (click)="handleItemClick(item)"
+                >
+                    {{item.label}}
+                </button>
+    
+                <div id="collapseBasic" [collapse]="!item.isExpanded" [isAnimated]="true">
+                    <div class="gdo-menubar-submenu">
+                        
+                        <ng-container *ngFor="let menuItem of item.items">
+                            <span #subMenuItem
+                                class="gdo-menubar-submenu-item"
+                                aria-controls="collapseBasicSub"
+                                (click)="handleItemClick(menuItem)"
+                            >
+                                {{menuItem.label}}
+                            </span>
+
+                            <div id="collapseBasicSub" [collapse]="!menuItem.isExpanded" [isAnimated]="true">
+                                <div class="gdo-menubar-submenu">
+                                    
+                                    <ng-container *ngFor="let subItem of menuItem.items">
+                                        <span class="gdo-menubar-submenu-item mobile-item">{{subItem.label}}</span>
+                                    </ng-container>
+                                    
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <!-- <gdo-svg></gdo-svg> -->
+                        <div class="spacer"></div>
+                        <div class="triangle"></div>
+                        
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</ng-template>

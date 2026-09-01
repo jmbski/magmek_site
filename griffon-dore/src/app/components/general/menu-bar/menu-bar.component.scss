@@ -1,0 +1,107 @@
+@import 'extensions.scss';
+
+$menu-base-zindex: 2001;
+
+
+.gdo {
+    &-button {
+        &-scroll {
+            height: 2rem;
+            font-family: MiddleAges;
+            font-size: 1.25rem;
+            width: 100%;
+            z-index: calc($menu-base-zindex + 1);
+            text-shadow: var(--smeared-ink);
+            //min-width: 297px;
+        }
+    }
+
+    &-menubar {
+        @extend .flex-even-start;
+        position: relative;
+        z-index: calc($menu-base-zindex + 7);
+        overflow-x: auto;
+
+        .mobile-item {
+            background-color: var(--surface-600);
+        }
+
+        &-cover {
+            @extend .gdo-menubar;
+            z-index: calc($menu-base-zindex + 8);
+            position: absolute;
+            height: 2rem;
+            background: var(--surface-400);
+        }
+        &-item {
+            @extend .flex-vertical;
+            min-height: 2rem;
+            z-index: calc($menu-base-zindex + 1);
+            text-wrap: nowrap;
+
+            &:hover {
+                z-index: calc($menu-base-zindex + 2);
+            }
+        }
+
+        &-submenu {
+            @extend .flex-vertical;
+            filter: drop-shadow(0px 4px 5px RGBA(0, 0, 0, 0.7));
+            position: relative;
+
+            padding: 0 1rem;
+            &-item {
+                min-height: 2rem;
+                padding: .5rem;
+                background-color: var(--surface-700);
+                text-align: center;
+                font-family: MiddleAges;
+                transition: all 0.5s ease;
+                z-index: calc($menu-base-zindex + 3);
+                //max-width: 200px;
+                text-wrap: balance;
+
+                &:hover {
+                    //background-color: var(--surface-800);
+                    color: white;
+                    text-shadow: 0 0 4px RGBA(50, 50, 150, 0.7);
+                    box-shadow: var(--primary-glow);
+                    z-index: calc($menu-base-zindex + 4);
+                }
+            }
+
+            &-vertical {
+                @extend .flex-vertical;
+                z-index: calc($menu-base-zindex + 5);
+            }
+
+            &-mobile {
+                @extend .gdo-menubar-submenu;
+                background-color: var(--surface-600);
+            }
+        }
+    }
+}
+
+.triangle {
+    width: 0;
+    height: 120px;
+    border-left: calc(50vw - 1rem) solid transparent; /* left side of triangle */
+    border-right: calc(50vw - 1rem) solid transparent; /* right side of triangle */
+    border-top: 100px solid var(--surface-700); /* bottom - triangle's point */
+    z-index: calc($menu-base-zindex + 6);
+}
+
+.spacer {
+    height: 2rem;
+    width: 100%;
+    background-color: var(--surface-700);
+    z-index: calc($menu-base-zindex + 6);
+}
+
+
+
+::-webkit-scrollbar {
+    top: 0;
+    position: relative;
+}

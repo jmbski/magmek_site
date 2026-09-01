@@ -1,0 +1,19 @@
+@import 'primeflex/primeflex.scss';
+@import './z-index.scss';
+
+.gdo {
+    &-button {
+        //z-index: var(--bz-button);
+
+        &:hover {
+            //z-index: var(--bz-button-hover);
+        }
+
+        &-scroll {
+            @extend .gdo-button;
+
+            min-width: 6rem;
+
+        }
+    }
+}

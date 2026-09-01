@@ -1,0 +1,13 @@
+<div class="grid">
+    <ng-container *ngFor="let element of model$ | async">
+
+        <ng-container [ngSwitch]="element.elementType">
+
+            <ng-container *ngSwitchCase="'text-block'">
+                <gdo-text-block [model]="element"></gdo-text-block>
+            </ng-container>
+            
+        </ng-container>
+
+    </ng-container>
+</div>
