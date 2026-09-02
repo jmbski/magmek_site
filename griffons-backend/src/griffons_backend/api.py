@@ -10,7 +10,7 @@ from griffons_backend.models import CalendarEventModel
 def get_router() -> APIRouter:
     router = APIRouter()
 
-    @router.get(f"{consts.BASE_URL}/calendar-events")
+    @router.get(f"{consts.BASE_URL}/calendarevents")
     def get_calendar_events(logger: ApiLogger):
         logger.info("Events endpoint reached.")
         return "Test"  # service.get_upcoming_events()
