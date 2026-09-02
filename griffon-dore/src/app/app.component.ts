@@ -3,7 +3,9 @@ import { ChangeDetectorRef, Component, afterNextRender } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppDeviceInfo, GlobalResizeObserver, PRIME_COMMON } from '@app/common';
 import { BlockableUiComponent, PullToRefreshComponent } from '@app/components';
-import { MessageService, PrimeNGConfig } from 'primeng/api';
+import { MessageService } from 'primeng/api';
+//import { PrimeNGConfig } from 'primeng/config';
+import { PrimeNG } from 'primeng/config';
 import { AutomatedStylingService } from './services/automated-styling/automated-styling.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
@@ -28,11 +30,11 @@ export class AppComponent {
 
     constructor(
         private cd: ChangeDetectorRef,
-        private primengConfig: PrimeNGConfig,
+        private primengConfig: PrimeNG,
         private deviceDetector: DeviceDetectorService,
         private automatedStylingService: AutomatedStylingService,
     ) {
-        
+
         //AppDeviceInfo.isDesktop = this.deviceDetector.isDesktop();
         AppDeviceInfo.isMobile = this.deviceDetector.isMobile();
         AppDeviceInfo.isTablet = this.deviceDetector.isTablet();
@@ -42,7 +44,7 @@ export class AppComponent {
             this.resizeObserver = new ResizeObserver((data: ResizeObserverEntry[]) => {
                 const width: number = data[0].contentRect.width;
                 const height: number = data[0].contentRect.height;
-            
+
                 if (width <= 761 || height <= 600) {
                     AppDeviceInfo.isMobile = true;
                 }
@@ -59,13 +61,13 @@ export class AppComponent {
             appTopNavShadow.style.height = `${appTopNav.offsetHeight}px`;
             this.resizeObserver.observe(document.body);
             GlobalResizeObserver.next(this.resizeObserver);
-            
+
         });
     }
 
     ngOnInit(
     ) {
-        this.primengConfig.ripple = true;
+        this.primengConfig.ripple.set(true);
 
 
         this.primengConfig.zIndex = {

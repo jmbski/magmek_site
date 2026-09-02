@@ -6,7 +6,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { Textarea } from 'primeng/inputtextarea';
 import { ListboxModule } from 'primeng/listbox';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PanelModule } from 'primeng/panel';
@@ -47,7 +47,7 @@ export const COMMON_PRIME_MODULES = [
     DropdownModule,
     InputNumberModule,
     InputTextModule,
-    InputTextareaModule,
+    Textarea,
     ListboxModule,
     MultiSelectModule,
     PanelModule,
