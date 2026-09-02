@@ -15,6 +15,7 @@ def get_router() -> APIRouter:
         response_model=list[CalendarEventModel],
     )
     def get_calendar_events(logger: ApiLogger):
+        logger.info("Events endpoint reached.")
         return service.get_upcoming_events()
 
     @router.get(f"{consts.BASE_URL}/health")
