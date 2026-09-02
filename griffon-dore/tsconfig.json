@@ -15,17 +15,27 @@
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
     "paths": {
-      "@app/common": ["src/app/common/_index.ts"],
-      "@app/components": ["src/app/components/_index.ts"],
-      "@app/models": ["src/app/models/_index.ts"],
-      "@app/pages": ["src/app/pages/_index.ts"],
-      "@app/services": ["src/app/services/_index.ts"]
+      "@app/common": [
+        "src/app/common/_index.ts"
+      ],
+      "@app/components": [
+        "src/app/components/_index.ts"
+      ],
+      "@app/models": [
+        "src/app/models/_index.ts"
+      ],
+      "@app/pages": [
+        "src/app/pages/_index.ts"
+      ],
+      "@app/services": [
+        "src/app/services/_index.ts"
+      ]
     },
     "lib": [
       "ES2022",

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectorRef, Component, afterNextRender } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppDeviceInfo, GlobalResizeObserver, PRIME_COMMON } from '@app/common';
@@ -12,12 +12,11 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 @Component({
     selector: 'app-root',
     imports: [
-        BlockableUiComponent,
-        CommonModule,
-        PullToRefreshComponent,
-        RouterOutlet,
-        ...PRIME_COMMON,
-    ],
+    BlockableUiComponent,
+    PullToRefreshComponent,
+    RouterOutlet,
+    ...PRIME_COMMON
+],
     providers: [MessageService],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'

@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, ViewChild, ElementRef, afterNextRender } from '@angular/core';
 
 @Component({
     selector: 'pull-to-refresh',
-    imports: [
-        CommonModule
-    ],
+    imports: [],
     templateUrl: './pull-to-refresh.component.html',
     styleUrl: './pull-to-refresh.component.scss'
 })
