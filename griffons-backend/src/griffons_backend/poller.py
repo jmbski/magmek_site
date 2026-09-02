@@ -1,4 +1,5 @@
 import argparse
+import logging
 import threading
 import time
 
@@ -20,7 +21,7 @@ class DbPoller:
         def worker() -> None:
             while True:
                 calendar.poll_calendar()
-                print("Polled calendar API")
+                logging.getLogger("gunicorn.error").info("Polled calendar API")
                 time.sleep(self.interval)
 
         self.thread = threading.Thread(target=worker, daemon=True)
