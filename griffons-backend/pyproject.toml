@@ -1,0 +1,33 @@
+[project]
+name = "griffons-backend"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Joseph Bochinski",email = "stirgejr@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi (==0.135.3)",
+    "pydantic (>=2.13.5,<3.0.0)",
+    "requests (>=2.34.2,<3.0.0)",
+    "sqlalchemy (>=2.0.52,<3.0.0)",
+    "gunicorn (==23)",
+    "jbutils (>=0.2.42,<0.3.0)",
+    "platformdirs (>=4.11.7,<5.0.0)",
+    "google-auth (>=2.57.0,<3.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)",
+    "case-converter (>=1.2.0,<2.0.0)",
+    "uvicorn (>=0.52.4,<0.53.0)"
+]
+
+[tool.poetry]
+packages = [{include = "griffons_backend", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+griffons = "griffons_backend.main:main" 
+griffons-poller = "griffons_backend.poller:main"

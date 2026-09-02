@@ -1,0 +1,423 @@
+kind: calendar#events
+etag: '"p327v9begpr7pc0o"'
+summary: polling-test
+description: ''
+updated: '2026-09-02T09:46:49.329Z'
+timeZone: America/New_York
+accessRole: reader
+defaultReminders: []
+items:
+  - kind: calendar#event
+    etag: '"3576684414253662"'
+    id: 4ctp9mmk9cu1o6pbm4edi06jlp
+    status: confirmed
+    htmlLink: https://www.google.com/calendar/event?eid=NGN0cDltbWs5Y3UxbzZwYm00ZWRpMDZqbHAgZTdjYWY2N2M0NzU4ZjdkZDNmZmYwZjUzMzc2ZWIyOTU3Nzk3YTFiZDQwNDY5NzlkOGJmNmY0YWRiMmMxMDc3MUBn
+    created: '2026-09-02T09:43:26.000Z'
+    updated: '2026-09-02T09:43:27.126Z'
+    summary: Test Event 1
+    creator:
+      email: stirgejr@gmail.com
+    organizer:
+      email: e7caf67c4758f7dd3fff0f53376eb2957797a1bd4046979d8bf6f4adb2c10771@group.calendar.google.com
+      displayName: polling-test
+      self: true
+    start:
+      dateTime: '2026-09-09T06:30:00-04:00'
+      timeZone: America/New_York
+    end:
+      dateTime: '2026-09-09T07:30:00-04:00'
+      timeZone: America/New_York
+    iCalUID: 4ctp9mmk9cu1o6pbm4edi06jlp@google.com
+    sequence: 0
+    reminders:
+      useDefault: true
+    eventType: default
+  - kind: calendar#event
+    etag: '"3576684444261854"'
+    id: 52643om5sgk806j3cc5bir3k7g
+    status: confirmed
+    htmlLink: https://www.google.com/calendar/event?eid=NTI2NDNvbTVzZ2s4MDZqM2NjNWJpcjNrN2cgZTdjYWY2N2M0NzU4ZjdkZDNmZmYwZjUzMzc2ZWIyOTU3Nzk3YTFiZDQwNDY5NzlkOGJmNmY0YWRiMmMxMDc3MUBn
+    created: '2026-09-02T09:43:41.000Z'
+    updated: '2026-09-02T09:43:42.130Z'
+    summary: Test Event 2 (no time)
+    creator:
+      email: stirgejr@gmail.com
+    organizer:
+      email: e7caf67c4758f7dd3fff0f53376eb2957797a1bd4046979d8bf6f4adb2c10771@group.calendar.google.com
+      displayName: polling-test
+      self: true
+    start:
+      date: '2026-09-10'
+    end:
+      date: '2026-09-11'
+    transparency: transparent
+    iCalUID: 52643om5sgk806j3cc5bir3k7g@google.com
+    sequence: 0
+    reminders:
+      useDefault: false
+    eventType: default
+  - kind: calendar#event
+    etag: '"3576684537919774"'
+    id: 608jnedg5pl1koea7fdsfpebvj
+    status: confirmed
+    htmlLink: https://www.google.com/calendar/event?eid=NjA4am5lZGc1cGwxa29lYTdmZHNmcGVidmogZTdjYWY2N2M0NzU4ZjdkZDNmZmYwZjUzMzc2ZWIyOTU3Nzk3YTFiZDQwNDY5NzlkOGJmNmY0YWRiMmMxMDc3MUBn
+    created: '2026-09-02T09:44:28.000Z'
+    updated: '2026-09-02T09:44:28.959Z'
+    summary: Test Event 3 (location)
+    description: test
+    location: 183 Dunrobin Dr, Martinsburg, WV 25405, USA
+    creator:
+      email: stirgejr@gmail.com
+    organizer:
+      email: e7caf67c4758f7dd3fff0f53376eb2957797a1bd4046979d8bf6f4adb2c10771@group.calendar.google.com
+      displayName: polling-test
+      self: true
+    start:
+      dateTime: '2026-09-11T06:00:00-04:00'
+      timeZone: America/New_York
+    end:
+      dateTime: '2026-09-11T07:00:00-04:00'
+      timeZone: America/New_York
+    iCalUID: 608jnedg5pl1koea7fdsfpebvj@google.com
+    sequence: 0
+    reminders:
+      useDefault: true
+    attachments:
+      - fileUrl: https://drive.google.com/open?id=1e6WPIWegmX8KsgbLvvnd2UGFot9SpPRpB-uMZxAgHmQ
+        title: Untitled document
+        mimeType: application/vnd.google-apps.document
+        iconLink: https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.document
+        fileId: 1e6WPIWegmX8KsgbLvvnd2UGFot9SpPRpB-uMZxAgHmQ
+    eventType: default
+  - kind: calendar#event
+    etag: '"3576684765469438"'
+    id: 0aq90sfbehgok80dahjiejkmrn_20260915T130000Z
+    status: confirmed
+    htmlLink: https://www.google.com/calendar/event?eid=MGFxOTBzZmJlaGdvazgwZGFoamllamttcm5fMjAyNjA5MTVUMTMwMDAwWiBlN2NhZjY3YzQ3NThmN2RkM2ZmZjBmNTMzNzZlYjI5NTc3OTdhMWJkNDA0Njk3OWQ4YmY2ZjRhZGIyYzEwNzcxQGc
+    created: '2026-09-02T09:45:36.000Z'
+    updated: '2026-09-02T09:46:22.734Z'
+    summary: Event 4 (recurring)
+    creator:
+      email: stirgejr@gmail.com
+    organizer:
+      email: e7caf67c4758f7dd3fff0f53376eb2957797a1bd4046979d8bf6f4adb2c10771@group.calendar.google.com
+      displayName: polling-test
+      self: true
+    start:
+      dateTime: '2026-09-15T09:00:00-04:00'
+      timeZone: America/New_York
+    end:
+      dateTime: '2026-09-15T10:00:00-04:00'
+      timeZone: America/New_York
+    recurringEventId: 0aq90sfbehgok80dahjiejkmrn
+    originalStartTime:
+      dateTime: '2026-09-15T09:00:00-04:00'
+      timeZone: America/New_York
+    iCalUID: 0aq90sfbehgok80dahjiejkmrn@google.com
+    sequence: 0
+    attendees:
+      - email: jmbochinski@gmail.com
+        responseStatus: needsAction
+    hangoutLink: https://meet.google.com/ctm-tcjj-bsh
+    conferenceData:
+      entryPoints:
+        - entryPointType: video
+          uri: https://meet.google.com/ctm-tcjj-bsh
+          label: meet.google.com/ctm-tcjj-bsh
+      conferenceSolution:
+        key:
+          type: hangoutsMeet
+        name: Google Meet
+        iconUri: https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png
+      conferenceId: ctm-tcjj-bsh
+    reminders:
+      useDefault: true
+    eventType: default
+  - kind: calendar#event
+    etag: '"3576684816221854"'
+    id: 6ubgjudcgg7m5vlh5clrrr64fn
+    status: confirmed
+    htmlLink: https://www.google.com/calendar/event?eid=NnViZ2p1ZGNnZzdtNXZsaDVjbHJycjY0Zm4gZTdjYWY2N2M0NzU4ZjdkZDNmZmYwZjUzMzc2ZWIyOTU3Nzk3YTFiZDQwNDY5NzlkOGJmNmY0YWRiMmMxMDc3MUBn
+    created: '2026-09-02T09:46:47.000Z'
+    updated: '2026-09-02T09:46:48.110Z'
+    summary: Event 5 (all day)
+    creator:
+      email: stirgejr@gmail.com
+    organizer:
+      email: e7caf67c4758f7dd3fff0f53376eb2957797a1bd4046979d8bf6f4adb2c10771@group.calendar.google.com
+      displayName: polling-test
+      self: true
+    start:
+      date: '2026-09-17'
+    end:
+      date: '2026-09-18'
+    transparency: transparent
+    iCalUID: 6ubgjudcgg7m5vlh5clrrr64fn@google.com
+    sequence: 0
+    reminders:
+      useDefault: false
+    eventType: default
+  - kind: calendar#event
+    etag: '"3576684765469438"'
+    id: 0aq90sfbehgok80dahjiejkmrn_20260922T130000Z
+    status: confirmed
+    htmlLink: https://www.google.com/calendar/event?eid=MGFxOTBzZmJlaGdvazgwZGFoamllamttcm5fMjAyNjA5MjJUMTMwMDAwWiBlN2NhZjY3YzQ3NThmN2RkM2ZmZjBmNTMzNzZlYjI5NTc3OTdhMWJkNDA0Njk3OWQ4YmY2ZjRhZGIyYzEwNzcxQGc
+    created: '2026-09-02T09:45:36.000Z'
+    updated: '2026-09-02T09:46:22.734Z'
+    summary: Event 4 (recurring)
+    creator:
+      email: stirgejr@gmail.com
+    organizer:
+      email: e7caf67c4758f7dd3fff0f53376eb2957797a1bd4046979d8bf6f4adb2c10771@group.calendar.google.com
+      displayName: polling-test
+      self: true
+    start:
+      dateTime: '2026-09-22T09:00:00-04:00'
+      timeZone: America/New_York
+    end:
+      dateTime: '2026-09-22T10:00:00-04:00'
+      timeZone: America/New_York
+    recurringEventId: 0aq90sfbehgok80dahjiejkmrn
+    originalStartTime:
+      dateTime: '2026-09-22T09:00:00-04:00'
+      timeZone: America/New_York
+    iCalUID: 0aq90sfbehgok80dahjiejkmrn@google.com
+    sequence: 0
+    attendees:
+      - email: jmbochinski@gmail.com
+        responseStatus: needsAction
+    hangoutLink: https://meet.google.com/ctm-tcjj-bsh
+    conferenceData:
+      entryPoints:
+        - entryPointType: video
+          uri: https://meet.google.com/ctm-tcjj-bsh
+          label: meet.google.com/ctm-tcjj-bsh
+      conferenceSolution:
+        key:
+          type: hangoutsMeet
+        name: Google Meet
+        iconUri: https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png
+      conferenceId: ctm-tcjj-bsh
+    reminders:
+      useDefault: true
+    eventType: default
+  - kind: calendar#event
+    etag: '"3576684765469438"'
+    id: 0aq90sfbehgok80dahjiejkmrn_20260929T130000Z
+    status: confirmed
+    htmlLink: https://www.google.com/calendar/event?eid=MGFxOTBzZmJlaGdvazgwZGFoamllamttcm5fMjAyNjA5MjlUMTMwMDAwWiBlN2NhZjY3YzQ3NThmN2RkM2ZmZjBmNTMzNzZlYjI5NTc3OTdhMWJkNDA0Njk3OWQ4YmY2ZjRhZGIyYzEwNzcxQGc
+    created: '2026-09-02T09:45:36.000Z'
+    updated: '2026-09-02T09:46:22.734Z'
+    summary: Event 4 (recurring)
+    creator:
+      email: stirgejr@gmail.com
+    organizer:
+      email: e7caf67c4758f7dd3fff0f53376eb2957797a1bd4046979d8bf6f4adb2c10771@group.calendar.google.com
+      displayName: polling-test
+      self: true
+    start:
+      dateTime: '2026-09-29T09:00:00-04:00'
+      timeZone: America/New_York
+    end:
+      dateTime: '2026-09-29T10:00:00-04:00'
+      timeZone: America/New_York
+    recurringEventId: 0aq90sfbehgok80dahjiejkmrn
+    originalStartTime:
+      dateTime: '2026-09-29T09:00:00-04:00'
+      timeZone: America/New_York
+    iCalUID: 0aq90sfbehgok80dahjiejkmrn@google.com
+    sequence: 0
+    attendees:
+      - email: jmbochinski@gmail.com
+        responseStatus: needsAction
+    hangoutLink: https://meet.google.com/ctm-tcjj-bsh
+    conferenceData:
+      entryPoints:
+        - entryPointType: video
+          uri: https://meet.google.com/ctm-tcjj-bsh
+          label: meet.google.com/ctm-tcjj-bsh
+      conferenceSolution:
+        key:
+          type: hangoutsMeet
+        name: Google Meet
+        iconUri: https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png
+      conferenceId: ctm-tcjj-bsh
+    reminders:
+      useDefault: true
+    eventType: default
+  - kind: calendar#event
+    etag: '"3576684765469438"'
+    id: 0aq90sfbehgok80dahjiejkmrn_20261006T130000Z
+    status: confirmed
+    htmlLink: https://www.google.com/calendar/event?eid=MGFxOTBzZmJlaGdvazgwZGFoamllamttcm5fMjAyNjEwMDZUMTMwMDAwWiBlN2NhZjY3YzQ3NThmN2RkM2ZmZjBmNTMzNzZlYjI5NTc3OTdhMWJkNDA0Njk3OWQ4YmY2ZjRhZGIyYzEwNzcxQGc
+    created: '2026-09-02T09:45:36.000Z'
+    updated: '2026-09-02T09:46:22.734Z'
+    summary: Event 4 (recurring)
+    creator:
+      email: stirgejr@gmail.com
+    organizer:
+      email: e7caf67c4758f7dd3fff0f53376eb2957797a1bd4046979d8bf6f4adb2c10771@group.calendar.google.com
+      displayName: polling-test
+      self: true
+    start:
+      dateTime: '2026-10-06T09:00:00-04:00'
+      timeZone: America/New_York
+    end:
+      dateTime: '2026-10-06T10:00:00-04:00'
+      timeZone: America/New_York
+    recurringEventId: 0aq90sfbehgok80dahjiejkmrn
+    originalStartTime:
+      dateTime: '2026-10-06T09:00:00-04:00'
+      timeZone: America/New_York
+    iCalUID: 0aq90sfbehgok80dahjiejkmrn@google.com
+    sequence: 0
+    attendees:
+      - email: jmbochinski@gmail.com
+        responseStatus: needsAction
+    hangoutLink: https://meet.google.com/ctm-tcjj-bsh
+    conferenceData:
+      entryPoints:
+        - entryPointType: video
+          uri: https://meet.google.com/ctm-tcjj-bsh
+          label: meet.google.com/ctm-tcjj-bsh
+      conferenceSolution:
+        key:
+          type: hangoutsMeet
+        name: Google Meet
+        iconUri: https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png
+      conferenceId: ctm-tcjj-bsh
+    reminders:
+      useDefault: true
+    eventType: default
+  - kind: calendar#event
+    etag: '"3576684765469438"'
+    id: 0aq90sfbehgok80dahjiejkmrn_20261013T130000Z
+    status: confirmed
+    htmlLink: https://www.google.com/calendar/event?eid=MGFxOTBzZmJlaGdvazgwZGFoamllamttcm5fMjAyNjEwMTNUMTMwMDAwWiBlN2NhZjY3YzQ3NThmN2RkM2ZmZjBmNTMzNzZlYjI5NTc3OTdhMWJkNDA0Njk3OWQ4YmY2ZjRhZGIyYzEwNzcxQGc
+    created: '2026-09-02T09:45:36.000Z'
+    updated: '2026-09-02T09:46:22.734Z'
+    summary: Event 4 (recurring)
+    creator:
+      email: stirgejr@gmail.com
+    organizer:
+      email: e7caf67c4758f7dd3fff0f53376eb2957797a1bd4046979d8bf6f4adb2c10771@group.calendar.google.com
+      displayName: polling-test
+      self: true
+    start:
+      dateTime: '2026-10-13T09:00:00-04:00'
+      timeZone: America/New_York
+    end:
+      dateTime: '2026-10-13T10:00:00-04:00'
+      timeZone: America/New_York
+    recurringEventId: 0aq90sfbehgok80dahjiejkmrn
+    originalStartTime:
+      dateTime: '2026-10-13T09:00:00-04:00'
+      timeZone: America/New_York
+    iCalUID: 0aq90sfbehgok80dahjiejkmrn@google.com
+    sequence: 0
+    attendees:
+      - email: jmbochinski@gmail.com
+        responseStatus: needsAction
+    hangoutLink: https://meet.google.com/ctm-tcjj-bsh
+    conferenceData:
+      entryPoints:
+        - entryPointType: video
+          uri: https://meet.google.com/ctm-tcjj-bsh
+          label: meet.google.com/ctm-tcjj-bsh
+      conferenceSolution:
+        key:
+          type: hangoutsMeet
+        name: Google Meet
+        iconUri: https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png
+      conferenceId: ctm-tcjj-bsh
+    reminders:
+      useDefault: true
+    eventType: default
+  - kind: calendar#event
+    etag: '"3576684765469438"'
+    id: 0aq90sfbehgok80dahjiejkmrn_20261020T130000Z
+    status: confirmed
+    htmlLink: https://www.google.com/calendar/event?eid=MGFxOTBzZmJlaGdvazgwZGFoamllamttcm5fMjAyNjEwMjBUMTMwMDAwWiBlN2NhZjY3YzQ3NThmN2RkM2ZmZjBmNTMzNzZlYjI5NTc3OTdhMWJkNDA0Njk3OWQ4YmY2ZjRhZGIyYzEwNzcxQGc
+    created: '2026-09-02T09:45:36.000Z'
+    updated: '2026-09-02T09:46:22.734Z'
+    summary: Event 4 (recurring)
+    creator:
+      email: stirgejr@gmail.com
+    organizer:
+      email: e7caf67c4758f7dd3fff0f53376eb2957797a1bd4046979d8bf6f4adb2c10771@group.calendar.google.com
+      displayName: polling-test
+      self: true
+    start:
+      dateTime: '2026-10-20T09:00:00-04:00'
+      timeZone: America/New_York
+    end:
+      dateTime: '2026-10-20T10:00:00-04:00'
+      timeZone: America/New_York
+    recurringEventId: 0aq90sfbehgok80dahjiejkmrn
+    originalStartTime:
+      dateTime: '2026-10-20T09:00:00-04:00'
+      timeZone: America/New_York
+    iCalUID: 0aq90sfbehgok80dahjiejkmrn@google.com
+    sequence: 0
+    attendees:
+      - email: jmbochinski@gmail.com
+        responseStatus: needsAction
+    hangoutLink: https://meet.google.com/ctm-tcjj-bsh
+    conferenceData:
+      entryPoints:
+        - entryPointType: video
+          uri: https://meet.google.com/ctm-tcjj-bsh
+          label: meet.google.com/ctm-tcjj-bsh
+      conferenceSolution:
+        key:
+          type: hangoutsMeet
+        name: Google Meet
+        iconUri: https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png
+      conferenceId: ctm-tcjj-bsh
+    reminders:
+      useDefault: true
+    eventType: default
+  - kind: calendar#event
+    etag: '"3576684765469438"'
+    id: 0aq90sfbehgok80dahjiejkmrn_20261027T130000Z
+    status: confirmed
+    htmlLink: https://www.google.com/calendar/event?eid=MGFxOTBzZmJlaGdvazgwZGFoamllamttcm5fMjAyNjEwMjdUMTMwMDAwWiBlN2NhZjY3YzQ3NThmN2RkM2ZmZjBmNTMzNzZlYjI5NTc3OTdhMWJkNDA0Njk3OWQ4YmY2ZjRhZGIyYzEwNzcxQGc
+    created: '2026-09-02T09:45:36.000Z'
+    updated: '2026-09-02T09:46:22.734Z'
+    summary: Event 4 (recurring)
+    creator:
+      email: stirgejr@gmail.com
+    organizer:
+      email: e7caf67c4758f7dd3fff0f53376eb2957797a1bd4046979d8bf6f4adb2c10771@group.calendar.google.com
+      displayName: polling-test
+      self: true
+    start:
+      dateTime: '2026-10-27T09:00:00-04:00'
+      timeZone: America/New_York
+    end:
+      dateTime: '2026-10-27T10:00:00-04:00'
+      timeZone: America/New_York
+    recurringEventId: 0aq90sfbehgok80dahjiejkmrn
+    originalStartTime:
+      dateTime: '2026-10-27T09:00:00-04:00'
+      timeZone: America/New_York
+    iCalUID: 0aq90sfbehgok80dahjiejkmrn@google.com
+    sequence: 0
+    attendees:
+      - email: jmbochinski@gmail.com
+        responseStatus: needsAction
+    hangoutLink: https://meet.google.com/ctm-tcjj-bsh
+    conferenceData:
+      entryPoints:
+        - entryPointType: video
+          uri: https://meet.google.com/ctm-tcjj-bsh
+          label: meet.google.com/ctm-tcjj-bsh
+      conferenceSolution:
+        key:
+          type: hangoutsMeet
+        name: Google Meet
+        iconUri: https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png
+      conferenceId: ctm-tcjj-bsh
+    reminders:
+      useDefault: true
+    eventType: default
