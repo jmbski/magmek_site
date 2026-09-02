@@ -10,20 +10,18 @@ from griffons_backend.models import CalendarEventModel
 def get_router() -> APIRouter:
     router = APIRouter()
 
-    @router.get(f"{consts.BASE_URL}/calendar-events")
-    def get_calendar_events(logger: ApiLogger):
-        logger.info("Events endpoint reached.")
-        return "Test"  # service.get_upcoming_events()
-
     @router.get(f"{consts.BASE_URL}/health")
     def health(logger: ApiLogger):
         logger.info("Health enpoint reached")
         return "Health endpoint reached."
 
-    @router.get(f"{consts.BASE_URL}/health2")
-    def health2(logger: ApiLogger):
-        logger.info("Health2 enpoint reached")
-        return "Health2 endpoint reached."
+    @router.get(
+        f"{consts.BASE_URL}/calendar-events",
+        response_model=list[CalendarEventModel],
+    )
+    def get_calendar_events(logger: ApiLogger):
+        logger.info("Events endpoint reached.")
+        return service.get_upcoming_events()
 
     return router
 
