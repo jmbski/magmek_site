@@ -3,12 +3,11 @@ import { ChangeDetectionStrategy, Component, ViewChild, ElementRef, afterNextRen
 
 @Component({
     selector: 'pull-to-refresh',
-    standalone: true,
     imports: [
         CommonModule
     ],
     templateUrl: './pull-to-refresh.component.html',
-    styleUrl: './pull-to-refresh.component.scss',
+    styleUrl: './pull-to-refresh.component.scss'
 })
 export class PullToRefreshComponent {
     @ViewChild('pullToRefresh') pullToRefresh?: ElementRef;

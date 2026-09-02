@@ -3,10 +3,8 @@ import { TopNavComponent } from '../_index';
 
 @Component({
     selector: 'gdo-page-template',
-    standalone: true,
     imports: [
         TopNavComponent,
-
     ],
     templateUrl: './page-template.component.html',
     styleUrl: './page-template.component.scss',

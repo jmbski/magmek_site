@@ -6,7 +6,6 @@ import { TextBlockComponent } from '../../general/_index';
 
 @Component({
     selector: 'gdo-element-renderer',
-    standalone: true,
     imports: [
         TextBlockComponent,
         ...ANGULAR_COMMON,

@@ -10,7 +10,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
     selector: 'gdo-top-nav',
-    standalone: true,
     imports: [
         MenuBarComponent,
         MenubarModule,

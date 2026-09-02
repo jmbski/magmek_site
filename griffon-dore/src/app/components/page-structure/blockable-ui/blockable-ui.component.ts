@@ -3,7 +3,6 @@ import { BlockableUI } from 'primeng/api';
 
 @Component({
     selector: 'gdo-blockable-ui',
-    standalone: true,
     imports: [],
     templateUrl: './blockable-ui.component.html',
     styleUrl: './blockable-ui.component.scss',

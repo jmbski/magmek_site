@@ -4,7 +4,6 @@ import { ElementBase, TextBlock } from '@app/models';
 
 @Component({
     selector: 'gdo-text-block',
-    standalone: true,
     imports: [
         ...ANGULAR_COMMON
     ],

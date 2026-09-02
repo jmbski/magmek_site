@@ -25,7 +25,6 @@ export interface MenuBarConfig {
 
 @Component({
     selector: 'gdo-menu-bar',
-    standalone: true,
     imports: [
         CollapseModule,
         SvgComponent,

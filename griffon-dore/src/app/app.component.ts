@@ -11,7 +11,6 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
     selector: 'app-root',
-    standalone: true,
     imports: [
         BlockableUiComponent,
         CommonModule,

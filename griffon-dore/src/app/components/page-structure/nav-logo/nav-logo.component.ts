@@ -3,7 +3,6 @@ import { PrimaryTheme, SecondaryTheme, ThemeName } from '@app/services';
 
 @Component({
     selector: 'gdo-nav-logo',
-    standalone: true,
     imports: [],
     templateUrl: './nav-logo.component.html',
     styleUrl: './nav-logo.component.scss',

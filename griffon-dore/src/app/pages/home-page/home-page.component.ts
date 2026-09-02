@@ -6,7 +6,6 @@ import { LoremIpsum } from 'lorem-ipsum';
 
 @Component({
     selector: 'gdo-home-page',
-    standalone: true,
     imports: [
         ElementRendererComponent,
         PageLayoutComponent,

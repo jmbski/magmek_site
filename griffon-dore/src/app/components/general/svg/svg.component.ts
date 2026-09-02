@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Even
 
 @Component({
     selector: 'gdo-svg',
-    standalone: true,
     imports: [],
     templateUrl: './svg.component.html',
     styleUrl: './svg.component.scss',

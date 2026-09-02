@@ -4,7 +4,6 @@ import { TopNavComponent } from '@app/components';
 
 @Component({
     selector: 'gdo-page-layout',
-    standalone: true,
     imports: [
         TopNavComponent,
         ...ANGULAR_COMMON,
