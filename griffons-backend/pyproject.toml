@@ -29,5 +29,5 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-griffons = "griffons_backend.main:main" 
+griffons-server = "griffons_backend.main:main" 
 griffons-poller = "griffons_backend.poller:main"
