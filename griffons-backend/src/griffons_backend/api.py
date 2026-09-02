@@ -20,6 +20,11 @@ def get_router() -> APIRouter:
         logger.info("Health enpoint reached")
         return "Health endpoint reached."
 
+    @router.get(f"{consts.BASE_URL}/health2")
+    def health2(logger: ApiLogger):
+        logger.info("Health2 enpoint reached")
+        return "Health2 endpoint reached."
+
     return router
 
 
