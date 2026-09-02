@@ -36,11 +36,7 @@
       "@app/services": [
         "src/app/services/_index.ts"
       ]
-    },
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
