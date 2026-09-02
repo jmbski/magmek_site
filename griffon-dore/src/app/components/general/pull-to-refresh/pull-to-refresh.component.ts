@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, Component, ViewChild, ElementRef, afterNextRen
     selector: 'pull-to-refresh',
     imports: [],
     templateUrl: './pull-to-refresh.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './pull-to-refresh.component.scss'
 })
 export class PullToRefreshComponent {

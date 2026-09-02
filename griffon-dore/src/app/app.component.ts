@@ -1,5 +1,5 @@
 
-import { ChangeDetectorRef, Component, afterNextRender } from '@angular/core';
+import { ChangeDetectorRef, Component, afterNextRender, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppDeviceInfo, GlobalResizeObserver, PRIME_COMMON } from '@app/common';
 import { BlockableUiComponent, PullToRefreshComponent } from '@app/components';
@@ -19,6 +19,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 ],
     providers: [MessageService],
     templateUrl: './app.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './app.component.scss'
 })
 export class AppComponent {
