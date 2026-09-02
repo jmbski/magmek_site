@@ -45,7 +45,7 @@ def main() -> None:
     """Main function"""
 
     args = get_args()
-    logs.setup_logging(consts.POLLER_APP_NAME)
+    # logs.setup_logging(consts.POLLER_APP_NAME)
     poller = DbPoller(args.interval)
     poller.run()
     stop_event = threading.Event()
