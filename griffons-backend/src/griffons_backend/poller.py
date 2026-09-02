@@ -5,7 +5,7 @@ import time
 
 from argcomplete import autocomplete
 
-from griffons_backend import calendar
+from griffons_backend import calendar, logs, consts
 from griffons_backend.database import conn
 
 
@@ -45,7 +45,7 @@ def main() -> None:
     """Main function"""
 
     args = get_args()
-
+    logs.setup_logging(consts.POLLER_APP_NAME)
     poller = DbPoller(args.interval)
     poller.run()
     stop_event = threading.Event()

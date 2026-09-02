@@ -21,4 +21,4 @@ def get_router() -> APIRouter:
 
 
 def get_server():
-    return build_server([get_router()], port=5050, socket="griffons-api")
+    return build_server([get_router()], port=5050, socket=consts.SERVER_APP_NAME)
