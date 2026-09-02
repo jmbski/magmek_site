@@ -104,7 +104,7 @@ def setup_logging(app_name: str) -> None:
             "class": "logging.handlers.RotatingFileHandler",
             "level": "DEBUG",
             "formatter": "file_generic",
-            "filename": consts.LOG_DIR / app_name / "stdout.log",
+            "filename": str((consts.LOG_DIR / app_name / "stdout.log").resolve()),
             "maxBytes": 104_857_600,  # 100 MB
             "backupCount": 3,
             "encoding": "utf-8",
