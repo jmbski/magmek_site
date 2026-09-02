@@ -12,7 +12,7 @@ def get_router() -> APIRouter:
 
     @router.get(
         f"{consts.BASE_URL}/calendar-events",
-        response_model=list[CalendarEventModel],
+        # response_model=list[CalendarEventModel],
     )
     def get_calendar_events(logger: ApiLogger):
         logger.info("Events endpoint reached.")
