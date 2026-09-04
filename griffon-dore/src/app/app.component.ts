@@ -8,6 +8,9 @@ import { MessageService } from 'primeng/api';
 import { PrimeNG } from 'primeng/config';
 import { AutomatedStylingService } from './services/automated-styling/automated-styling.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { FullCalendarModule, CalendarOptions } from "@fullcalendar/angular";
+import themePlugin from "@fullcalendar/angular/themes/monarch"; // YOUR THEME
+import dayGridPlugin from "@fullcalendar/angular/daygrid";
 
 @Component({
     selector: 'app-root',
@@ -15,6 +18,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
     BlockableUiComponent,
     PullToRefreshComponent,
     RouterOutlet,
+    FullCalendarModule,
     ...PRIME_COMMON
 ],
     providers: [MessageService],
@@ -26,6 +30,10 @@ export class AppComponent {
     title = 'griffon-dore';
 
     public resizeObserver?: ResizeObserver;
+  calendarOptions: CalendarOptions = {
+    initialView: "dayGridMonth",
+    plugins: [themePlugin, dayGridPlugin],
+  };
 
     constructor(
         private cd: ChangeDetectorRef,

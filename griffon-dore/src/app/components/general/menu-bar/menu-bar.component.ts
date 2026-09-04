@@ -3,7 +3,7 @@ import { ANGULAR_COMMON, AppDeviceInfo, UseMobile } from '@app/common';
 import { WSMenuItem } from '@app/models';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { NgStyleValues } from 'src/app/models/styles';
+import { NgStyleValues } from '@app/models';
 import { SvgComponent } from '../svg/svg.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { MenubarModule } from 'primeng/menubar';
@@ -39,7 +39,7 @@ export class MenuBarComponent {
 
     // #region public properties
     public model$: BehaviorSubject<WSMenuItem[]> = new BehaviorSubject<WSMenuItem[]>([]);
-    
+
     public activeMenuElement: HTMLElement | null = null;
 
     public modelElementMap: Map<HTMLElement, WSMenuItem> = new Map<HTMLElement, WSMenuItem>();
@@ -51,24 +51,24 @@ export class MenuBarComponent {
     public mobileCollapsed: boolean = true;
 
     // #endregion public properties
-    
-    
+
+
     // #region private properties
-    
+
     // #endregion private properties
-    
-    
+
+
     // #region getters/setters
     get barModel() {
         return <MenuItem[]>this.model$.getValue();
     }
     // #endregion getters/setters
-    
-    
+
+
     // #region standard inputs
-    
+
     // #endregion standard inputs
-    
+
     // #region get/set inputs
     private _model: WSMenuItem[] = [];
     @Input()
@@ -84,38 +84,38 @@ export class MenuBarComponent {
         }
         this.model$.next(this._model);
     }
-    
+
     // #endregion get/set inputs
-    
-    
+
+
     // #region outputs, emitters, and event listeners
-    
+
     // #endregion outputs, emitters, and event listeners
-    
-    
+
+
     // #region viewchildren and contentchildren
-    
+
     // #endregion viewchildren and contentchildren
-    
-    
+
+
     // #region constructor and lifecycle hooks
     constructor(
         public cd: ChangeDetectorRef,
         public el: ElementRef,
     ) {
         this.useMobile = UseMobile();
-        
+
         afterNextRender(() => {
             this.showMenu = true;
             this.cd.detectChanges();
             const element: HTMLElement = this.el.nativeElement;
 
             const models = this.model;
-            
+
             const cd = this.cd;
             if(!this.useMobile) {
                 const gdoMenuItems: HTMLElement[] = Array.from(element.querySelectorAll('.gdo-menubar-item'));
-                
+
                 gdoMenuItems.forEach((gdoMenuItem: HTMLElement, index: number) => {
                     this.modelElementMap.set(gdoMenuItem, models[index]);
                 });
@@ -130,7 +130,7 @@ export class MenuBarComponent {
                         model.isExpanded = true;
                         cd.detectChanges();
                     });
-        
+
                     gdoMenuItem.addEventListener('mouseleave', () => {
                         model.isExpanded = false;
                         cd.detectChanges();
@@ -180,18 +180,18 @@ export class MenuBarComponent {
                     }
                 }
             }); */
-            
+
         });
     }
-    
+
     // #endregion constructor and lifecycle hooks
-    
-    
+
+
     // #region public methods
 
     /* public handleItemClick(itemElement: HTMLElement) {
         const model = this.modelElementMap.get(itemElement);
-        
+
         if(model) {
             if(this.useMobile) {
                 model.isExpanded = !model.isExpanded;
@@ -201,8 +201,8 @@ export class MenuBarComponent {
     } */
 
     public handleItemClick(model: WSMenuItem) {
-        
-        
+
+
         if(model) {
             model.isExpanded = !model.isExpanded;
             if(model.isExpanded || model.label === 'Menu') {
@@ -211,23 +211,23 @@ export class MenuBarComponent {
                         menuItem.isExpanded = false;
                     }
                 });
-            
+
             }
             this.cd.detectChanges();
         }
     }
-    
+
     // #endregion public methods
-    
-    
+
+
     // #region protected methods
-    
+
     // #endregion protected methods
-    
-    
+
+
     // #region private methods
-    
+
     // #endregion private methods
-    
-    
+
+
 }

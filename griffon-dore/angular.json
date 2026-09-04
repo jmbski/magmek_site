@@ -40,6 +40,9 @@
               "src/assets"
             ],
             "styles": [
+              "@fullcalendar/angular/skeleton.css",
+              "@fullcalendar/angular/themes/monarch/theme.css",
+              "@fullcalendar/angular/themes/monarch/palettes/purple.css",
               "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/assets/styles/general.scss",
               "node_modules/primeflex/primeflex.css",

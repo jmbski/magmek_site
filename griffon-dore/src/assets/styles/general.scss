@@ -32,7 +32,7 @@ $theme: mat.m2-define-light-theme((
 //@import './_index.scss';
 @import 'primeflex/primeflex.scss';
 @import 'variables.scss';
-
+@import "../../../node_modules/angular-calendar/css/angular-calendar.css";
 body {
     height: 100%;
     width: 100%;
@@ -41,7 +41,7 @@ body {
     margin: 0;
     padding: 0;
     z-index: 0;
-    
+
     background-image: url('../images/parchment2.png');
     background-size: cover;
     background-repeat: repeat;
@@ -102,7 +102,7 @@ gdo-svg,
 svg {
     pointer-events: none;
 }
-  
+
 svg path {
     pointer-events: visiblePainted;
 }
